@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.ingressControllerName }}
+  namespace: kube-system
+  labels:
+    k8s-app: {{ .Values.ingressControllerName }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      k8s-app: {{ .Values.ingressControllerName }}
+  serviceName: {{ .Values.ingressControllerName }}
+  template:
+    metadata:
+      labels:
+        k8s-app: {{ .Values.ingressControllerName }}
+    spec:
+      serviceAccountName: vngcloud-ingress-controller
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.ingressControllerName }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - /bin/vngcloud-ingress-controller
+            - -v={{ .Values.logVerbosityLevel }}
+            - --config=/etc/config/vngcloud-ingress-controller-config.yaml
+          volumeMounts:
+            - mountPath: /etc/kubernetes
+              name: kubernetes-config
+              readOnly: true
+            - name: ingress-config
+              mountPath: /etc/config
+      hostNetwork: true
+      volumes:
+        - name: kubernetes-config
+          hostPath:
+            path: /etc/kubernetes
+            type: Directory
+        - name: ingress-config
+          secret:
+            secretName: {{ .Values.secret.name }}
+            items:
+              - key: config
+                path: vngcloud-ingress-controller-config.yaml

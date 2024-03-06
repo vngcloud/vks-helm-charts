@@ -1,0 +1,43 @@
+# Values VngCloud Ingress Controller Helm Chart
+
+ingressControllerName: vngcloud-ingress-controller
+
+# # List of secrets to use as image pull secret
+imagePullSecrets: []
+# - pull-secret-1
+# - pull-secret-2
+
+# Image repository name and tag
+image:
+  repository: vcr.vngcloud.vn/81-vks-public/vngcloud-ingress-controller
+  tag: "v0.1.0"
+  pullPolicy: Always
+
+# Set nodeSelector where the controller should run, i.e. controlplane nodes
+nodeSelector: {}
+
+# Set tolerations for nodes where the controller should run, i.e. node
+# should be uninitialized, controlplane...
+tolerations:
+  - effect: NoSchedule # Make sure the pod can be scheduled on master kubelet.
+    operator: Exists
+  - key: CriticalAddonsOnly # Mark the pod as a critical add-on for rescheduling.
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
+
+secret:
+  name: vngcloud-ingress-controller-config
+
+logVerbosityLevel: 5
+
+replicaCount: 1
+
+# # These will be used to create loadbalancer, listener, pool, monitor and member resources
+cloudConfig:
+  clusterID: "<PUT_YOUR_CLUSTER_ID>"
+  global:
+    identityURL: https://iamapis.vngcloud.vn/accounts-api/v2
+    vserverURL: https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2
+    clientID: "<PUT_YOUR_CLIENT_ID>"
+    clientSecret: "<PUT_YOUR_CLIENT_SECRET>"
