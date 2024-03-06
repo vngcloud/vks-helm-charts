@@ -14,6 +14,21 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vcontainer-storage-interface-0.1.3/vcontainer-storage-interface-0.1.3.tgz
     version: 0.1.3
+  vngcloud-controller-manager:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2024-03-06T06:21:11.223317551Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: 2af753fd34e316c5bab7faf0fe5488e8d3d5040249750ec7d8d5b90bfdbf4ff6
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.0/vngcloud-controller-manager-0.1.0.tgz
+    version: 0.1.0
   vngcloud-ingress-controller:
   - apiVersion: v2
     created: "2024-03-06T04:28:12.183552309Z"
@@ -28,4 +43,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.1.0/vngcloud-ingress-controller-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-06T06:19:06.022395468Z"
+generated: "2024-03-06T06:21:11.223323372Z"
