@@ -1,0 +1,196 @@
+extraLabels: {}
+
+nameOverride: ""
+fullnameOverride: ""
+timeout: 3m
+
+csi:
+  attacher:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-attacher
+      tag: v4.4.2
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  provisioner:
+    topology: "true"
+    image:
+      repository: vcr.vngcloud.vn/public/csi-provisioner
+      tag: v3.6.2
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  snapshotter:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-snapshotter
+      tag: v6.2.1
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  snapshotController:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-snapshot-controller
+      tag: v4.2.1
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  resizer:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-resizer
+      tag: v1.8.0
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  livenessprobe:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-livenessprobe
+      tag: v2.9.0
+      pullPolicy: IfNotPresent
+    failureThreshold: 5
+    initialDelaySeconds: 10
+    timeoutSeconds: 10
+    periodSeconds: 60
+    resources: {}
+    extraArgs: {}
+  nodeDriverRegistrar:
+    image:
+      repository: vcr.vngcloud.vn/public/csi-node-driver-registrar
+      tag: v2.6.2
+      pullPolicy: IfNotPresent
+    resources: {}
+    extraArgs: {}
+  plugin:
+    image:
+      repository: vcr.vngcloud.vn/public/vcontainer-storage-interface
+      pullPolicy: IfNotPresent
+      tag: # defaults to .Chart.AppVersion
+    volumes:
+      - name: cacert
+        hostPath:
+          path: /etc/kubernetes/ca-bundle.crt
+          type: File
+    volumeMounts:
+      - name: cacert
+        mountPath: /etc/kubernetes/ca-bundle.crt
+        readOnly: true
+      - name: vcontainer-config
+        mountPath: /etc/config
+        readOnly: true
+    nodePlugin:
+      podSecurityContext: {}
+      securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # seccompProfile:
+        #   type: RuntimeDefault
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: DoesNotExist
+      nodeSelector: {}
+      tolerations:
+        - operator: Exists
+      kubeletDir: /var/lib/kubelet
+    controllerPlugin:
+      replicas: 1
+      strategy:
+        # RollingUpdate strategy replaces old pods with new ones gradually,
+        # without incurring downtime.
+        type: RollingUpdate
+        rollingUpdate:
+          # maxUnavailable is the maximum number of pods that can be
+          # unavailable during the update process.
+          maxUnavailable: 0
+          # maxSurge is the maximum number of pods that can be
+          # created over the desired number of pods.
+          maxSurge: 1
+      podSecurityContext: {}
+        # runAsNonRoot: true
+        # runAsUser: 65532
+        # runAsGroup: 65532
+        # fsGroup: 65532
+        # fsGroupChangePolicy: OnRootMismatch
+      securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # seccompProfile:
+        #   type: RuntimeDefault
+        # readOnlyRootFilesystem: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: DoesNotExist
+      nodeSelector: {}
+      tolerations: []
+    resources: {}
+    # Enable built-in http server through the http-endpoint flag
+    httpEndpoint:
+      enabled: false
+      port: 8080
+    # Create Prometheus Operator PodMonitor. Requires http server above.
+    # See https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.PodMonitor
+    podMonitor:
+      enabled: false
+    extraArgs: {}
+
+# Log verbosity level.
+# See https://github.com/kubernetes/community/blob/master/contributors/devel/sig-instrumentation/logging.md
+# for description of individual verbosity levels.
+logVerbosityLevel: 5
+
+
+vcontainerConfig:
+  create: true
+  identityURL: "https://iamapis.vngcloud.vn/accounts-api"
+  vserverURL: "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway"
+  clientID: "<PUT_YOUR_CLIENT_ID>"
+  clientSecret: "<PUT_YOUR_CLIENT_SECRET>"
+
+
+storageClass:
+  enabled: true
+  delete:
+    isDefault: true
+    allowVolumeExpansion: true
+  retain:
+    isDefault: false
+    allowVolumeExpansion: true
+# any kind of custom StorageClasses
+#   custom: |-
+#     ---
+#     apiVersion: storage.k8s.io/v1
+#     kind: StorageClass
+#     metadata:
+#       name: sas
+#     provisioner: csi.blockstorage.vngcloud.vn
+#     volumeBindingMode: WaitForFirstConsumer
+#     allowVolumeExpansion: true
+#     parameters:
+#       type: SAS
+#     ---
+#     apiVersion: snapshot.storage.k8s.io/v1
+#     kind: VolumeSnapshotClass
+#     metadata:
+#       name: vcontainer-csi-snapclass
+#     driver: csi.blockstorage.vngcloud.vn
+#     deletionPolicy: Delete
+
+# You may set ID of the cluster where vcontainer-csi-snapclass is deployed. This value will be appended
+# to volume metadata in newly provisioned volumes as `csi.blockstorage.vngcloud.vn/cluster=<cluster ID>`.
+clusterID: "kubernetes"
+
+priorityClassName: ""
+
+imagePullSecrets: []
+# - name: my-imagepull-secret
+
+# add annotations to all pods
+commonAnnotations: {}

@@ -1,0 +1,10 @@
+apiVersion: v2
+appVersion: v0.1.3
+version: 0.1.3
+name: vcontainer-storage-interface
+description: vContainer CSI plugin for Kubernetes
+type: application
+maintainers:
+  - name: VNG Cloud
+    email: support@vngcloud.vn
+    

@@ -1,0 +1,29 @@
+{{- if .Values.storageClass.enabled }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nvme-5000-delete
+  {{- if .Values.storageClass.delete.isDefault }}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  {{- end }}
+provisioner: csi.vngcloud.vn
+reclaimPolicy: Delete
+parameters:
+  type: vtype-7a7a8610-34f5-11ee-be56-0242ac120002
+allowVolumeExpansion: {{ .Values.storageClass.delete.allowVolumeExpansion }}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-ssd-200-retain
+  {{- if .Values.storageClass.retain.isDefault }}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  {{- end }}
+provisioner: csi.vngcloud.vn
+reclaimPolicy: Retain
+parameters:
+  type: vtype-bacd68a4-8758-4fb6-a739-b047665e05d5
+allowVolumeExpansion: {{ .Values.storageClass.retain.allowVolumeExpansion }}
+{{- end }}
