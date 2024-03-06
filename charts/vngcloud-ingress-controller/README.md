@@ -1,4 +1,4 @@
-# VNG Cloud Controller Manager
+# VNGCLOUD Ingress Controller
 
 ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Helm](https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&labelColor=0F1689)
@@ -10,18 +10,14 @@
 
 <hr>
 
-# Introduction
-
-The `vngcloud-controller-manager` is a powerful Kubernetes plugin designed to streamline and enhance **network load balancing (L4 load-balancer)** within your clusters.
-
 # Prerequisites
 
 - Helm 3.0+
 - `KUBECONFIG` environment variable pointing to the `.kubeconfig` file with access to your Kubernetes cluster.
 
-# Install `vngcloud-controller-manager` on vContainer Kubernetes clusters
+# Install `vngcloud-ingress-controller` on vContainer Kubernetes clusters
 
-- Following the below steps to install `vngcloud-controller-manager` on your Kubernetes cluster:
+- Following the below steps to install `vngcloud-ingress-controller` on your Kubernetes cluster:
   - **Step 1**: Add the `vks-helm-charts` Helm repository:
 
     ```
@@ -29,12 +25,11 @@ The `vngcloud-controller-manager` is a powerful Kubernetes plugin designed to st
     helm repo update
     ```
 
-  - **Step 2**: Install `vngcloud-controller-manager`:
+  - **Step 2**: Install `vngcloud-ingress-controller`:
 
     ```
-    helm install vngcloud-controller-manager vks-helm-charts/vngcloud-controller-manager --replace \
-      --namespace kube-system \
-      --set cloudConfig.global.clientID=<PUT_YOUR_CLIENT_ID> \
-      --set cloudConfig.global.clientSecret=<PUT_YOUR_CLIENT_SECRET> \
-      --set cluster.clusterID=<PUT_YOUR_CLUSTER_ID>
+    helm install vngcloud-ingress-controller vks-helm-charts/vngcloud-ingress-controller \
+      --set cloudConfig.global.clientID=__________________________ \
+      --set cloudConfig.global.clientSecret=__________________________ \
+      --set cloudConfig.clusterID=__________________________
     ```
