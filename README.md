@@ -1,5 +1,7 @@
 # VKS Helm Charts
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vks-helm-charts)](https://artifacthub.io/packages/search?repo=vks-helm-charts)
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.
