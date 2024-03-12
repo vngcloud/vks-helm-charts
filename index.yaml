@@ -14,6 +14,24 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vcontainer-storage-interface-0.1.3/vcontainer-storage-interface-0.1.3.tgz
     version: 0.1.3
+  vngcloud-cluster-autoscaler:
+  - apiVersion: v2
+    appVersion: 1.29.0
+    created: "2024-03-12T10:00:12.464946513Z"
+    description: Scales Kubernetes worker nodes within autoscaling groups.
+    digest: aaa04b6c3b72c60f56af8d825f9930abefd77fe2ffad3e41494a89cb12a39d72
+    home: https://github.com/vngcloud/autoscaler
+    icon: https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-cluster-autoscaler
+    sources:
+    - https://github.com/vngcloud/autoscaler
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-cluster-autoscaler-0.0.1/vngcloud-cluster-autoscaler-0.0.1.tgz
+    version: 0.0.1
   vngcloud-controller-manager:
   - apiVersion: v2
     appVersion: v0.1.0
@@ -43,4 +61,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.1.0/vngcloud-ingress-controller-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-06T06:21:11.223323372Z"
+generated: "2024-03-12T10:00:12.736168894Z"
