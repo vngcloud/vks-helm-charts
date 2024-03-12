@@ -152,11 +152,13 @@ rules:
 {{- if and ( and ( eq .Values.cloudProvider "clusterapi" ) ( .Values.rbac.clusterScoped ) ( or ( eq .Values.clusterAPIMode "incluster-incluster" ) ( eq .Values.clusterAPIMode "kubeconfig-incluster" ) ))}}
   - apiGroups:
     - cluster.x-k8s.io
+    - infrastructure.cluster.x-k8s.io
     resources:
     - machinedeployments
     - machinepools
     - machines
     - machinesets
+    - vngcloudmachinetemplates
     verbs:
     - get
     - list
