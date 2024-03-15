@@ -124,7 +124,7 @@ clusterAPIMode: incluster-incluster  # incluster-incluster, incluster-kubeconfig
 # clusterAPIWorkloadKubeconfigPath -- Path to kubeconfig for connecting to Cluster API managed workloadcluster, only used if `clusterAPIMode=kubeconfig-kubeconfig or kubeconfig-incluster`
 clusterAPIWorkloadKubeconfigPath: /etc/kubernetes/value
 
-clusterAPIWorkloadKubeconfigSubPath: ""
+clusterAPIWorkloadKubeconfigSubPath: "config"
 
 # containerSecurityContext -- [Security context for container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 containerSecurityContext: {}
