@@ -8,30 +8,28 @@
 
 ![prod-env](https://badgen.net/badge/PRODUCTION/environment/blue?icon=github)
 
-<hr>
-
-# Introduction
+## Introduction
 
 The `vngcloud-controller-manager` is a powerful Kubernetes plugin designed to streamline and enhance **network load balancing (L4 load-balancer)** within your clusters.
 
-# Prerequisites
+## Prerequisites
 
 - Helm 3.0+
 - `KUBECONFIG` environment variable pointing to the `.kubeconfig` file with access to your Kubernetes cluster.
 
-# Install `vngcloud-controller-manager` on vContainer Kubernetes clusters
+## Install `vngcloud-controller-manager` on vContainer Kubernetes clusters
 
 - Following the below steps to install `vngcloud-controller-manager` on your Kubernetes cluster:
   - **Step 1**: Add the `vks-helm-charts` Helm repository:
 
-    ```
+    ```bash
     helm repo add vks-helm-charts https://vngcloud.github.io/vks-helm-charts
     helm repo update
     ```
 
   - **Step 2**: Install `vngcloud-controller-manager`:
 
-    ```
+    ```bash
     helm install vngcloud-controller-manager vks-helm-charts/vngcloud-controller-manager --replace \
       --namespace kube-system \
       --set cloudConfig.global.clientID=<PUT_YOUR_CLIENT_ID> \
