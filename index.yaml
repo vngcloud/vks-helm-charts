@@ -52,6 +52,20 @@ entries:
   vngcloud-controller-manager:
   - apiVersion: v2
     appVersion: v0.1.0
+    created: "2024-03-25T04:51:20.043679657Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: 9ba5095c10abd8f3f80337835e1b68874f9c0bd1dcdb5709dc1fd66ea0ab6db3
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.1/vngcloud-controller-manager-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v0.1.0
     created: "2024-03-06T06:21:11.223317551Z"
     description: VngCloud Controller Manager plugin for Kubernetes
     digest: 2af753fd34e316c5bab7faf0fe5488e8d3d5040249750ec7d8d5b90bfdbf4ff6
@@ -66,6 +80,19 @@ entries:
     version: 0.1.0
   vngcloud-ingress-controller:
   - apiVersion: v2
+    created: "2024-03-25T04:51:20.161805008Z"
+    description: VngCloud Ingress Controller plugin for Kubernetes
+    digest: e0c9ab5095ce20bb2e4e45aa11184fe046d46f83c3d05dc13facb164e83334a4
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-ingress-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.1.1/vngcloud-ingress-controller-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     created: "2024-03-06T04:28:12.183552309Z"
     description: VngCloud Ingress Controller plugin for Kubernetes
     digest: 512fa028c2e39f138a32c65053298d566eee371e582be3b1d162f2f25e068bd0
@@ -78,4 +105,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.1.0/vngcloud-ingress-controller-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-15T09:41:59.982670654Z"
+generated: "2024-03-25T04:51:20.161825055Z"
