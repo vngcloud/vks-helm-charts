@@ -30,5 +30,5 @@
       --namespace kube-system \
       --set cloudConfig.global.clientID=__________________________ \
       --set cloudConfig.global.clientSecret=__________________________ \
-      --set cluster.clusterID=__________________________
+      --set cluster.clusterName=__________________________
     ```
