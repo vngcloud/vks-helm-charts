@@ -42,4 +42,5 @@ cloudConfig:
     clientSecret: "<PUT_YOUR_CLIENT_SECRET>"
 
 cluster:
-  clusterName: "clusterA"
+  clusterName: "cluster-1"
+  clusterID: ""
