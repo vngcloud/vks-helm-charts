@@ -49,6 +49,10 @@ component: controllermanager
 Create cloud-config makro.
 */}}
 {{- define "cloudConfig" -}}
+[Cluster]
+cluster-name = {{ .Values.cluster.clusterName | quote }}
+cluster-id = {{ .Values.cluster.clusterID | quote }}
+
 [Global]
 identity-url = {{ .Values.cloudConfig.global.identityURL | quote }}
 vserver-url = {{ .Values.cloudConfig.global.vserverURL | quote }}

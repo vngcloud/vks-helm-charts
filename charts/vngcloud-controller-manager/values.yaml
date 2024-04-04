@@ -166,7 +166,8 @@ affinity:
 
 # cluster name that used for created cluster
 cluster:
-  clusterID: "<PUT_YOUR_CLUSTER_ID>"
+  clusterID: ""
+  clusterName: "cluster-1"
 
 clusterRoleName: system:vngcloud-controller-manager
 

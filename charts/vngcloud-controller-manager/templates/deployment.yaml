@@ -101,7 +101,7 @@ spec:
             - name: CLOUD_CONFIG
               value: /etc/config/vcontainer-ccm.conf
             - name: CLUSTER_NAME
-              value: {{ .Values.cluster.clusterID }}
+              value: {{ .Values.cluster.clusterName }}
             {{- if .Values.extraEnv }}
               {{- toYaml .Values.extraEnv | nindent 12 }}
             {{- end }}

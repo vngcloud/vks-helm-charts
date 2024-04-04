@@ -34,5 +34,6 @@ The `vngcloud-controller-manager` is a powerful Kubernetes plugin designed to st
       --namespace kube-system \
       --set cloudConfig.global.clientID=<PUT_YOUR_CLIENT_ID> \
       --set cloudConfig.global.clientSecret=<PUT_YOUR_CLIENT_SECRET> \
+      --set cluster.clusterName=<PUT_YOUR_CLUSTER_NAME>
       --set cluster.clusterID=<PUT_YOUR_CLUSTER_ID>
     ```
