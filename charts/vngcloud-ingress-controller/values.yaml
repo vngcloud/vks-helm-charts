@@ -36,8 +36,8 @@ replicaCount: 1
 # # These will be used to create loadbalancer, listener, pool, monitor and member resources
 cloudConfig:
   global:
-    identityURL: https://iamapis.vngcloud.vn/accounts-api/v2
-    vserverURL: https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2
+    identityURL: https://iamapis.vngcloud.vn/accounts-api
+    vserverURL: https://hcm-3.api.vngcloud.vn/vserver
     clientID: "<PUT_YOUR_CLIENT_ID>"
     clientSecret: "<PUT_YOUR_CLIENT_SECRET>"
 
