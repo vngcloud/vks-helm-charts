@@ -56,6 +56,7 @@ spec:
             - --cluster-name=$(CLUSTER_NAME)
             - --cloud-provider=vngcloud
             - --use-service-account-credentials=true
+            - --concurrent-service-syncs={{ .Values.concurrentServiceSyncs }}
             # - --controllers={{- trimAll "," (include "vconCcm.enabledControllers" . ) -}}
             {{- if .Values.serviceMonitor.enabled }}
             - --bind-address=0.0.0.0

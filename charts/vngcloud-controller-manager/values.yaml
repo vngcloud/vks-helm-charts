@@ -172,3 +172,5 @@ cluster:
 clusterRoleName: system:cloud-controller-manager
 
 serviceAccountName: cloud-controller-manager
+
+concurrentServiceSyncs: 5
