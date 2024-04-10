@@ -169,6 +169,6 @@ cluster:
   clusterID: ""
   clusterName: "cluster-1"
 
-clusterRoleName: system:vngcloud-controller-manager
+clusterRoleName: system:cloud-controller-manager
 
-serviceAccountName: vngcloud-controller-manager
+serviceAccountName: cloud-controller-manager
