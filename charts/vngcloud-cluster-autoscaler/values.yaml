@@ -103,7 +103,7 @@ cloudConfigPath: ""
 # Currently only `gce`, `aws`, `azure`, `magnum` and `clusterapi` are supported.
 # `aws` supported for AWS. `gce` for GCE. `azure` for Azure AKS.
 # `magnum` for OpenStack Magnum, `clusterapi` for Cluster API.
-cloudProvider: aws
+cloudProvider: clusterapi
 
 # clusterAPICloudConfigPath -- Path to kubeconfig for connecting to Cluster API Management Cluster, only used if `clusterAPIMode=kubeconfig-kubeconfig or incluster-kubeconfig`
 clusterAPICloudConfigPath: /etc/kubernetes/mgmt-kubeconfig
@@ -119,12 +119,12 @@ clusterAPIKubeconfigSecret: ""
 # Syntax: workloadClusterMode-ManagementClusterMode
 # for `kubeconfig-kubeconfig`, `incluster-kubeconfig` and `single-kubeconfig` you always must mount the external kubeconfig using either `extraVolumeSecrets` or `extraMounts` and `extraVolumes`
 # if you dont set `clusterAPIKubeconfigSecret`and thus use an in-cluster config or want to use a non capi generated kubeconfig you must do so for the workload kubeconfig as well
-clusterAPIMode: incluster-incluster  # incluster-incluster, incluster-kubeconfig, kubeconfig-incluster, kubeconfig-kubeconfig, single-kubeconfig
+clusterAPIMode: kubeconfig-incluster  # incluster-incluster, incluster-kubeconfig, kubeconfig-incluster, kubeconfig-kubeconfig, single-kubeconfig
 
 # clusterAPIWorkloadKubeconfigPath -- Path to kubeconfig for connecting to Cluster API managed workloadcluster, only used if `clusterAPIMode=kubeconfig-kubeconfig or kubeconfig-incluster`
-clusterAPIWorkloadKubeconfigPath: /etc/kubernetes/value
+clusterAPIWorkloadKubeconfigPath: /etc/admin.conf
 
-clusterAPIWorkloadKubeconfigSubPath: "config"
+clusterAPIWorkloadKubeconfigSubPath: "admin.conf"
 
 # containerSecurityContext -- [Security context for container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 containerSecurityContext: {}
@@ -258,8 +258,8 @@ nodeSelector: {}
 podAnnotations: {}
 
 # podDisruptionBudget -- Pod disruption budget.
-podDisruptionBudget:
-  maxUnavailable: 1
+podDisruptionBudget: false
+  # maxUnavailable: 1
   # minAvailable: 2
 
 # podLabels -- Labels to add to each pod.
@@ -310,13 +310,10 @@ rbac:
 replicaCount: 1
 
 # resources -- Pod resource requests and limits.
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 300Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 300Mi
+resources:
+  limits:
+    cpu: 300m
+    memory: 300Mi
 
 # revisionHistoryLimit -- The number of revisions to keep.
 revisionHistoryLimit: 10
@@ -329,7 +326,7 @@ securityContext: {}
 
 service:
   # service.create -- If `true`, a Service will be created.
-  create: true
+  create: false
   # service.annotations -- Annotations to add to service
   annotations: {}
   # service.labels -- Labels to add to service

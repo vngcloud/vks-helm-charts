@@ -11,4 +11,4 @@ name: vngcloud-cluster-autoscaler
 sources:
   - https://github.com/vngcloud/autoscaler
 type: application
-version: 0.0.2
+version: 0.0.3
