@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: 7.0.1
+version: 0.0.1
+name: vngcloud-snapshot-controller
+description: Snapshot controller for vKS clusters
+type: application
+maintainers:
+  - name: VngCloud
+    email: support@vng.com.vn

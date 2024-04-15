@@ -1,0 +1,13 @@
+snapshotController:
+  image:
+    pullPolicy: IfNotPresent
+    repository: vcr.vngcloud.vn/81-vks-public/csi-snapshot-controller
+    tag: ""
+  logLevel: 2
+  replicas: 2
+  resources:
+    requests:
+      cpu: 10m
+      memory: 40Mi
+    limits:
+      memory: 256Mi
