@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: vngcloud-csi-leases-rolebinding
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ .Values.controller.serviceAccount.name }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: vngcloud-csi-leases-role
+  apiGroup: rbac.authorization.k8s.io

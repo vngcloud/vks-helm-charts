@@ -1,0 +1,23 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: vngcloud-external-snapshotter-role
+  labels:
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "events" ]
+    verbs: [ "list", "watch", "create", "update", "patch" ]
+  - apiGroups: [ "snapshot.storage.k8s.io" ]
+    resources: [ "volumesnapshotclasses" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "snapshot.storage.k8s.io" ]
+    resources: [ "volumesnapshotcontents" ]
+    verbs: [ "create", "get", "list", "watch", "update", "delete", "patch" ]
+  - apiGroups: [ "snapshot.storage.k8s.io" ]
+    resources: [ "volumesnapshotcontents/status" ]
+    verbs: [ "update" ]
+  {{- with .Values.sidecars.snapshotter.additionalClusterRoleRules }}
+    {{- . | toYaml | nindent 2 }}
+  {{- end }}

@@ -1,0 +1,24 @@
+{{$defaultArgs := dict
+  "NodeName" "vngcloud-csi-node"
+}}
+{{- include "node" (deepCopy $ | mustMerge $defaultArgs) -}}
+{{- range $name, $values := .Values.additionalDaemonSets }}
+{{$args := dict
+  "NodeName" (printf "vngcloud-csi-node-%s" $name)
+  "Values" (dict
+    "node" (deepCopy $.Values.node | mustMerge $values)
+  )
+}}
+{{- include "node" (deepCopy $ | mustMerge $args) -}}
+{{- end }}
+{{- if .Values.a1CompatibilityDaemonSet }}
+{{$args := dict
+  "NodeName" "vngcloud-csi-node"
+  "Values" (dict
+    "image" (dict
+      "tag" (printf "%s" (default (printf "v%s" .Chart.AppVersion) (.Values.image.tag | toString)))
+    )
+  )
+}}
+{{- include "node" (deepCopy $ | mustMerge $args) -}}
+{{- end }}
