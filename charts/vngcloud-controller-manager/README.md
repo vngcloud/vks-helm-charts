@@ -17,23 +17,28 @@ The `vngcloud-controller-manager` is a powerful Kubernetes plugin designed to st
 - Helm 3.0+
 - `KUBECONFIG` environment variable pointing to the `.kubeconfig` file with access to your Kubernetes cluster.
 
-## Install `vngcloud-controller-manager` on vContainer Kubernetes clusters
+## Install `vngcloud-controller-manager` on VKS clusters
 
 - Following the below steps to install `vngcloud-controller-manager` on your Kubernetes cluster:
-  - **Step 1**: Add the `vks-helm-charts` Helm repository:
+  - **Option 1**: Install via Github:
 
     ```bash
     helm repo add vks-helm-charts https://vngcloud.github.io/vks-helm-charts
     helm repo update
+
+    helm install vngcloud-controller-manager vks-helm-charts/vngcloud-controller-manager \
+      --namespace kube-system \
+      --set cloudConfig.global.clientID=__________________________ \
+      --set cloudConfig.global.clientSecret=__________________________ \
+      --set cluster.clusterID=__________________________
     ```
 
-  - **Step 2**: Install `vngcloud-controller-manager`:
+  - **Option 2**: Install via OCI-based registries
 
     ```bash
-    helm install vngcloud-controller-manager vks-helm-charts/vngcloud-controller-manager --replace \
+    helm install vngcloud-controller-manager oci://vcr.vngcloud.vn/81-vks-public/vks-helm-charts/vngcloud-controller-manager \
       --namespace kube-system \
-      --set cloudConfig.global.clientID=<PUT_YOUR_CLIENT_ID> \
-      --set cloudConfig.global.clientSecret=<PUT_YOUR_CLIENT_SECRET> \
-      --set cluster.clusterName=<PUT_YOUR_CLUSTER_NAME>
-      --set cluster.clusterID=<PUT_YOUR_CLUSTER_ID>
+      --set cloudConfig.global.clientID=__________________________ \
+      --set cloudConfig.global.clientSecret=__________________________ \
+      --set cluster.clusterID=__________________________
     ```

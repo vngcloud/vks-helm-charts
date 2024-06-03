@@ -13,22 +13,28 @@
 - Helm 3.0+
 - `KUBECONFIG` environment variable pointing to the `.kubeconfig` file with access to your Kubernetes cluster.
 
-## Install `vngcloud-ingress-controller` on vContainer Kubernetes clusters
+## Install `vngcloud-ingress-controller` on VKS clusters
 
 - Following the below steps to install `vngcloud-ingress-controller` on your Kubernetes cluster:
-  - **Step 1**: Add the `vks-helm-charts` Helm repository:
+  - **Option 1**: Install via Github:
 
     ```bash
     helm repo add vks-helm-charts https://vngcloud.github.io/vks-helm-charts
     helm repo update
-    ```
 
-  - **Step 2**: Install `vngcloud-ingress-controller`:
-
-    ```bash
     helm install vngcloud-ingress-controller vks-helm-charts/vngcloud-ingress-controller \
       --namespace kube-system \
       --set cloudConfig.global.clientID=__________________________ \
       --set cloudConfig.global.clientSecret=__________________________ \
-      --set cluster.clusterName=__________________________
+      --set cluster.clusterID=__________________________
+    ```
+
+  - **Option 2**: Install via OCI-based registries
+
+    ```bash
+    helm install vngcloud-ingress-controller oci://vcr.vngcloud.vn/81-vks-public/vks-helm-charts/vngcloud-ingress-controller \
+      --namespace kube-system \
+      --set cloudConfig.global.clientID=__________________________ \
+      --set cloudConfig.global.clientSecret=__________________________ \
+      --set cluster.clusterID=__________________________
     ```
