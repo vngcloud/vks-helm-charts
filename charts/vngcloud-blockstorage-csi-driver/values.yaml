@@ -383,7 +383,7 @@ storageClasses:
       storageclass.kubernetes.io/is-default-class: "true"
     # label metadata
     labels:
-      mininum-size: "20Gi"
+      mininum-size: "1Gi"
       maximum-size: "5000Gi"
       throughput: "200MBps"
       iops: "3000"
@@ -396,23 +396,23 @@ storageClasses:
       type: "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
     allowVolumeExpansion: true
 
-  - name: vngcloud-nvme-3000-delete
+  - name: vngcloud-nvme-5000-delete
     # annotation metadata
     # annotations:
       # storageclass.kubernetes.io/is-default-class: "true"
     # label metadata
     labels:
-      mininum-size: "20Gi"
+      mininum-size: "1Gi"
       maximum-size: "10000Gi"
-      throughput: "200MBps"
-      iops: "3000"
+      throughput: "400MBps"
+      iops: "5000"
       volume-type: "NVME"
     # defaults to WaitForFirstConsumer
     volumeBindingMode: Immediate
     # defaults to Delete
     reclaimPolicy: Delete
     parameters:
-      type: "vtype-93a22a9f-1ec0-4e61-84fb-75ac181c13dc"
+      type: "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
     allowVolumeExpansion: true
 
 volumeSnapshotClasses: []
