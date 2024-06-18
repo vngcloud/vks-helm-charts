@@ -92,6 +92,20 @@ entries:
     version: 0.0.1
   vngcloud-controller-manager:
   - apiVersion: v2
+    appVersion: v0.2.2
+    created: "2024-06-18T10:09:19.572438926Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: 65ef1f40aa690ba3880c5d9bad95efbef814d29b53046914a0d984ba85c9c6c9
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.2.5/vngcloud-controller-manager-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
     appVersion: v0.2.1
     created: "2024-06-11T03:20:45.998389605Z"
     description: VngCloud Controller Manager plugin for Kubernetes
@@ -190,6 +204,20 @@ entries:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.0/vngcloud-controller-manager-0.1.0.tgz
     version: 0.1.0
   vngcloud-ingress-controller:
+  - apiVersion: v2
+    appVersion: v0.2.2
+    created: "2024-06-18T10:09:19.761044368Z"
+    description: VngCloud Ingress Controller plugin for Kubernetes
+    digest: 656a366d0ad3f31884412207ccafc8f43558317fefd5dbfde810f5fb54284a5c
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-ingress-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.2.5/vngcloud-ingress-controller-0.2.5.tgz
+    version: 0.2.5
   - apiVersion: v2
     appVersion: v0.2.1
     created: "2024-06-11T03:20:46.08762388Z"
@@ -310,4 +338,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2024-06-11T03:20:46.087690716Z"
+generated: "2024-06-18T10:09:19.761103298Z"
