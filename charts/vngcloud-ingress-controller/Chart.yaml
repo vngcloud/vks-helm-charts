@@ -1,6 +1,6 @@
 apiVersion: v2
-version: 0.2.6
-appVersion: v0.2.2
+version: 0.2.7
+appVersion: v0.2.3
 icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
 name: vngcloud-ingress-controller
 description: VngCloud Ingress Controller plugin for Kubernetes
