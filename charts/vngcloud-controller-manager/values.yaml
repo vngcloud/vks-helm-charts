@@ -17,7 +17,7 @@ imagePullSecrets: []
 # Image repository name and tag
 image:
   repository: vcr.vngcloud.vn/81-vks-public/vngcloud-controller-manager
-  tag: "v0.2.3"
+  tag: "v0.2.4"
   pullPolicy: Always
 
 # Additional containers which are run before the app containers are started.

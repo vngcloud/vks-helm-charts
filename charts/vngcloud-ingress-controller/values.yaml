@@ -10,7 +10,7 @@ imagePullSecrets: []
 # Image repository name and tag
 image:
   repository: vcr.vngcloud.vn/81-vks-public/vngcloud-ingress-controller
-  tag: "v0.2.3"
+  tag: "v0.2.4"
   pullPolicy: Always
 
 # Set nodeSelector where the controller should run, i.e. controlplane nodes
