@@ -264,13 +264,20 @@ controller:
     runAsGroup: 1000
     fsGroup: 1000
   # Add additional volume mounts on the controller with controller.volumes and controller.volumeMounts
-  volumes: []
+  volumes:
+    - name: add-hosts
+      hostPath:
+        path: /etc/hosts
+
+
   # Add additional volumes to be mounted onto the controller:
   # - name: custom-dir
   #   hostPath:
   #     path: /path/to/dir
   #     type: Directory
-  volumeMounts: []
+  volumeMounts:
+    - name: add-hosts
+      mountPath: /etc/hosts
   # And add mount paths for those additional volumes:
   # - name: custom-dir
   #   mountPath: /mount/path
