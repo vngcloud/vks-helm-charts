@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: vcr.vngcloud.vn/81-vks-public/vngcloud-blockstorage-csi-driver
+  repository: vcr.vngcloud.vn/60108-cuongdm3/vngcloud-blockstorage-csi-driver
   # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
   tag: ""
   pullPolicy: Always
