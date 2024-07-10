@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: 0.0.0
+appVersion: 1.2.0
 name: vngcloud-blockstorage-csi-driver
 description: A Helm chart for VngCloud BlockStorage CSI Driver
-version: 0.0.0
+version: 1.0.0
 kubeVersion: ">=1.17.0-0"
 home: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
 sources:
