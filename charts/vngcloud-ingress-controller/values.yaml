@@ -44,3 +44,12 @@ cloudConfig:
 cluster:
   clusterName: "cluster-1"
   clusterID: ""
+
+
+webhook:
+  image: vcr.vngcloud.vn/81-vks-public/vngcloud-ic-webhook
+  tag: "v0.2.5"
+  pullPolicy: Always
+  enabled: true
+  name: vngcloud-ic-webhook
+  portHttps: 30443

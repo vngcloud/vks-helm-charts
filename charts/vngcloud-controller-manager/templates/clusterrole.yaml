@@ -7,6 +7,31 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 rules:
+{{- if .Values.webhook.enabled }}
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+  - patch
+  - update
+  - delete
+  - list
+- apiGroups:
+  - "admissionregistration.k8s.io"
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - create
+  - patch
+  - update
+  - delete
+  - list
+{{- end }}
 - apiGroups:
   - coordination.k8s.io
   resources:

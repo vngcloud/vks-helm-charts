@@ -1,0 +1,43 @@
+{{- if .Values.webhook.enabled }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.webhook.name }}
+  namespace: {{ .Release.Namespace }}
+type: Opaque
+
+---
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ .Values.webhook.name }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: ""
+    service:
+      name: {{ .Values.webhook.name }}
+      namespace: {{ .Release.Namespace }}
+      path: /validate
+      port: {{ .Values.webhook.portHttps }}
+  failurePolicy: Fail
+  matchPolicy: Equivalent
+  name: {{ .Values.webhook.name }}.vngcloud.vn
+  namespaceSelector: {}
+  objectSelector: {}
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - services
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 10
+{{- end }}

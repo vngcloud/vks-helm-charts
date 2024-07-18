@@ -174,3 +174,11 @@ clusterRoleName: system:cloud-controller-manager
 serviceAccountName: cloud-controller-manager
 
 concurrentServiceSyncs: 5
+
+webhook:
+  image: vcr.vngcloud.vn/81-vks-public/vngcloud-cm-webhook
+  tag: "v0.2.5"
+  pullPolicy: Always
+  enabled: true
+  name: vngcloud-cm-webhook
+  portHttps: 31443

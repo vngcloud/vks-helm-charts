@@ -1,0 +1,20 @@
+{{- if .Values.webhook.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "vconCcm.labels" . | nindent 4 }}
+  name: {{ .Values.webhook.name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- with .Values.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ports:
+  - name: https
+    port: {{ .Values.webhook.portHttps }}
+    protocol: TCP
+  selector:
+    {{- include "vconCcm.controllermanager.matchLabels" . | nindent 4 }}
+{{- end }}

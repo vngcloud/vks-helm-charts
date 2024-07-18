@@ -1,0 +1,16 @@
+{{- if .Values.webhook.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: {{ .Values.ingressControllerName }}
+  name: {{ .Values.webhook.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - name: https
+    port: {{ .Values.webhook.portHttps }}
+    protocol: TCP
+  selector:
+    k8s-app: {{ .Values.ingressControllerName }}
+{{- end }}

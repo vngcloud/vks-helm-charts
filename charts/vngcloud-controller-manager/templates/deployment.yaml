@@ -46,6 +46,28 @@ spec:
       {{- end }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       containers:
+        {{- if .Values.webhook.enabled }}
+        - args:
+          - /bin/vngcloud-cm-webhook
+          - --create-secret=true
+          - --common-name={{ .Values.webhook.name }}
+          - --port-https={{ .Values.webhook.portHttps }}
+          - --namespace={{ .Release.Namespace }}
+          env:
+          - name: TLS
+            value: "true"
+          - name: LOG_LEVEL
+            value: debug
+          - name: LOG_JSON
+            value: "true"
+          image: "{{ .Values.webhook.image }}:{{ default .Chart.AppVersion .Values.webhook.tag }}"
+          imagePullPolicy: {{ .Values.webhook.pullPolicy }}
+          name: vngcloud-cm-webhook
+          volumeMounts:
+          - mountPath: /etc/kubernetes
+            name: kubernetes-config
+            readOnly: true
+        {{- end }}
         - name: vngcloud-controller-manager
           image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -124,6 +146,12 @@ spec:
       {{- end }}
       {{- if .Values.extraVolumes }}
         {{ toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
+      {{- if .Values.webhook.enabled }}
+      - hostPath:
+          path: /etc/kubernetes
+          type: Directory
+        name: kubernetes-config
       {{- end }}
       affinity: {{ toYaml .Values.affinity | nindent 8 }}
 

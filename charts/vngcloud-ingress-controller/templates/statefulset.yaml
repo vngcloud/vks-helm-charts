@@ -34,6 +34,28 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
+        {{- if .Values.webhook.enabled }}
+        - args:
+          - /bin/vngcloud-ic-webhook
+          - --create-secret=true
+          - --common-name={{ .Values.webhook.name }}
+          - --port-https={{ .Values.webhook.portHttps }}
+          - --namespace={{ .Release.Namespace }}
+          env:
+          - name: TLS
+            value: "true"
+          - name: LOG_LEVEL
+            value: debug
+          - name: LOG_JSON
+            value: "true"
+          image: "{{ .Values.webhook.image }}:{{ default .Chart.AppVersion .Values.webhook.tag }}"
+          imagePullPolicy: {{ .Values.webhook.pullPolicy }}
+          name: vngcloud-ic-webhook
+          volumeMounts:
+          - mountPath: /etc/kubernetes
+            name: kubernetes-config
+            readOnly: true
+        {{- end }}
         - name: {{ .Values.ingressControllerName }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
