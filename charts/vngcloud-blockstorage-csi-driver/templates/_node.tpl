@@ -71,7 +71,7 @@ spec:
             - --reserved-volume-attachments={{ . }}
             {{- end }}
             {{- with .Values.node.volumeAttachLimit }}
-            - --volume-attach-limit={{ . }}
+            - --max-volumes-per-node={{ . }}
             {{- end }}
             {{- with .Values.node.loggingFormat }}
             - --logging-format={{ . }}
