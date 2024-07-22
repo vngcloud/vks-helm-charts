@@ -22,7 +22,7 @@ webhooks:
       namespace: {{ .Release.Namespace }}
       path: /validate
       port: {{ .Values.webhook.portHttps }}
-  failurePolicy: Fail
+  failurePolicy: Ignore
   matchPolicy: Equivalent
   name: {{ .Values.webhook.name }}.vngcloud.vn
   namespaceSelector: {}
