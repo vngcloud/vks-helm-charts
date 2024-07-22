@@ -183,6 +183,20 @@ entries:
     version: 0.0.1
   vngcloud-controller-manager:
   - apiVersion: v2
+    appVersion: v0.2.6
+    created: "2024-07-22T03:58:57.397197942Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: 800f0e6e88b4f923b383668d54ce64e59c2fbfde92dbbc9607d4c7177e963957
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.2.10/vngcloud-controller-manager-0.2.10.tgz
+    version: 0.2.10
+  - apiVersion: v2
     appVersion: v0.2.5
     created: "2024-06-27T06:31:28.058861601Z"
     description: VngCloud Controller Manager plugin for Kubernetes
@@ -351,6 +365,20 @@ entries:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.0/vngcloud-controller-manager-0.1.0.tgz
     version: 0.1.0
   vngcloud-ingress-controller:
+  - apiVersion: v2
+    appVersion: v0.2.6
+    created: "2024-07-22T03:58:57.514106184Z"
+    description: VngCloud Ingress Controller plugin for Kubernetes
+    digest: 6324549ac74f02678af9d955072eeb674bfdb22b53705b3cc02bcde931438767
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-ingress-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.2.10/vngcloud-ingress-controller-0.2.10.tgz
+    version: 0.2.10
   - apiVersion: v2
     appVersion: v0.2.5
     created: "2024-06-27T06:31:28.165296375Z"
@@ -541,4 +569,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2024-07-18T05:02:50.522357975Z"
+generated: "2024-07-22T03:58:57.514317421Z"
