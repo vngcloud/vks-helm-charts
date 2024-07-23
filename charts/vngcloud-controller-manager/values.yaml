@@ -17,7 +17,7 @@ imagePullSecrets: []
 # Image repository name and tag
 image:
   repository: vcr.vngcloud.vn/81-vks-public/vngcloud-controller-manager
-  tag: "v0.2.6"
+  tag: "v0.2.7"
   pullPolicy: Always
 
 # Additional containers which are run before the app containers are started.
@@ -177,8 +177,8 @@ concurrentServiceSyncs: 5
 
 webhook:
   image: vcr.vngcloud.vn/81-vks-public/vngcloud-cm-webhook
-  tag: "v0.2.6"
+  tag: "v0.2.7"
   pullPolicy: Always
-  enabled: true
+  enabled: false
   name: vngcloud-cm-webhook
   portHttps: 31443
