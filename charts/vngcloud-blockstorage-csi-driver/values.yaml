@@ -369,7 +369,6 @@ node:
   otelTracing: {}
   #  otelServiceName: ebs-csi-node
   #  otelExporterEndpoint: "http://localhost:4317"
-  # volumeAttachLimit: 0
 
 additionalDaemonSets:
   # Additional node DaemonSets, using the node config structure

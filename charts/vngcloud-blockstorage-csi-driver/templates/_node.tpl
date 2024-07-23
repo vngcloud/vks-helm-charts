@@ -90,6 +90,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            {{- if or (not .Values.node.volumeAttachLimit) (eq .Values.node.volumeAttachLimit 0) }}
             - name: VNGCLOUD_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -110,6 +111,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.vngcloudAccessSecret.name }}
                   key: vserverEndpoint
+            {{- end }}
             {{- if .Values.proxy.http_proxy }}
             {{- include "vngcloud-blockstorage-csi-driver.http-proxy" . | nindent 12 }}
             {{- end }}
