@@ -350,13 +350,18 @@ node:
     runAsGroup: 0
     fsGroup: 0
   # Add additional volume mounts on the node pods with node.volumes and node.volumeMounts
-  volumes: []
+  volumes:
+    - name: add-hosts
+      hostPath:
+        path: /etc/hosts
   # Add additional volumes to be mounted onto the node pods:
   # - name: custom-dir
   #   hostPath:
   #     path: /path/to/dir
   #     type: Directory
-  volumeMounts: []
+  volumeMounts:
+    - name: add-hosts
+      mountPath: /etc/hosts
   # And add mount paths for those additional volumes:
   # - name: custom-dir
   #   mountPath: /mount/path
