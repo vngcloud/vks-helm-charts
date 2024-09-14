@@ -1,0 +1,27 @@
+calicoKubeControllers:
+  maxUnavailable:: 1
+  image:
+    controllers:
+      repository: "vcr.vngcloud.vn/81-vks-public/calico-kube-controllers"
+      tag: # Default to Chart.appVersion
+      pullPolicy: "IfNotPresent"
+
+calicoTypha:
+  maxUnavailable: 1
+  image:
+    controllers:
+      repository: "vcr.vngcloud.vn/81-vks-public/calico-typha"
+      tag: # Default to Chart.appVersion
+      pullPolicy: "IfNotPresent"
+
+calicoNode:
+  maxUnavailable: 1
+  image:
+    cni:
+      repository: "vcr.vngcloud.vn/81-vks-public/calico-cni"
+      tag: # Default to Chart.appVersion
+      pullPolicy: "IfNotPresent"
+    node:
+      repository: "vcr.vngcloud.vn/81-vks-public/calico-node"
+      tag: # Default to Chart.appVersion
+      pullPolicy: "IfNotPresent"

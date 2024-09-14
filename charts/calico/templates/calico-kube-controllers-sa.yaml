@@ -1,0 +1,6 @@
+# Source: calico/templates/calico-kube-controllers.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "calicoCni.name" . }}-kube-controllers
+  namespace: {{ .Release.Namespace }}

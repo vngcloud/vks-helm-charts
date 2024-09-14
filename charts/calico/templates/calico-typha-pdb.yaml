@@ -1,0 +1,15 @@
+# Source: calico/templates/calico-typha.yaml
+# This manifest creates a Pod Disruption Budget for Typha to allow K8s Cluster Autoscaler to evict
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "calicoCni.name" . }}-typha
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "calicoCni.calicoTypha.labels" . | nindent 4 }}
+spec:
+  maxUnavailable: {{ .Values.calicoTypha.maxUnavailable }}
+  selector:
+    matchLabels:
+      {{- include "calicoCni.calicoTypha.matchLabels" . | nindent 6 }}

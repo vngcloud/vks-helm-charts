@@ -1,0 +1,6 @@
+# Source: calico/templates/calico-node.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "calicoCni.name" . }}-cni-plugin
+  namespace: {{ .Release.Namespace }}

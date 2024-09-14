@@ -1,0 +1,56 @@
+
+# Source: calico/templates/calico-kube-controllers.yaml
+# See https://github.com/projectcalico/kube-controllers
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "calicoCni.name" . }}-kube-controllers
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "calicoCni.calicoKubeControllers.labels" . | nindent 4 }}
+spec:
+  # The controllers can only have a single active instance.
+  replicas: 1
+  selector:
+    matchLabels:
+    {{- include "calicoCni.calicoKubeControllers.matchLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: {{ include "calicoCni.name" . }}-kube-controllers
+      namespace: {{ .Release.Namespace }}
+      labels:
+        {{- include "calicoCni.calicoKubeControllers.labels" . | nindent 8 }}
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+        - operator: Exists
+      serviceAccountName: {{ include "calicoCni.name" . }}-kube-controllers
+      priorityClassName: system-cluster-critical
+      containers:
+        - name: calico-kube-controllers
+          image: "{{ .Values.calicoKubeControllers.image.controllers.repository }}:{{ .Values.calicoKubeControllers.image.controllers.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.calicoKubeControllers.image.controllers.pullPolicy }}
+          env:
+            # Choose which controllers to run.
+            - name: ENABLED_CONTROLLERS
+              value: node
+            - name: DATASTORE_TYPE
+              value: kubernetes
+          livenessProbe:
+            exec:
+              command:
+              - /usr/bin/check-status
+              - -l
+            periodSeconds: 10
+            initialDelaySeconds: 10
+            failureThreshold: 6
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+              - /usr/bin/check-status
+              - -r
+            periodSeconds: 10

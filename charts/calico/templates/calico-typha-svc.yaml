@@ -1,0 +1,19 @@
+# Source: calico/templates/calico-typha.yaml
+# This manifest creates a Service, which will be backed by Calico's Typha daemon.
+# Typha sits in between Felix and the API server, reducing Calico's load on the API server.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "calicoCni.name" . }}-typha
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "calicoCni.calicoTypha.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: 5473
+      protocol: TCP
+      targetPort: {{ include "calicoCni.name" . }}-typha
+      name: {{ include "calicoCni.name" . }}-typha
+  selector:
+    {{- include "calicoCni.calicoTypha.selector" . | nindent 4 }}
