@@ -3,6 +3,16 @@ entries:
   calico:
   - apiVersion: v2
     appVersion: v3.27.2
+    created: "2024-09-14T06:26:04.799217904Z"
+    description: Calico CNI for VngCloud Kubernetes Clusters
+    digest: bf8950de14f79791971e3fa18f1f439483ae7fea8c899e1f4524dfd05e52f164
+    name: calico
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/calico-1.0.3/calico-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: v3.27.2
     created: "2024-09-14T05:55:00.835407311Z"
     description: Calico CNI for VngCloud Kubernetes Clusters
     digest: b8cc418dee141c7b0e7dac75a4254b6803457f25103ce13b99af62c38aa00464
@@ -676,4 +686,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2024-09-14T05:55:00.835483303Z"
+generated: "2024-09-14T06:26:04.799310057Z"
