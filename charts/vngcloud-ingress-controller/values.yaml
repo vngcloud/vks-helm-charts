@@ -19,12 +19,7 @@ nodeSelector: {}
 # Set tolerations for nodes where the controller should run, i.e. node
 # should be uninitialized, controlplane...
 tolerations:
-  - effect: NoSchedule # Make sure the pod can be scheduled on master kubelet.
-    operator: Exists
-  - key: CriticalAddonsOnly # Mark the pod as a critical add-on for rescheduling.
-    operator: Exists
-  - effect: NoExecute
-    operator: Exists
+  - operator: Exists
 
 secret:
   name: vngcloud-ingress-controller-config

@@ -53,13 +53,7 @@ nodeSelector: {}
 # Set tolerations for nodes where the controller should run, i.e. node
 # should be uninitialized, controlplane...
 tolerations:
-  - key: node.cloudprovider.kubernetes.io/uninitialized
-    value: "true"
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/control-plane
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
-    effect: NoSchedule
+  - operator: Exists
 
 # Set security settings for the controller pods
 # For all available options, see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#podsecuritycontext-v1-core
