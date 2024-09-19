@@ -215,7 +215,8 @@ nodeSelector: {}
 #     operator: Equal
 #     value: master
 #     effect: NoSchedule
-tolerations: []
+tolerations:
+- operator: Exists
 
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
 podDisruptionBudget: {}
@@ -343,7 +344,8 @@ autoscaler:
   nodeSelector: {}
 
   # expects input structure as per specification https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#toleration-v1-core
-  tolerations: []
+  tolerations:
+  - operator: Exists
 
   # resources for autoscaler pod
   resources:
