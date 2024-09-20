@@ -156,7 +156,7 @@ image:
   tag: "v1.16.1"
   pullPolicy: "IfNotPresent"
   # cilium-digest
-  digest: "sha256:0b4a3ab41a4760d86b7fc945b8783747ba27f29dac30dd434d94f2c9e3679f39"
+  digest: ""
   useDigest: false
 # -- Affinity for cilium-agent.
 affinity:
@@ -1315,7 +1315,7 @@ hubble:
       repository: "vcr.vngcloud.vn/81-vks-public/cilium/hubble-relay"
       tag: "v1.16.1"
       # hubble-relay-digest
-      digest: "sha256:2e1b4c739a676ae187d4c2bfc45c3e865bda2567cc0320a90cb666657fcfcc35"
+      digest: ""
       useDigest: false
       pullPolicy: "IfNotPresent"
     # -- Specifies the resources for the hubble-relay pods
@@ -2162,9 +2162,9 @@ envoy:
     # @schema
     override: ~
     repository: "vcr.vngcloud.vn/81-vks-public/cilium/cilium-envoy"
-    tag: "v1.29.7-1723642513-538a08d6c6e25001a582ea9efe0fde398f12a974"
+    tag: "v1.29.7-39a2a56bbd5b3a591f69dbca51d3e30ef97e0e51"
     pullPolicy: "IfNotPresent"
-    digest: "sha256:1b477ce9f8fb5d9c8c570ce2d12e331d09cb4d5d3ae1dcefa37517cb7bb984f1"
+    digest: "sha256:bd5ff8c66716080028f414ec1cb4f7dc66f40d2fb5a009fff187f4a9b90b566b"
     useDigest: false
   # -- Additional containers added to the cilium Envoy DaemonSet.
   extraContainers: []
@@ -2477,16 +2477,16 @@ operator:
     # type: [null, string]
     # @schema
     override: ~
-    repository: "vcr.vngcloud.vn/81-vks-public/cilium/operator"
+    repository: "quay.io/cilium/operator"
     tag: "v1.16.1"
     # operator-generic-digest
-    genericDigest: "sha256:3bc7e7a43bc4a4d8989cb7936c5d96675dd2d02c306adf925ce0a7c35aa27dc4"
+    genericDigest: ""
     # operator-azure-digest
-    azureDigest: "sha256:e55c222654a44ceb52db7ade3a7b9e8ef05681ff84c14ad1d46fea34869a7a22"
+    azureDigest: ""
     # operator-aws-digest
-    awsDigest: "sha256:e3876fcaf2d6ccc8d5b4aaaded7b1efa971f3f4175eaa2c8a499878d58c39df4"
+    awsDigest: ""
     # operator-alibabacloud-digest
-    alibabacloudDigest: "sha256:4381adf48d76ec482551183947e537d44bcac9b6c31a635a9ac63f696d978804"
+    alibabacloudDigest: ""
     useDigest: false
     pullPolicy: "IfNotPresent"
     suffix: ""
@@ -2764,7 +2764,7 @@ preflight:
     repository: "vcr.vngcloud.vn/81-vks-public/cilium/cilium"
     tag: "v1.16.1"
     # cilium-digest
-    digest: "sha256:0b4a3ab41a4760d86b7fc945b8783747ba27f29dac30dd434d94f2c9e3679f39"
+    digest: ""
     useDigest: false
     pullPolicy: "IfNotPresent"
   # -- The priority class to use for the preflight pod.
@@ -2913,7 +2913,7 @@ clustermesh:
       repository: "vcr.vngcloud.vn/81-vks-public/cilium/clustermesh-apiserver"
       tag: "v1.16.1"
       # clustermesh-apiserver-digest
-      digest: "sha256:e9c77417cd474cc943b2303a76c5cf584ac7024dd513ebb8d608cb62fe28896f"
+      digest: ""
       useDigest: false
       pullPolicy: "IfNotPresent"
     # -- TCP port for the clustermesh-apiserver health API.
@@ -3412,7 +3412,7 @@ authentication:
           override: ~
           repository: "vcr.vngcloud.vn/81-vks-public/cilium/library/busybox"
           tag: "1.36.1"
-          digest: "sha256:34b191d63fbc93e25e275bfccf1b5365664e5ac28f06d974e8d50090fbb49f41"
+          digest: "sha256:9ae97d36d26566ff84e8893c64a6dc4fe8ca6d1144bf5b87b2b85a32def253c7"
           useDigest: false
           pullPolicy: "IfNotPresent"
         # SPIRE agent configuration
