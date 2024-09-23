@@ -26,7 +26,10 @@ sidecars:
       - "--timeout=5m"
     # Grant additional permissions to external-provisioner
     additionalClusterRoleRules:
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     # Tune leader lease election for csi-provisioner.
     # Leader election is on by default.
     leaderElection:
@@ -61,7 +64,10 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to external-attacher
     additionalClusterRoleRules: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -78,7 +84,10 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to csi-snapshotter
     additionalClusterRoleRules: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -89,7 +98,10 @@ sidecars:
       tag: "v2.9.0"
     # Additional parameters provided by livenessprobe.
     additionalArgs: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -114,7 +126,10 @@ sidecars:
     additionalArgs: []
     # Grant additional permissions to external-resizer
     additionalClusterRoleRules: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -127,7 +142,10 @@ sidecars:
     logLevel: 5
     # Additional parameters provided by node-driver-registrar.
     additionalArgs: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -157,7 +175,10 @@ sidecars:
     logLevel: 2
     # Additional parameters provided by volume-modifier-for-k8s.
     additionalArgs: []
-    resources: {}
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 10m
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
@@ -251,11 +272,7 @@ controller:
     annotations: {}
     automountServiceAccountToken: true
   tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
-      tolerationSeconds: 300
+    - operator: Exists
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:
@@ -315,8 +332,6 @@ node:
   tolerateAllTaints: true
   tolerations:
   - operator: Exists
-    effect: NoExecute
-    tolerationSeconds: 300
   resources:
     requests:
       cpu: 10m
