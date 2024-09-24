@@ -2479,7 +2479,7 @@ operator:
     # type: [null, string]
     # @schema
     override: ~
-    repository: "quay.io/cilium/operator"
+    repository: "vcr.vngcloud.vn/81-vks-public/cilium/operator"
     tag: "v1.16.1"
     # operator-generic-digest
     genericDigest: ""
