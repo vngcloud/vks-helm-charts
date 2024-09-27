@@ -2480,7 +2480,9 @@ operator:
     # @schema
     override: ~
     repository: "vcr.vngcloud.vn/81-vks-public/cilium/operator"
-    tag: "v1.16.1"
+    tag: "v1.16.1-vngcloud"
+    # repository: "vcr.vngcloud.vn/60108-annd2-ingress/cilium/operator"
+    # tag: "latest"
     # operator-generic-digest
     genericDigest: ""
     # operator-azure-digest
@@ -2490,7 +2492,7 @@ operator:
     # operator-alibabacloud-digest
     alibabacloudDigest: ""
     useDigest: false
-    pullPolicy: "IfNotPresent"
+    pullPolicy: "Always"
     suffix: ""
   # -- Number of replicas to run for the cilium-operator deployment
   replicas: 2
