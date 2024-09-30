@@ -719,6 +719,20 @@ entries:
     version: 0.0.1
   vngcloud-controller-manager:
   - apiVersion: v2
+    appVersion: v0.2.9
+    created: "2024-09-30T02:50:42.46250938Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: e0e657219cdebbb3e54b1fd3be8894ebbdccdf6ee7cc79af52a2ddccece5455c
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.2.13/vngcloud-controller-manager-0.2.13.tgz
+    version: 0.2.13
+  - apiVersion: v2
     appVersion: v0.2.8
     created: "2024-09-04T03:00:08.398819616Z"
     description: VngCloud Controller Manager plugin for Kubernetes
@@ -929,6 +943,20 @@ entries:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.0/vngcloud-controller-manager-0.1.0.tgz
     version: 0.1.0
   vngcloud-ingress-controller:
+  - apiVersion: v2
+    appVersion: v0.2.9
+    created: "2024-09-30T02:50:42.568513846Z"
+    description: VngCloud Ingress Controller plugin for Kubernetes
+    digest: e8e3cd8a55d1192bbd6cea237d116e8ba0ab3abfb8ff289c89d9d0cb4ad9f18e
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-ingress-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.2.13/vngcloud-ingress-controller-0.2.13.tgz
+    version: 0.2.13
   - apiVersion: v2
     appVersion: v0.2.8
     created: "2024-09-04T03:00:08.522021588Z"
@@ -1161,4 +1189,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2024-09-27T06:21:12.941229025Z"
+generated: "2024-09-30T02:50:42.568753705Z"
