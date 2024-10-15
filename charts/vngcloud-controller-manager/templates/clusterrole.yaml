@@ -120,3 +120,11 @@ rules:
   - list
   - get
   - watch
+- apiGroups:
+  - "apps"
+  resources:
+  - daemonsets
+  verbs:
+  - list
+  - get
+  - watch
