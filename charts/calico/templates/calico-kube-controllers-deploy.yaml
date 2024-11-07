@@ -1,4 +1,3 @@
-
 # Source: calico/templates/calico-kube-controllers.yaml
 # See https://github.com/projectcalico/kube-controllers
 apiVersion: apps/v1
@@ -26,8 +25,18 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       tolerations:
+        # Mark the pod as a critical add-on for rescheduling.
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
         - operator: Exists
       serviceAccountName: {{ include "calicoCni.name" . }}-kube-controllers
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       priorityClassName: system-cluster-critical
       containers:
         - name: calico-kube-controllers
@@ -54,4 +63,5 @@ spec:
               - /usr/bin/check-status
               - -r
             periodSeconds: 10
-            timeoutSeconds: 10
+          securityContext:
+            runAsNonRoot: true
