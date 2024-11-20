@@ -34,9 +34,6 @@ spec:
           effect: NoSchedule
         - operator: Exists
       serviceAccountName: {{ include "calicoCni.name" . }}-kube-controllers
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       priorityClassName: system-cluster-critical
       containers:
         - name: calico-kube-controllers
@@ -63,5 +60,3 @@ spec:
               - /usr/bin/check-status
               - -r
             periodSeconds: 10
-          securityContext:
-            runAsNonRoot: true

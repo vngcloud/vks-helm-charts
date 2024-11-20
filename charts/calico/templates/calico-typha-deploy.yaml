@@ -49,10 +49,10 @@ spec:
           operator: Exists
         # Make sure Typha can get scheduled on any nodes. 
         - effect: NoSchedule 
-          operator: Exists 
-        - effect: NoExecute 
-          operator: Exists           
-        - operator: Exists
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+        - operator: Exists           
       # Since Calico can't network a pod until Typha is up, we need to run Typha itself
       # as a host-networked pod.
       serviceAccountName: calico-node
@@ -60,8 +60,6 @@ spec:
       # fsGroup allows using projected serviceaccount tokens as described here kubernetes/kubernetes#82573
       securityContext:
         fsGroup: 65534
-        seccompProfile:
-          type: RuntimeDefault
       containers:
       - image: "{{ .Values.calicoTypha.image.controllers.repository }}:{{ .Values.calicoTypha.image.controllers.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.calicoTypha.image.controllers.pullPolicy }}
