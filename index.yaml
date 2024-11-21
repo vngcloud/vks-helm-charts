@@ -769,6 +769,20 @@ entries:
     version: 0.0.1
   vngcloud-controller-manager:
   - apiVersion: v2
+    appVersion: v0.2.12
+    created: "2024-11-21T04:47:11.095849971Z"
+    description: VngCloud Controller Manager plugin for Kubernetes
+    digest: 939fefcac2f5b8f2592a4a15f55f69156c6cc3e6838679e7b49b53720fdd57fd
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-controller-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.2.16/vngcloud-controller-manager-0.2.16.tgz
+    version: 0.2.16
+  - apiVersion: v2
     appVersion: v0.2.11
     created: "2024-10-16T03:11:44.391011912Z"
     description: VngCloud Controller Manager plugin for Kubernetes
@@ -1021,6 +1035,20 @@ entries:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-controller-manager-0.1.0/vngcloud-controller-manager-0.1.0.tgz
     version: 0.1.0
   vngcloud-ingress-controller:
+  - apiVersion: v2
+    appVersion: v0.2.12
+    created: "2024-11-21T04:47:11.260460864Z"
+    description: VngCloud Ingress Controller plugin for Kubernetes
+    digest: cada919ee8a5dfce1a30cc0d77de04b2f6d8b908b2e2729d04ba0de5802ecc8b
+    icon: https://avatars.githubusercontent.com/u/56472256?s=280&v=4
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNG Cloud
+    name: vngcloud-ingress-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-ingress-controller-0.2.16/vngcloud-ingress-controller-0.2.16.tgz
+    version: 0.2.16
   - apiVersion: v2
     appVersion: v0.2.11
     created: "2024-10-16T03:11:44.532309475Z"
@@ -1295,4 +1323,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2024-11-20T09:12:15.379528021Z"
+generated: "2024-11-21T04:47:11.260798119Z"
