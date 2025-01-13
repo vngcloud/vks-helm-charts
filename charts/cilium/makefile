@@ -1,13 +1,13 @@
-# IMAGE = cilium:v1.16.1
+# IMAGE = cilium:v1.16.5
 # IMAGE = certgen:v0.2.0
-# IMAGE = hubble-relay:v1.16.1
+# IMAGE = hubble-relay:v1.16.5
 # IMAGE = hubble-ui-backend:v0.13.1
 # IMAGE = hubble-ui:v0.13.1
-# IMAGE = cilium-envoy:v1.29.7-39a2a56bbd5b3a591f69dbca51d3e30ef97e0e51
-# IMAGE = operator:v1.16.1
-# IMAGE = operator-generic:v1.16.1
+# IMAGE = cilium-envoy:v1.30.8-1733837904-eaae5aca0fb988583e5617170a65ac5aa51c0aa8
+# IMAGE = operator:v1.16.5
+# IMAGE = operator-generic:v1.16.5
 # IMAGE = startup-script:c54c7edeab7fde4da68e59acd319ab24af242c3f
-# IMAGE = clustermesh-apiserver:v1.16.1
+# IMAGE = clustermesh-apiserver:v1.16.5
 # IMAGE = aaaaaaaaaaaa:bbbbbbbbbbbbbbb
 
 
