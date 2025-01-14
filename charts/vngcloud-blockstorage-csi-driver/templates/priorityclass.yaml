@@ -3,5 +3,7 @@ description: "Scheduling the vngcloud-blockstorage-csi-driver to be run on the n
 kind: PriorityClass
 metadata:
   name: vngcloud-blockstorage-csi-driver-priority-class
+  labels:
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
 preemptionPolicy: PreemptLowerPriority
 value: -100
