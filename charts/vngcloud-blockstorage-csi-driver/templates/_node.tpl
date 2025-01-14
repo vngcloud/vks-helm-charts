@@ -151,6 +151,15 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+              - nslookup
+              - kubernetes.default.svc.cluster.local
+            initialDelaySeconds: 120
+            timeoutSeconds: 30
+            periodSeconds: 30
+            failureThreshold: 10
           {{- with .Values.node.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
