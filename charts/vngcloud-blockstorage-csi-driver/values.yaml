@@ -245,7 +245,7 @@ controller:
   deploymentAnnotations: {}
   podAnnotations: {}
   podLabels: {}
-  priorityClassName: system-cluster-critical
+  priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
   region:
   replicaCount: 2
   revisionHistoryLimit: 10
@@ -322,7 +322,7 @@ node:
   kubeletPath: /var/lib/kubelet
   loggingFormat: text
   logLevel: 5
-  priorityClassName:
+  priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
   additionalArgs: []
   affinity: {}
   nodeSelector: {}

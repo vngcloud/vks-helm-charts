@@ -1,0 +1,7 @@
+apiVersion: scheduling.k8s.io/v1
+description: "Scheduling the vngcloud-blockstorage-csi-driver to be run on the node with the lowest priority"
+kind: PriorityClass
+metadata:
+  name: vngcloud-blockstorage-csi-driver-priority-class
+preemptionPolicy: PreemptLowerPriority
+value: -100
