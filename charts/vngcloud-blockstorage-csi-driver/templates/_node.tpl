@@ -152,10 +152,9 @@ spec:
             periodSeconds: 10
             failureThreshold: 5
           readinessProbe:
-            exec:
-              command:
-              - nslookup
-              - kubernetes.default.svc.cluster.local
+            httpGet:
+              path: /healthz
+              port: healthz
             initialDelaySeconds: 120
             timeoutSeconds: 30
             periodSeconds: 30
