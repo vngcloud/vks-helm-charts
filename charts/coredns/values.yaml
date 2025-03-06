@@ -51,7 +51,7 @@ prometheus:
     selector: {}
 
 service:
-# clusterIP: ""
+  clusterIP: "10.96.0.10"
 # clusterIPs: []
 # loadBalancerIP: ""
 # loadBalancerClass: ""
