@@ -16,6 +16,13 @@ rules:
   - list
   - watch
 - apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceimports
+  verbs:
+  - list
+  - watch
+- apiGroups:
   - discovery.k8s.io
   resources:
   - endpointslices

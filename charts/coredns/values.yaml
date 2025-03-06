@@ -121,6 +121,8 @@ servers:
       lameduck 5s
   # Serves a /ready endpoint on :8181, required for readinessProbe
   - name: ready
+  - name: multicluster
+    parameters: clusterset.local
   # Required to query kubernetes API for data
   - name: kubernetes
     parameters: cluster.local in-addr.arpa ip6.arpa
