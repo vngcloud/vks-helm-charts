@@ -609,6 +609,34 @@ entries:
           description: github action missing "packages" permissions
     apiVersion: v2
     appVersion: 1.11.4
+    created: "2025-03-06T07:05:00.202319994Z"
+    description: CoreDNS is a DNS server that chains plugins and provides Kubernetes
+      DNS Services
+    digest: 48adbac20d74ab4a9ccb931df6c8c55517eeee99fa780d67abc8baac9d8e22ae
+    home: https://coredns.io
+    icon: https://coredns.io/images/CoreDNS_Colour_Horizontal.png
+    keywords:
+    - coredns
+    - dns
+    - kubedns
+    maintainers:
+    - name: mrueg
+    - name: haad
+    - name: hagaibarel
+    - name: shubham-cmyk
+    name: coredns
+    sources:
+    - https://github.com/coredns/coredns
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/coredns-1.38.4/coredns-1.38.4.tgz
+    version: 1.38.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: github action missing "packages" permissions
+    apiVersion: v2
+    appVersion: 1.11.4
     created: "2025-03-06T03:10:30.416903242Z"
     description: CoreDNS is a DNS server that chains plugins and provides Kubernetes
       DNS Services
@@ -1593,4 +1621,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-03-06T03:10:30.417075757Z"
+generated: "2025-03-06T07:05:00.202469854Z"
