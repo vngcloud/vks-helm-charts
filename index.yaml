@@ -71,6 +71,37 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/calico-1.0.2/calico-1.0.2.tgz
     version: 1.0.2
+  cert-manager:
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 1020CF3C033D4F35BAE1C19E1226061C665DF13E
+        url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
+    apiVersion: v2
+    appVersion: v1.17.2
+    created: "2025-05-16T09:51:53.920939967Z"
+    description: A Helm chart for cert-manager
+    digest: bf61337c9c03a155b95b74275951d94723876b9e1c77dcc3a8aa4a9e6ed45856
+    home: https://cert-manager.io
+    icon: https://raw.githubusercontent.com/cert-manager/community/4d35a69437d21b76322157e6284be4cd64e6d2b7/logo/logo-small.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>= 1.22.0-0'
+    maintainers:
+    - email: cert-manager-maintainers@googlegroups.com
+      name: cert-manager-maintainers
+      url: https://cert-manager.io
+    name: cert-manager
+    sources:
+    - https://github.com/cert-manager/cert-manager
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/cert-manager-v1.17.2/cert-manager-v1.17.2.tgz
+    version: v1.17.2
   cilium:
   - annotations:
       artifacthub.io/crds: "- kind: CiliumNetworkPolicy\n  version: v2\n  name: ciliumnetworkpolicies.cilium.io\n
@@ -1621,4 +1652,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-03-06T07:05:00.202469854Z"
+generated: "2025-05-16T09:51:53.921067444Z"
