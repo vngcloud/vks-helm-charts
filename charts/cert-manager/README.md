@@ -260,7 +260,7 @@ The container registry to pull the manager image from.
 #### **image.repository** ~ `string`
 > Default value:
 > ```yaml
-> quay.io/jetstack/cert-manager-controller
+> vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller
 > ```
 
 The container image for the cert-manager controller.
@@ -434,7 +434,7 @@ ref: https://cert-manager.io/docs/concepts/certificaterequest/#approval
 > []
 > ```
 
-Additional command line flags to pass to cert-manager controller binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-controller:<version> --help`.  
+Additional command line flags to pass to cert-manager controller binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller:<version> --help`.  
   
 Use this flag to enable or disable arbitrary controllers. For example, to disable the CertificateRequests approver.  
   
@@ -1025,7 +1025,7 @@ Configure spec.namespaceSelector for mutating webhooks.
 > []
 > ```
 
-Additional command line flags to pass to cert-manager webhook binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-webhook:<version> --help`.
+Additional command line flags to pass to cert-manager webhook binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook:<version> --help`.
 #### **webhook.extraEnv** ~ `array`
 > Default value:
 > ```yaml
@@ -1193,7 +1193,7 @@ The container registry to pull the webhook image from.
 #### **webhook.image.repository** ~ `string`
 > Default value:
 > ```yaml
-> quay.io/jetstack/cert-manager-webhook
+> vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook
 > ```
 
 The container image for the cert-manager webhook
@@ -1471,7 +1471,7 @@ Optional additional annotations to add to the cainjector metrics Service.
 > []
 > ```
 
-Additional command line flags to pass to cert-manager cainjector binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-cainjector:<version> --help`.
+Additional command line flags to pass to cert-manager cainjector binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector:<version> --help`.
 #### **cainjector.extraEnv** ~ `array`
 > Default value:
 > ```yaml
@@ -1599,7 +1599,7 @@ The container registry to pull the cainjector image from.
 #### **cainjector.image.repository** ~ `string`
 > Default value:
 > ```yaml
-> quay.io/jetstack/cert-manager-cainjector
+> vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector
 > ```
 
 The container image for the cert-manager cainjector
@@ -1680,7 +1680,7 @@ The container registry to pull the acmesolver image from.
 #### **acmesolver.image.repository** ~ `string`
 > Default value:
 > ```yaml
-> quay.io/jetstack/cert-manager-acmesolver
+> vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-acmesolver
 > ```
 
 The container image for the cert-manager acmesolver.
@@ -1767,7 +1767,7 @@ Optional additional annotations to add to the startupapicheck Pods.
 > - -v
 > ```
 
-Additional command line flags to pass to startupapicheck binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.  
+Additional command line flags to pass to startupapicheck binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.  
   
 Verbose logging is enabled by default so that if startupapicheck fails, you can know what exactly caused the failure. Verbose logs include details of the webhook URL, IP address and TCP connect errors for example.
 
@@ -1863,7 +1863,7 @@ The container registry to pull the startupapicheck image from.
 #### **startupapicheck.image.repository** ~ `string`
 > Default value:
 > ```yaml
-> quay.io/jetstack/cert-manager-startupapicheck
+> vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck
 > ```
 
 The container image for the cert-manager startupapicheck.

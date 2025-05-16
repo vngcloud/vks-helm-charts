@@ -218,7 +218,7 @@
       "type": "string"
     },
     "helm-values.acmesolver.image.repository": {
-      "default": "quay.io/jetstack/cert-manager-acmesolver",
+      "default": "vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-acmesolver",
       "description": "The container image for the cert-manager acmesolver.",
       "type": "string"
     },
@@ -371,7 +371,7 @@
     },
     "helm-values.cainjector.extraArgs": {
       "default": [],
-      "description": "Additional command line flags to pass to cert-manager cainjector binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-cainjector:<version> --help`.",
+      "description": "Additional command line flags to pass to cert-manager cainjector binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector:<version> --help`.",
       "items": {},
       "type": "array"
     },
@@ -421,7 +421,7 @@
       "type": "string"
     },
     "helm-values.cainjector.image.repository": {
-      "default": "quay.io/jetstack/cert-manager-cainjector",
+      "default": "vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector",
       "description": "The container image for the cert-manager cainjector",
       "type": "string"
     },
@@ -658,7 +658,7 @@
     },
     "helm-values.extraArgs": {
       "default": [],
-      "description": "Additional command line flags to pass to cert-manager controller binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-controller:<version> --help`.\n\nUse this flag to enable or disable arbitrary controllers. For example, to disable the CertificateRequests approver.\n\nFor example:\nextraArgs:\n  - --controllers=*,-certificaterequests-approver",
+      "description": "Additional command line flags to pass to cert-manager controller binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller:<version> --help`.\n\nUse this flag to enable or disable arbitrary controllers. For example, to disable the CertificateRequests approver.\n\nFor example:\nextraArgs:\n  - --controllers=*,-certificaterequests-approver",
       "items": {},
       "type": "array"
     },
@@ -863,7 +863,7 @@
       "type": "string"
     },
     "helm-values.image.repository": {
-      "default": "quay.io/jetstack/cert-manager-controller",
+      "default": "vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller",
       "description": "The container image for the cert-manager controller.",
       "type": "string"
     },
@@ -1371,7 +1371,7 @@
       "default": [
         "-v"
       ],
-      "description": "Additional command line flags to pass to startupapicheck binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.\n\nVerbose logging is enabled by default so that if startupapicheck fails, you can know what exactly caused the failure. Verbose logs include details of the webhook URL, IP address and TCP connect errors for example.",
+      "description": "Additional command line flags to pass to startupapicheck binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.\n\nVerbose logging is enabled by default so that if startupapicheck fails, you can know what exactly caused the failure. Verbose logs include details of the webhook URL, IP address and TCP connect errors for example.",
       "items": {},
       "type": "array"
     },
@@ -1416,7 +1416,7 @@
       "type": "string"
     },
     "helm-values.startupapicheck.image.repository": {
-      "default": "quay.io/jetstack/cert-manager-startupapicheck",
+      "default": "vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck",
       "description": "The container image for the cert-manager startupapicheck.",
       "type": "string"
     },
@@ -1746,7 +1746,7 @@
     },
     "helm-values.webhook.extraArgs": {
       "default": [],
-      "description": "Additional command line flags to pass to cert-manager webhook binary. To see all available flags run `docker run quay.io/jetstack/cert-manager-webhook:<version> --help`.",
+      "description": "Additional command line flags to pass to cert-manager webhook binary. To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook:<version> --help`.",
       "items": {},
       "type": "array"
     },
@@ -1801,7 +1801,7 @@
       "type": "string"
     },
     "helm-values.webhook.image.repository": {
-      "default": "quay.io/jetstack/cert-manager-webhook",
+      "default": "vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook",
       "description": "The container image for the cert-manager webhook",
       "type": "string"
     },

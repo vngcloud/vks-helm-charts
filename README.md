@@ -22,3 +22,21 @@ helm repo add vks-helm-charts https://vngcloud.github.io/vks-helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages.
 
 You can then run `helm search repo vks-helm-charts` to see the charts.
+
+### Cert Manager
+
+- The `cert-manager` chart is a wrapper around the upstream `cert-manager` chart. It adds some additional configuration options and a few extra resources.
+- The upstream chart is available at [GitHub](https://github.com/cert-manager/cert-manager/tree/release-1.17/deploy/charts/cert-manager).
+- Clone this repo and run `make release-manifests` to generate the upstream chart.
+- Rewrite the defalut repository in the `values.yaml`.
+
+To install the chart:
+
+```bash
+helm install \
+  cert-manager oci://vcr.vngcloud.vn/81-vks-public/vks-helm-charts/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.17.2 \
+  --set crds.enabled=true
+```

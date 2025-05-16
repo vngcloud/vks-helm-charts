@@ -144,7 +144,7 @@ image:
 
   # The container image for the cert-manager controller.
   # +docs:property
-  repository: quay.io/jetstack/cert-manager-controller
+  repository: vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller
 
   # Override the image tag to deploy by setting this variable.
   # If no value is set, the chart's appVersion is used.
@@ -286,7 +286,7 @@ approveSignerNames:
 - clusterissuers.cert-manager.io/*
 
 # Additional command line flags to pass to cert-manager controller binary.
-# To see all available flags run `docker run quay.io/jetstack/cert-manager-controller:<version> --help`.
+# To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-controller:<version> --help`.
 #
 # Use this flag to enable or disable arbitrary controllers. For example, to disable the CertificateRequests approver.
 #
@@ -763,7 +763,7 @@ webhook:
 
 
   # Additional command line flags to pass to cert-manager webhook binary.
-  # To see all available flags run `docker run quay.io/jetstack/cert-manager-webhook:<version> --help`.
+  # To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook:<version> --help`.
   extraArgs: []
   # Path to a file containing a WebhookConfiguration object used to configure the webhook.
   # - --config=<path-to-config-file>
@@ -877,7 +877,7 @@ webhook:
 
     # The container image for the cert-manager webhook
     # +docs:property
-    repository: quay.io/jetstack/cert-manager-webhook
+    repository: vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-webhook
 
     # Override the image tag to deploy by setting this variable.
     # If no value is set, the chart's appVersion will be used.
@@ -1099,7 +1099,7 @@ cainjector:
   # serviceAnnotations: {}
 
   # Additional command line flags to pass to cert-manager cainjector binary.
-  # To see all available flags run `docker run quay.io/jetstack/cert-manager-cainjector:<version> --help`.
+  # To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector:<version> --help`.
   extraArgs: []
   # Enable profiling for cainjector.
   # - --enable-profiling=true
@@ -1186,7 +1186,7 @@ cainjector:
 
     # The container image for the cert-manager cainjector
     # +docs:property
-    repository: quay.io/jetstack/cert-manager-cainjector
+    repository: vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-cainjector
 
     # Override the image tag to deploy by setting this variable.
     # If no value is set, the chart's appVersion will be used.
@@ -1245,7 +1245,7 @@ acmesolver:
 
     # The container image for the cert-manager acmesolver.
     # +docs:property
-    repository: quay.io/jetstack/cert-manager-acmesolver
+    repository: vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-acmesolver
 
     # Override the image tag to deploy by setting this variable.
     # If no value is set, the chart's appVersion is used.
@@ -1308,7 +1308,7 @@ startupapicheck:
   # podAnnotations: {}
 
   # Additional command line flags to pass to startupapicheck binary.
-  # To see all available flags run `docker run quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.
+  # To see all available flags run `docker run vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck:<version> --help`.
   #
   # Verbose logging is enabled by default so that if startupapicheck fails, you
   # can know what exactly caused the failure. Verbose logs include details of
@@ -1378,7 +1378,7 @@ startupapicheck:
 
     # The container image for the cert-manager startupapicheck.
     # +docs:property
-    repository: quay.io/jetstack/cert-manager-startupapicheck
+    repository: vcr.vngcloud.vn/81-vks-public/quay.io/jetstack/cert-manager-startupapicheck
 
     # Override the image tag to deploy by setting this variable.
     # If no value is set, the chart's appVersion is used.
