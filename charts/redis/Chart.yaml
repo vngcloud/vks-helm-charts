@@ -1,0 +1,36 @@
+annotations:
+  category: Database
+  images: |
+    - name: kubectl
+      image: vcr.vngcloud.vn/81-vks-public/kubectl:1.30.0-debian-12-r0
+    - name: os-shell
+      image: vcr.vngcloud.vn/81-vks-public/os-shell:12-debian-12-r19
+    - name: redis
+      image: vcr.vngcloud.vn/81-vks-public/redis:7.2.4-debian-12-r13
+    - name: redis-exporter
+      image: vcr.vngcloud.vn/81-vks-public/redis-exporter:1.59.0-debian-12-r1
+    - name: redis-sentinel
+      image: vcr.vngcloud.vn/81-vks-public/redis-sentinel:7.2.4-debian-12-r10
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 7.2.4
+dependencies:
+- name: common
+  repository: file://charts/common
+  version: 2.x.x 
+description: Redis(R) is an open source, advanced key-value store. It is often referred
+  to as a data structure server since keys can contain strings, hashes, lists, sets
+  and sorted sets.
+home: https://bitnami.com
+icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+keywords:
+- redis
+- keyvalue
+- database
+maintainers:
+- name: Broadcom, Inc. All Rights Reserved.
+  url: https://github.com/bitnami/charts
+name: redis
+sources:
+- https://github.com/bitnami/charts/tree/main/bitnami/redis
+version: 19.3.0
