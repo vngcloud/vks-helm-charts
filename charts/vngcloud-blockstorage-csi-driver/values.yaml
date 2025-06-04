@@ -454,7 +454,15 @@ volumeSnapshotClasses: []
 #   # deletionPolicy must be specified
 #   deletionPolicy: Delete
 #   parameters:
-
+csiDriver:
+  name: bs.csi.vngcloud.vn
+  attachRequired: true
+  podInfoOnMount: false
+  volumeLifecycleModes:
+    - Persistent
+  storageCapacity: false
+  topologyKeys:
+    - topology.bs.csi.vngcloud.vn/zone
 helmTester:
   enabled: true
   # Supply a custom image to the ebs-csi-driver-test pod in helm-tester.yaml
