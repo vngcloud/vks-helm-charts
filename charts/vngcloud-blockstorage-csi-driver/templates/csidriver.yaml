@@ -7,3 +7,6 @@ metadata:
 spec:
   attachRequired: true
   podInfoOnMount: false
+  topologyKeys:
+    - topology.bs.csi.vngcloud.vn/zone
+

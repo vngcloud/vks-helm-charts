@@ -11,5 +11,5 @@ metadata:
   labels: {{- . | toYaml | trim | nindent 4 }}
   {{- end }}
 provisioner: bs.csi.vngcloud.vn
-{{ omit (dict "volumeBindingMode" "Immediate" | merge .) "name" "annotations" "labels" | toYaml }}
+{{ omit (dict "volumeBindingMode" "WaitForFirstConsumer" | merge .) "name" "annotations" "labels" | toYaml }}
 {{- end }}
