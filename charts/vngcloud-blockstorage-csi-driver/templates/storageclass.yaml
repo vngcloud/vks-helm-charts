@@ -11,4 +11,5 @@ metadata:
   labels: {{- . | toYaml | trim | nindent 4 }}
   {{- end }}
 provisioner: bs.csi.vngcloud.vn
+{{ omit . "name" "annotations" "labels" | toYaml | indent 0 }}
 {{- end }}
