@@ -404,10 +404,10 @@ additionalDaemonSets:
 
 storageClasses:
   # Add StorageClass resources like:
-  - name: ssd-iops3000
+  - name: vngcloud-ssd-3000-delete
     # annotation metadata
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
+#    annotations:
+#      storageclass.kubernetes.io/is-default-class: "true"
     # label metadata
     labels:
       mininum-size: "1Gi"
@@ -423,10 +423,10 @@ storageClasses:
       type: "ssd-iops3000"
     allowVolumeExpansion: true
 
-  - name: nvme-iops5000
+  - name: vngcloud-nvme-5000-delete
     # annotation metadata
-    # annotations:
-      # storageclass.kubernetes.io/is-default-class: "true"
+    annotations:
+      storageclass.kubernetes.io/is-default-class: "true"
     # label metadata
     labels:
       mininum-size: "1Gi"
