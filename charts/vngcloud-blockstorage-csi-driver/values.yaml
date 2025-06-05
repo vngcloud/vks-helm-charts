@@ -432,6 +432,31 @@ storageClasses:
       type: "nvme-iops5000"
     allowVolumeExpansion: true
 
+  - name: vngcloud-ssd-3000-delete
+    labels:
+      mininum-size: "1Gi"
+      maximum-size: "5000Gi"
+      throughput: "200MBps"
+      iops: "3000"
+      volume-type: "SSD"
+    volumeBindingMode: Immediate
+    reclaimPolicy: Delete
+    parameters:
+      type: "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
+    allowVolumeExpansion: true
+  - name: vngcloud-nvme-5000-delete
+    labels:
+      mininum-size: "1Gi"
+      maximum-size: "10000Gi"
+      throughput: "400MBps"
+      iops: "5000"
+      volume-type: "NVME"
+    volumeBindingMode: Immediate
+    reclaimPolicy: Delete
+    parameters:
+      type: "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
+    allowVolumeExpansion: true
+
 volumeSnapshotClasses: []
 # Add VolumeSnapshotClass resources like:
 # - name: ebs-vsc
