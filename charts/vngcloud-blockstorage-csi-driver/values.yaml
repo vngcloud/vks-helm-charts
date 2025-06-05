@@ -404,39 +404,29 @@ additionalDaemonSets:
 
 storageClasses:
   # Add StorageClass resources like:
-  - name: vngcloud-ssd-3000-delete
-    # annotation metadata
-#    annotations:
-#      storageclass.kubernetes.io/is-default-class: "true"
-    # label metadata
+  - name: vngcloud-ssd-iops3000
     labels:
       mininum-size: "1Gi"
       maximum-size: "5000Gi"
       throughput: "200MBps"
       iops: "3000"
       volume-type: "SSD"
-    # defaults to WaitForFirstConsumer
     volumeBindingMode: WaitForFirstConsumer
-    # defaults to Delete
     reclaimPolicy: Delete
     parameters:
       type: "ssd-iops3000"
     allowVolumeExpansion: true
 
-  - name: vngcloud-nvme-5000-delete
-    # annotation metadata
+  - name: vngcloud-nvme-iops5000
     annotations:
       storageclass.kubernetes.io/is-default-class: "true"
-    # label metadata
     labels:
       mininum-size: "1Gi"
       maximum-size: "10000Gi"
       throughput: "400MBps"
       iops: "5000"
       volume-type: "NVME"
-    # defaults to WaitForFirstConsumer
     volumeBindingMode: WaitForFirstConsumer
-    # defaults to Delete
     reclaimPolicy: Delete
     parameters:
       type: "nvme-iops5000"
