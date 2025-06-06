@@ -1,20 +1,9 @@
 apiVersion: {{ ternary "storage.k8s.io/v1" "storage.k8s.io/v1beta1" (semverCompare ">=1.18.0-0" .Capabilities.KubeVersion.Version) }}
 kind: CSIDriver
 metadata:
-  name: {{ .Values.csiDriver.name }}
+  name: bs.csi.vngcloud.vn
   labels:
     {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
 spec:
-  attachRequired: {{ .Values.csiDriver.attachRequired }}
-  podInfoOnMount: {{ .Values.csiDriver.podInfoOnMount }}
-  volumeLifecycleModes:
-    {{- range .Values.csiDriver.volumeLifecycleModes }}
-    - {{ . }}
-    {{- end }}
-  storageCapacity: {{ .Values.csiDriver.storageCapacity }}
-  {{- if .Values.csiDriver.topologyKeys }}
-  topologyKeys:
-    {{- range .Values.csiDriver.topologyKeys }}
-    - {{ . }}
-    {{- end }}
-  {{- end }}
+  attachRequired: true
+  podInfoOnMount: false
