@@ -403,59 +403,63 @@ additionalDaemonSets:
 # a1CompatibilityDaemonSet: true
 
 storageClasses:
-  # Add StorageClass resources like:
-  - name: vngcloud-ssd-iops3000
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "5000Gi"
-      throughput: "200MBps"
-      iops: "3000"
-      volume-type: "SSD"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "ssd-iops3000"
-
-  - name: vngcloud-nvme-iops5000
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "10000Gi"
-      throughput: "400MBps"
-      iops: "5000"
-      volume-type: "NVME"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "nvme-iops5000"
-
-  - name: vngcloud-ssd-3000-delete
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "5000Gi"
-      throughput: "200MBps"
-      iops: "3000"
-      volume-type: "SSD"
-    volumeBindingMode: Immediate
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
-  - name: vngcloud-nvme-5000-delete
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "10000Gi"
-      throughput: "400MBps"
-      iops: "5000"
-      volume-type: "NVME"
-    volumeBindingMode: Immediate
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
+#  # Add StorageClass resources like:
+#  - name: vngcloud-ssd-3000-delete
+#    enabled: true
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "5000Gi"
+#      throughput: "200MBps"
+#      iops: "3000"
+#      volume-type: "SSD"
+#    volumeBindingMode: WaitForFirstConsumer
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "ssd-iops3000"
+#
+#  - name: vngcloud-nvme-5000-delete
+#    enabled: true
+#    annotations:
+#      storageclass.kubernetes.io/is-default-class: "true"
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "10000Gi"
+#      throughput: "400MBps"
+#      iops: "5000"
+#      volume-type: "NVME"
+#    volumeBindingMode: WaitForFirstConsumer
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "nvme-iops5000"
+#
+#  - name: vngcloud-ssd-3000-delete
+#    enabled: false
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "5000Gi"
+#      throughput: "200MBps"
+#      iops: "3000"
+#      volume-type: "SSD"
+#    volumeBindingMode: Immediate
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
+#  - name: vngcloud-nvme-5000-delete
+#    enabled: false
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "10000Gi"
+#      throughput: "400MBps"
+#      iops: "5000"
+#      volume-type: "NVME"
+#    volumeBindingMode: Immediate
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
 
 volumeSnapshotClasses: []
 # Add VolumeSnapshotClass resources like:
