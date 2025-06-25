@@ -11,7 +11,7 @@ image:
 # -- Custom labels to add into metadata
 customLabels:
   {}
-  # k8s-app: vngcloud-blockstorage-csi-driver
+# k8s-app: vngcloud-blockstorage-csi-driver
 
 sidecars:
   provisioner:
@@ -152,9 +152,9 @@ sidecars:
     livenessProbe:
       exec:
         command:
-        - /csi-node-driver-registrar
-        - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
-        - --mode=kubelet-registration-probe
+          - /csi-node-driver-registrar
+          - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+          - --mode=kubelet-registration-probe
       initialDelaySeconds: 30
       periodSeconds: 90
       timeoutSeconds: 15
@@ -266,7 +266,7 @@ controller:
     limits:
       memory: 256Mi
   serviceAccount:
-  # A service account will be created for you if set to true. Set to false if you want to use your own.
+    # A service account will be created for you if set to true. Set to false if you want to use your own.
     create: true
     name: vngcloud-csi-controller-sa
     annotations: {}
@@ -331,7 +331,7 @@ node:
   podLabels: {}
   tolerateAllTaints: true
   tolerations:
-  - operator: Exists
+    - operator: Exists
   resources:
     requests:
       cpu: 10m
@@ -391,48 +391,48 @@ node:
   #  otelExporterEndpoint: "http://localhost:4317"
 
 additionalDaemonSets:
-  # Additional node DaemonSets, using the node config structure
-  # See docs/additional-daemonsets.md for more information
-  #
-  # example:
-  #   nodeSelector:
-  #     node.kubernetes.io/instance-type: c5.large
-  #   volumeAttachLimit: 15
+# Additional node DaemonSets, using the node config structure
+# See docs/additional-daemonsets.md for more information
+#
+# example:
+#   nodeSelector:
+#     node.kubernetes.io/instance-type: c5.large
+#   volumeAttachLimit: 15
 
 # Enable compatibility for the A1 instance family via use of an AL2-based image in a separate DaemonSet
 # a1CompatibilityDaemonSet: true
 
 storageClasses:
-  # Add StorageClass resources like:
-  - name: vngcloud-ssd-3000-delete
-    enabled: true
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "5000Gi"
-      throughput: "200MBps"
-      iops: "3000"
-      volume-type: "SSD"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "ssd-iops3000"
-
-  - name: vngcloud-nvme-5000-delete
-    enabled: true
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
-    labels:
-      mininum-size: "1Gi"
-      maximum-size: "10000Gi"
-      throughput: "400MBps"
-      iops: "5000"
-      volume-type: "NVME"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    allowVolumeExpansion: true
-    parameters:
-      type: "nvme-iops5000"
+#  # Add StorageClass resources like:
+#  - name: vngcloud-ssd-3000-delete
+#    enabled: true
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "5000Gi"
+#      throughput: "200MBps"
+#      iops: "3000"
+#      volume-type: "SSD"
+#    volumeBindingMode: WaitForFirstConsumer
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "ssd-iops3000"
+#
+#  - name: vngcloud-nvme-5000-delete
+#    enabled: true
+#    annotations:
+#      storageclass.kubernetes.io/is-default-class: "true"
+#    labels:
+#      mininum-size: "1Gi"
+#      maximum-size: "10000Gi"
+#      throughput: "400MBps"
+#      iops: "5000"
+#      volume-type: "NVME"
+#    volumeBindingMode: WaitForFirstConsumer
+#    reclaimPolicy: Delete
+#    allowVolumeExpansion: true
+#    parameters:
+#      type: "nvme-iops5000"
 #
 #  - name: vngcloud-ssd-3000-delete
 #    enabled: false

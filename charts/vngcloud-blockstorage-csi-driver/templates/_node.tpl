@@ -151,14 +151,6 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: healthz
-            initialDelaySeconds: 120
-            timeoutSeconds: 30
-            periodSeconds: 30
-            failureThreshold: 10
           {{- with .Values.node.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

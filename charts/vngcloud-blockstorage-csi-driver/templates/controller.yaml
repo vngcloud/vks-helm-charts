@@ -189,10 +189,10 @@ spec:
             httpGet:
               path: /healthz
               port: healthz
-            initialDelaySeconds: 120
-            timeoutSeconds: 30
-            periodSeconds: 30
-            failureThreshold: 10
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
           {{- with .Values.controller.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
