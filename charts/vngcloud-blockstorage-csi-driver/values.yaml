@@ -324,7 +324,18 @@ node:
   logLevel: 5
   priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
   additionalArgs: []
-  affinity: {}
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - ebs-csi-controller
+            topologyKey: kubernetes.io/hostname
   nodeSelector: {}
   daemonSetAnnotations: {}
   podAnnotations: {}
