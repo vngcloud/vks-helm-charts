@@ -208,6 +208,17 @@ controller:
   sdkDebugLog: false
   loggingFormat: text
   affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - vngcloud-csi-controller
+            topologyKey: kubernetes.io/hostname
   # The default filesystem type of the volume to provision when fstype is unspecified in the StorageClass.
   # If the default is not set and fstype is unset in the StorageClass, then no fstype will be set
   defaultFsType: ext4
@@ -324,18 +335,7 @@ node:
   logLevel: 5
   priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
   additionalArgs: []
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - ebs-csi-controller
-            topologyKey: kubernetes.io/hostname
+  affinity: {}
   nodeSelector: {}
   daemonSetAnnotations: {}
   podAnnotations: {}
