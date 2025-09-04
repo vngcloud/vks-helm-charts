@@ -3,6 +3,16 @@ entries:
   calico:
   - apiVersion: v2
     appVersion: v3.28.2
+    created: "2025-09-04T15:01:17.299227517Z"
+    description: Calico CNI for VngCloud Kubernetes Clusters
+    digest: bc37bf89fecbaf5b470ccfa25607dffe52f555253a52b2ba22cb3234306a2616
+    name: calico
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/calico-1.1.5/calico-1.1.5.tgz
+    version: 1.1.5
+  - apiVersion: v2
+    appVersion: v3.28.2
     created: "2024-11-20T09:12:15.379428907Z"
     description: Calico CNI for VngCloud Kubernetes Clusters
     digest: 3e41929f9487a4524e5dddc068292bbef0f5f594da624f2282bd32879172b66b
@@ -862,6 +872,26 @@ entries:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vcontainer-storage-interface-0.1.3/vcontainer-storage-interface-0.1.3.tgz
     version: 0.1.3
   vngcloud-blockstorage-csi-driver:
+  - apiVersion: v2
+    appVersion: 1.3.9
+    created: "2025-09-04T15:01:17.423407092Z"
+    description: A Helm chart for VngCloud BlockStorage CSI Driver
+    digest: 85fc23be7a143cdafd375cd14e670469b935f92b9bdfd3d9110efc69915a7574
+    home: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    keywords:
+    - vngcloud
+    - blockstorage
+    - csi
+    kubeVersion: '>=1.26.12'
+    maintainers:
+    - name: VngCloud
+      url: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    name: vngcloud-blockstorage-csi-driver
+    sources:
+    - https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-blockstorage-csi-driver-1.0.29/vngcloud-blockstorage-csi-driver-1.0.29.tgz
+    version: 1.0.29
   - apiVersion: v2
     appVersion: 1.3.8
     created: "2025-08-25T03:33:18.795392611Z"
@@ -2073,4 +2103,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-08-25T03:33:18.795669016Z"
+generated: "2025-09-04T15:01:17.424208454Z"
