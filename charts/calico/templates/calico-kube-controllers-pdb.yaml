@@ -1,15 +1,15 @@
-# Source: calico/templates/calico-kube-controllers.yaml
-# This manifest creates a Pod Disruption Budget for Controller to allow K8s Cluster Autoscaler to evict
+{{/*# Source: calico/templates/calico-kube-controllers.yaml*/}}
+{{/*# This manifest creates a Pod Disruption Budget for Controller to allow K8s Cluster Autoscaler to evict*/}}
 
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: {{ include "calicoCni.name" . }}-kube-controllers
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "calicoCni.calicoKubeControllers.labels" . | nindent 4 }}
-spec:
-  maxUnavailable: {{ .Values.calicoKubeControllers.maxUnavailable }}
-  selector:
-    matchLabels:
-      {{- include "calicoCni.calicoKubeControllers.matchLabels" . | nindent 6 }}
+{{/*apiVersion: policy/v1*/}}
+{{/*kind: PodDisruptionBudget*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "calicoCni.name" . }}-kube-controllers*/}}
+{{/*  namespace: {{ .Release.Namespace }}*/}}
+{{/*  labels:*/}}
+{{/*    {{- include "calicoCni.calicoKubeControllers.labels" . | nindent 4 }}*/}}
+{{/*spec:*/}}
+{{/*  maxUnavailable: {{ .Values.calicoKubeControllers.maxUnavailable }}*/}}
+{{/*  selector:*/}}
+{{/*    matchLabels:*/}}
+{{/*      {{- include "calicoCni.calicoKubeControllers.matchLabels" . | nindent 6 }}*/}}
