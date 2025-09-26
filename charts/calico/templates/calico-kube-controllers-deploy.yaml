@@ -22,17 +22,18 @@ spec:
       labels:
         {{- include "calicoCni.calicoKubeControllers.labels" . | nindent 8 }}
     spec:
+      {{- with .Values.calicoKubeControllers.nodeSelector }}
       nodeSelector:
-        kubernetes.io/os: linux
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.calicoKubeControllers.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.calicoKubeControllers.tolerations }}
       tolerations:
-        # Mark the pod as a critical add-on for rescheduling.
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - key: node-role.kubernetes.io/master
-          effect: NoSchedule
-        - key: node-role.kubernetes.io/control-plane
-          effect: NoSchedule
-        - operator: Exists
+        {{- toYaml .Values.calicoKubeControllers.tolerations | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "calicoCni.name" . }}-kube-controllers
       priorityClassName: system-cluster-critical
       containers:

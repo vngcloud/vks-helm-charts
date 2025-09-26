@@ -5,6 +5,17 @@ calicoKubeControllers:
       repository: "vcr.vngcloud.vn/81-vks-public/calico-kube-controllers"
       tag: # Default to Chart.appVersion
       pullPolicy: "IfNotPresent"
+  nodeSelector:
+    kubernetes.io/os: linux
+  affinity: {}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+    - operator: Exists
 
 calicoTypha:
   maxUnavailable: 1
@@ -13,6 +24,17 @@ calicoTypha:
       repository: "vcr.vngcloud.vn/81-vks-public/calico-typha"
       tag: # Default to Chart.appVersion
       pullPolicy: "IfNotPresent"
+  nodeSelector:
+    kubernetes.io/os: linux
+  affinity: {}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+    - operator: Exists
 
 calicoNode:
   maxUnavailable: 1
@@ -25,3 +47,14 @@ calicoNode:
       repository: "vcr.vngcloud.vn/81-vks-public/calico-node"
       tag: # Default to Chart.appVersion
       pullPolicy: "IfNotPresent"
+  nodeSelector:
+    kubernetes.io/os: linux
+  affinity: {}
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+    - operator: Exists

@@ -1,0 +1,95 @@
+# Test values for Calico chart with custom nodeSelector, affinity, and tolerations
+
+calicoKubeControllers:
+  # Custom nodeSelector - schedule on control-plane nodes
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: "true"
+    kubernetes.io/arch: "amd64"
+
+  # Custom affinity - prefer spreading across zones
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                k8s-app: calico-kube-controllers
+            topologyKey: topology.kubernetes.io/zone
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+
+  # Custom tolerations - tolerate control-plane taints
+  tolerations:
+    - key: AAAAAAAAAAAAAA
+      effect: NoSchedule
+
+calicoTypha:
+  # Custom nodeSelector - prefer worker nodes with specific label
+  nodeSelector:
+    workload-type: "network"
+    kubernetes.io/arch: "amd64"
+
+  # Custom affinity - spread across nodes and availability zones
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              k8s-app: calico-typha
+          topologyKey: kubernetes.io/hostname
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                k8s-app: calico-typha
+            topologyKey: failure-domain.beta.kubernetes.io/zone
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+            - key: node.kubernetes.io/instance-type
+              operator: In
+              values:
+              - "t3.medium"
+              - "t3.large"
+
+  # Custom tolerations - tolerate network workload taints
+  tolerations: []
+
+calicoNode:
+  # Custom nodeSelector - run on all Linux nodes with specific label
+  nodeSelector:
+    network-plugin: "calico"
+
+  # Custom affinity - prefer nodes with more resources
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+            - key: node.kubernetes.io/instance-type
+              operator: NotIn
+              values:
+              - "t3.micro"
+              - "t3.small"
+        - weight: 50
+          preference:
+            matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - "amd64"
+
+  # Custom tolerations - tolerate all taints since it's a DaemonSet
+  tolerations:
+    - operator: Exists
+      effect: NoSchedule
+      key: AAAAAAAAAAAA

@@ -37,22 +37,22 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: 'true'
     spec:
+      {{- with .Values.calicoTypha.nodeSelector }}
       nodeSelector:
-        kubernetes.io/os: linux
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       hostNetwork: true
       # Typha supports graceful shut down, disconnecting clients slowly during the grace period.
       # The TYPHA_SHUTDOWNTIMEOUTSECS env var should be kept in sync with this value.
       terminationGracePeriodSeconds: 300
+      {{- with .Values.calicoTypha.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.calicoTypha.tolerations }}
       tolerations:
-        # Mark the pod as a critical add-on for rescheduling.
-        - key: CriticalAddonsOnly
-          operator: Exists
-        # Make sure Typha can get scheduled on any nodes. 
-        - effect: NoSchedule 
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
-        - operator: Exists           
+        {{- toYaml .Values.calicoTypha.tolerations | nindent 8 }}
+      {{- end }}
       # Since Calico can't network a pod until Typha is up, we need to run Typha itself
       # as a host-networked pod.
       serviceAccountName: calico-node

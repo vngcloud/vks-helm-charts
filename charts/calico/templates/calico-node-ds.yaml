@@ -22,19 +22,19 @@ spec:
       labels:
         {{ include "calicoCni.calicoNode.labels" . | nindent 8 }}
     spec:
+      {{- with .Values.calicoNode.nodeSelector }}
       nodeSelector:
-        kubernetes.io/os: linux
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.calicoNode.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       hostNetwork: true
+      {{- if .Values.calicoNode.tolerations }}
       tolerations:
-        # Make sure calico-node gets scheduled on all nodes.
-        - effect: NoSchedule
-          operator: Exists
-        # Mark the pod as a critical add-on for rescheduling.
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
-        - operator: Exists
+        {{- toYaml .Values.calicoNode.tolerations | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "calicoCni.name" . }}-node
       # Minimize downtime during a rolling upgrade or deletion; tell Kubernetes to do a "force
       # deletion": https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods.
