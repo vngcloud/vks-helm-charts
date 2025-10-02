@@ -867,6 +867,34 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/redis-19.3.0/redis-19.3.0.tgz
     version: 19.3.0
+  vault:
+  - annotations:
+      charts.openshift.io/name: HashiCorp Vault
+    apiVersion: v2
+    appVersion: 1.19.0
+    created: "2025-10-02T04:10:24.681568501Z"
+    description: Official HashiCorp Vault Chart
+    digest: 762757324038e696cf66d5bae05ea2cf86c2c5bb74226dd508b222a638e608f5
+    home: https://www.vaultproject.io
+    icon: https://github.com/hashicorp/vault/raw/f22d202cde2018f9455dec755118a9b84586e082/Vault_PrimaryLogo_Black.png
+    keywords:
+    - vault
+    - security
+    - encryption
+    - secrets
+    - management
+    - automation
+    - infrastructure
+    kubeVersion: '>= 1.20.0-0'
+    name: vault
+    sources:
+    - https://github.com/hashicorp/vault
+    - https://github.com/hashicorp/vault-helm
+    - https://github.com/hashicorp/vault-k8s
+    - https://github.com/hashicorp/vault-csi-provider
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vault-0.30.0/vault-0.30.0.tgz
+    version: 0.30.0
   vcontainer-storage-interface:
   - apiVersion: v2
     appVersion: v0.1.3
@@ -2113,4 +2141,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-09-26T03:38:12.860386714Z"
+generated: "2025-10-02T04:10:24.681774446Z"
