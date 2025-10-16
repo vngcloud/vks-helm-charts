@@ -156,8 +156,8 @@ kubeStateMetricsAgent:
         url: "https://https://103.245.249.45"
         skip_database_creation: true
         insecure_skip_verify: true
-        username: ".Values.influx.username"
-        password: ".Values.influx.password"
+        username: "{{ .Values.influx.username }}"
+        password: "{{ .Values.influx.password }}"
 
     inputs:
     - kube_inventory:
