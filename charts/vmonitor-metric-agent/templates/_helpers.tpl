@@ -764,7 +764,7 @@ Build kube-state-metrics endpoint
       urls = [
         {{ printf "http://%s-kube-state-metrics.%s:8080/metrics" .Release.Name .Release.Namespace | quote }}
       ]
-      kubernetes_service = [
+      kubernetes_services = [
         "http://vks-${CLUSTER_NAME}-etcd-metric.datastore:2381/metrics"
       ]
       monitor_kubernetes_pods = true

@@ -16,4 +16,4 @@ maintainers:
 - email: support@vngcloud.vn
   name: VNGCloud
 name: vmonitor-metric-agent
-version: 0.8.0
+version: 0.9.0
