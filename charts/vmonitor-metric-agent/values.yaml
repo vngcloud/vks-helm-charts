@@ -156,8 +156,8 @@ kubeStateMetricsAgent:
         url: "https://https://103.245.249.45"
         skip_database_creation: true
         insecure_skip_verify: true
-        username: "k8s-clusterapi"
-        password: "TbtF9Xd1MDmgWHw3mIyP"
+        username: "xxxxx"
+        password: "xxxxx"
 
     inputs:
     - kube_inventory:
