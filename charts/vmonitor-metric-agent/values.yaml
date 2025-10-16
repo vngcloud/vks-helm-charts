@@ -18,6 +18,8 @@ vmonitor:
   iamClientID: # <YOUR_CLIENT_ID_XXXXXXXXXXXXXXXXXXX>
   iamClientSecret: # <YOUR_CLIENT_SECRET_XXXXXXXXXXXXXXX>
   clusterName: "_CHANGE_ME_"
+  influxUser: "_CHANGE_ME_"
+  influxPassword: "_CHANGE_ME_"
 
 nodeAgent:
   env:
@@ -156,8 +158,8 @@ kubeStateMetricsAgent:
         url: "https://https://103.245.249.45"
         skip_database_creation: true
         insecure_skip_verify: true
-        username: "{{ .Values.influx.username }}"
-        password: "{{ .Values.influx.password }}"
+        username: "${INFLUX_USER}"
+        password: "${INFLUX_PASSWORD}"
 
     inputs:
     - kube_inventory:
@@ -533,8 +535,3 @@ pdb:
 # hooks:
 #   postStart: ["/bin/sh", "-c", "echo vMonitor Metric Agent started"]
 #   preStop: ["/bin/sh", "-c", "sleep 60"]
-
-
-influx:
-  username: "_CHANGE_ME_"
-  password: "_CHANGE_ME_"
