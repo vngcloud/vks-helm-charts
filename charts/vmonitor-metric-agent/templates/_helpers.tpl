@@ -763,6 +763,14 @@ Build kube-state-metrics endpoint
     [[inputs.prometheus]]
       urls = [
         {{ printf "http://%s-kube-state-metrics.%s:8080/metrics" .Release.Name .Release.Namespace | quote }}
-      ] 
+      ]
+      kubernetes_service: ["http://vks-${CLUSTER_NAME}-etcd-metric.datastore:2381/metrics"]
+      monitor_kubernetes_pods: true
+      monitor_kubernetes_pods_method: "settings+annotations"
+      monitor_kubernetes_pods_port: 2381
+      pod_scrape_interval: 120
+      pod_scrape_scope: "cluster"
+      kubernetes_label_selector: "app.kubernetes.io/name=datastore"
+      insecure_skip_verify: true
 {{- end }}
 {{- end -}}
