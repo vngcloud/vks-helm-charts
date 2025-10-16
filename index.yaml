@@ -998,6 +998,30 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vcontainer-storage-interface-0.1.3/vcontainer-storage-interface-0.1.3.tgz
     version: 0.1.3
+  vmonitor-metric-agent:
+  - apiVersion: v2
+    appVersion: 1.26.2
+    created: "2025-10-16T07:13:48.644731732Z"
+    dependencies:
+    - condition: vmonitor.kubeStateMetricsEnabled
+      name: kube-state-metrics
+      repository: file://charts/kube-state-metrics
+      version: 4.20.0
+    description: vMonitor Platform Metric Agent
+    digest: b24536cbdbaa5f14b15965bc1b525b6a5dc37b09ebc4dfec1091703d98db6b5e
+    home: https://www.vngcloud.vn
+    icon: https://vngcloud.github.io/helm-charts-vmonitor/vngcloud-logo.png
+    keywords:
+    - monitoring
+    - alerting
+    - metric
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNGCloud
+    name: vmonitor-metric-agent
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vmonitor-metric-agent-0.4.0/vmonitor-metric-agent-0.4.0.tgz
+    version: 0.4.0
   vngcloud-blockstorage-csi-driver:
   - apiVersion: v2
     appVersion: 1.3.9
@@ -2230,4 +2254,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-10-10T08:03:25.197759274Z"
+generated: "2025-10-16T07:13:48.644912621Z"
