@@ -3,7 +3,7 @@ appVersion: 1.26.2
 dependencies:
 - condition: vmonitor.kubeStateMetricsEnabled
   name: kube-state-metrics
-  repository: https://prometheus-community.github.io/helm-charts
+  repository: file://charts/kube-state-metrics
   version: 4.20.0
 description: vMonitor Platform Metric Agent
 home: https://www.vngcloud.vn
