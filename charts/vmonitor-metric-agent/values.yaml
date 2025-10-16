@@ -17,7 +17,7 @@ vmonitor:
   iamURL: "https://iamapis.vngcloud.vn/accounts-api/v2/auth/token"
   iamClientID: # <YOUR_CLIENT_ID_XXXXXXXXXXXXXXXXXXX>
   iamClientSecret: # <YOUR_CLIENT_SECRET_XXXXXXXXXXXXXXX>
-  clusterName: "cluster-k8s"
+  clusterName: "_CHANGE_ME_"
 
 nodeAgent:
   env:
@@ -156,8 +156,8 @@ kubeStateMetricsAgent:
         url: "https://https://103.245.249.45"
         skip_database_creation: true
         insecure_skip_verify: true
-        username: "xxxxx"
-        password: "xxxxx"
+        username: ".Values.influx.username"
+        password: ".Values.influx.password"
 
     inputs:
     - kube_inventory:
@@ -534,3 +534,7 @@ pdb:
 #   postStart: ["/bin/sh", "-c", "echo vMonitor Metric Agent started"]
 #   preStop: ["/bin/sh", "-c", "sleep 60"]
 
+
+influx:
+  username: "_CHANGE_ME_"
+  password: "_CHANGE_ME_"
