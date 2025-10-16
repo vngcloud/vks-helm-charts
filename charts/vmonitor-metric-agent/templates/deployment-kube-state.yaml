@@ -1,0 +1,120 @@
+{{- if .Values.kubeStateMetricsAgent.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vmonitor-metric-agent.fullname" . }}-kube-state
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vmonitor-metric-agent.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "vmonitor-metric-agent.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "vmonitor-metric-agent.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-kube-state.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret-vmonitor.yaml") . | sha256sum }}
+        {{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+        {{- end }}
+    spec:
+{{- if .Values.securityContext }}
+      securityContext:
+{{ toYaml .Values.securityContext | indent 8 }}
+{{- end }}
+      serviceAccountName: {{ template "vmonitor-metric-agent.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+{{- if .Values.containerSecurityContext }}
+        securityContext:
+{{ toYaml .Values.containerSecurityContext | indent 10 }}
+{{- end }}
+        image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ default "" .Values.image.pullPolicy | quote }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        {{- if .Values.args }}
+        args:
+{{ toYaml .Values.args | indent 8 }}
+        {{- end }}
+        env:
+{{ toYaml .Values.kubeStateMetricsAgent.env | indent 8 }}
+        envFrom:
+          - secretRef:
+              name: {{ include "vmonitor-metric-agent.secretconfigname" .}}
+        volumeMounts:
+        - name: config
+          mountPath: /etc/telegraf
+        - name: machine-id
+          mountPath: /etc/machine-id
+        - name: hostfsro
+          mountPath: /hostfs
+          readOnly: true
+        {{- range .Values.volumeMounts }}
+        - name: {{ .name }}
+          mountPath: {{ .mountPath }}
+        {{- end }}
+        {{- if .Values.mountPoints }}
+{{ toYaml .Values.mountPoints | indent 8 }}
+        {{- end }}
+        {{- if .Values.hooks }}
+        {{- if or (.Values.hooks.postStart) (.Values.hooks.preStop) }}
+        lifecycle:
+        {{- if .Values.hooks.postStart }}
+          postStart:
+            exec:
+              command:
+        {{- range .Values.hooks.postStart }}
+                - {{ . | quote }}
+        {{- end }}
+        {{ end }}
+        {{- if .Values.hooks.preStop }}
+          preStop:
+            exec:
+              command:
+        {{- range .Values.hooks.preStop }}
+                - {{ . | quote }}
+        {{- end }}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "vmonitor-metric-agent.kubestateconfig" . }}
+      - name: machine-id
+        hostPath:
+          path: /etc/machine-id
+          type: File
+      - name: hostfsro
+        hostPath:
+          path: /
+      {{- if .Values.volumes }}
+{{ toYaml .Values.volumes | indent 6 }}
+      {{- end }}
+{{- end }}

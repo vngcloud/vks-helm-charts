@@ -1,0 +1,53 @@
+{{- if .Values.kubeStateMetricsAgent.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vmonitor-metric-agent.kubestateconfig" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vmonitor-metric-agent.labels" . | nindent 4 }}
+data:
+  telegraf.conf: |+
+    {{- $tplVersion := include "detect.version" . }}
+    {{ template "global_tags" .Values.kubeStateMetricsAgent.config.global_tags }}
+    {{ template "agent" .Values.kubeStateMetricsAgent.config.agent }}
+
+    ###############################################################################
+    #                            PROCESSOR PLUGINS                                #
+    ###############################################################################
+
+    {{ template "processors" (list $tplVersion .Values.kubeStateMetricsAgent.config.processors) }}
+
+    ###############################################################################
+    #                            AGGREGATOR PLUGINS                               #
+    ###############################################################################
+
+    {{ template "aggregators" (list $tplVersion .Values.kubeStateMetricsAgent.config.aggregators) }}
+
+    ###############################################################################
+    #                            OUTPUT PLUGINS                                   #
+    ###############################################################################
+
+    {{ template "outputs" (list $tplVersion .Values.kubeStateMetricsAgent.config.outputs) }}
+
+    ###############################################################################
+    #                            INPUT PLUGINS                                    #
+    ###############################################################################
+    
+    {{ template "inputs" (list $tplVersion .Values.kubeStateMetricsAgent.config.inputs) }}
+    {{ template "kube_state_metrics_endpoint" . }}
+    {{ template "monitor_self" .Values.kubeStateMetricsAgent.config.monitor_self }}
+    
+    ###############################################################################
+    #                            PROCESSOR PLUGINS                                #
+    ###############################################################################
+
+    [[processors.rename]]
+      [[processors.rename.replace]]
+        tag = "app.kubernetes.io/instance"
+        dest = "datastore"
+
+      [[processors.rename.replace]]
+        field = "app.kubernetes.io/instance"
+        dest = "datastore"
+{{- end }}
