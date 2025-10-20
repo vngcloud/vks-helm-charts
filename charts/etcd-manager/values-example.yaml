@@ -1,0 +1,157 @@
+# Example values file for different environments
+
+# ============================================
+# DEVELOPMENT ENVIRONMENT
+# ============================================
+# Example for development environment with relaxed schedules
+# Usage: helm install etcd-manager ./etcd-manager -n datastore -f values-dev.yaml
+
+# Uncomment and customize for dev:
+# namespace: datastore
+#
+# certChecker:
+#   enabled: true
+#   schedule: "*/30 * * * *"  # Every 30 minutes for testing
+#   checkDays: 60
+#   image:
+#     tag: dev
+#     pullPolicy: Always
+#
+# certRenewal:
+#   enabled: true
+#   schedule: "0 * * * *"  # Every hour for testing
+#   image:
+#     tag: dev
+#     pullPolicy: Always
+#   config:
+#     zone: "DEV"
+#     proxyUrl: "172.28.4.4:3128"
+
+# ============================================
+# PRODUCTION ENVIRONMENT
+# ============================================
+# Example for production with stricter settings
+# Usage: helm install etcd-manager ./etcd-manager -n datastore -f values-prod.yaml
+
+# Uncomment and customize for prod:
+# namespace: datastore
+#
+# certChecker:
+#   enabled: true
+#   schedule: "0 2 * * *"  # Daily at 2 AM
+#   checkDays: 30  # More aggressive renewal
+#   image:
+#     repository: vcr.vngcloud.vn/81-vks-public/etcd-cert-manager
+#     tag: v1.0.0  # Use specific version
+#     pullPolicy: IfNotPresent
+#   resources:
+#     requests:
+#       memory: "128Mi"
+#       cpu: "200m"
+#     limits:
+#       memory: "256Mi"
+#       cpu: "500m"
+#
+# certRenewal:
+#   enabled: true
+#   schedule: "0 3 * * *"  # Daily at 3 AM (after check)
+#   image:
+#     repository: vcr.vngcloud.vn/81-vks-public/etcd-cert-renewal
+#     tag: v1.0.0
+#     pullPolicy: IfNotPresent
+#   resources:
+#     requests:
+#       memory: "256Mi"
+#       cpu: "500m"
+#     limits:
+#       memory: "1Gi"
+#       cpu: "1000m"
+#   config:
+#     zone: "PRODUCTION"
+#     proxyUrl: "prod-proxy.example.com:3128"
+#   secrets:
+#     # Use existing secret in production
+#     create: false
+#     existingSecret: "prod-telegram-secrets"
+#     existingSecretKeys:
+#       telegramBotToken: telegram-bot-token
+#       telegramChatId: telegram-chat-id
+#
+# # Production security settings
+# podSecurityContext:
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   fsGroup: 2000
+#
+# securityContext:
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+#   capabilities:
+#     drop:
+#     - ALL
+#
+# # Node affinity for production
+# nodeSelector:
+#   workload-type: management
+#
+# tolerations:
+#   - key: "management"
+#     operator: "Equal"
+#     value: "true"
+#     effect: "NoSchedule"
+
+# ============================================
+# USING EXISTING SECRETS
+# ============================================
+# If you want to use existing secrets (recommended for production)
+
+# certRenewal:
+#   secrets:
+#     create: false
+#     existingSecret: "my-existing-telegram-secret"
+#     existingSecretKeys:
+#       telegramBotToken: bot-token-key
+#       telegramChatId: chat-id-key
+
+# ============================================
+# MINIMAL INSTALLATION
+# ============================================
+# Only enable certificate checking without automatic renewal
+
+# certChecker:
+#   enabled: true
+#
+# certRenewal:
+#   enabled: false
+
+# ============================================
+# CUSTOM RBAC
+# ============================================
+# Add additional RBAC rules if needed
+
+# certChecker:
+#   rbac:
+#     extraRules:
+#       - apiGroups: [""]
+#         resources: ["events"]
+#         verbs: ["create", "patch"]
+#
+# certRenewal:
+#   rbac:
+#     extraRules:
+#       - apiGroups: [""]
+#         resources: ["events"]
+#         verbs: ["create", "patch"]
+
+# ============================================
+# CUSTOM LABELS AND ANNOTATIONS
+# ============================================
+
+# commonLabels:
+#   app.kubernetes.io/part-of: etcd-management
+#   environment: production
+#   team: platform
+#
+# commonAnnotations:
+#   managed-by: helm
+#   contact: platform-team@example.com

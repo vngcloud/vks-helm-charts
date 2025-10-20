@@ -1,0 +1,12 @@
+{{- if .Values.certRenewal.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "etcd-manager.certRenewal.configMapName" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "etcd-manager.certRenewal.labels" . | nindent 4 }}
+data:
+  zone: {{ .Values.certRenewal.config.zone | quote }}
+  proxy-url: {{ .Values.certRenewal.config.proxyUrl | quote }}
+{{- end }}

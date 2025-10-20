@@ -1,0 +1,81 @@
+{{- if .Values.certRenewal.enabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.certRenewal.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "etcd-manager.certRenewal.labels" . | nindent 4 }}
+  {{- with .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  schedule: {{ .Values.certRenewal.schedule | quote }}
+  successfulJobsHistoryLimit: {{ .Values.certRenewal.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.certRenewal.failedJobsHistoryLimit }}
+  concurrencyPolicy: {{ .Values.certRenewal.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ .Values.certRenewal.backoffLimit }}
+      template:
+        metadata:
+          labels:
+            {{- include "etcd-manager.certRenewal.labels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "etcd-manager.certRenewal.serviceAccountName" . }}
+          restartPolicy: OnFailure
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.podSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+          - name: cert-renewal
+            image: "{{ .Values.certRenewal.image.repository }}:{{ .Values.certRenewal.image.tag }}"
+            imagePullPolicy: {{ .Values.certRenewal.image.pullPolicy }}
+            {{- with .Values.securityContext }}
+            securityContext:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+            env:
+            - name: NAMESPACE
+              value: {{ .Values.namespace | quote }}
+            - name: CONFIGMAP_NAME
+              value: {{ .Values.certRenewal.configMapName | quote }}
+            - name: ZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "etcd-manager.certRenewal.configMapName" . }}
+                  key: zone
+                  optional: true
+            - name: CERT_TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "etcd-manager.certRenewal.secretName" . }}
+                  key: {{ .Values.certRenewal.secrets.existingSecretKeys.telegramBotToken }}
+            - name: CERT_TELEGRAM_CHAT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "etcd-manager.certRenewal.secretName" . }}
+                  key: {{ .Values.certRenewal.secrets.existingSecretKeys.telegramChatId }}
+            - name: CERT_PROXY_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "etcd-manager.certRenewal.configMapName" . }}
+                  key: proxy-url
+                  optional: true
+            resources:
+              {{- toYaml .Values.certRenewal.resources | nindent 14 }}
+{{- end }}

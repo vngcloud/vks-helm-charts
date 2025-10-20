@@ -1,0 +1,80 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }} -n {{ .Values.namespace }}
+  $ helm get all {{ .Release.Name }} -n {{ .Values.namespace }}
+
+===================================
+ETCD Manager has been deployed!
+===================================
+
+Components installed:
+
+{{- if .Values.certChecker.enabled }}
+
+✓ Certificate Checker CronJob
+  - Name: {{ .Values.certChecker.name }}
+  - Schedule: {{ .Values.certChecker.schedule }}
+  - Checks certificates expiring within {{ .Values.certChecker.checkDays }} days
+  - Results stored in ConfigMap: {{ .Values.certChecker.configMapName }}
+
+To manually trigger a certificate check:
+  kubectl create job --from=cronjob/{{ .Values.certChecker.name }} -n {{ .Values.namespace }} manual-cert-check-$(date +%s)
+
+To view the last check results:
+  kubectl get configmap {{ .Values.certChecker.configMapName }} -n {{ .Values.namespace }} -o yaml
+
+{{- end }}
+
+{{- if .Values.certRenewal.enabled }}
+
+✓ Certificate Renewal CronJob
+  - Name: {{ .Values.certRenewal.name }}
+  - Schedule: {{ .Values.certRenewal.schedule }}
+  - Renews certificates for instances listed in ConfigMap: {{ .Values.certRenewal.configMapName }}
+  - Notifications: Telegram ({{ if .Values.certRenewal.secrets.create }}configured{{ else }}using existing secret{{ end }})
+
+To manually trigger a certificate renewal:
+  kubectl create job --from=cronjob/{{ .Values.certRenewal.name }} -n {{ .Values.namespace }} manual-cert-renewal-$(date +%s)
+
+To view renewal job logs:
+  kubectl logs -n {{ .Values.namespace }} -l app.kubernetes.io/component=cert-renewal --tail=100
+
+{{- end }}
+
+===================================
+Monitoring & Troubleshooting
+===================================
+
+View CronJob status:
+  kubectl get cronjob -n {{ .Values.namespace }}
+
+View recent jobs:
+  kubectl get jobs -n {{ .Values.namespace }} --sort-by=.metadata.creationTimestamp
+
+View failed job logs:
+  kubectl logs -n {{ .Values.namespace }} -l job-name=<job-name>
+
+Check RBAC permissions:
+  kubectl auth can-i --as=system:serviceaccount:{{ .Values.namespace }}:{{ include "etcd-manager.certChecker.serviceAccountName" . }} get secrets -n {{ .Values.namespace }}
+  kubectl auth can-i --as=system:serviceaccount:{{ .Values.namespace }}:{{ include "etcd-manager.certRenewal.serviceAccountName" . }} patch statefulsets -n {{ .Values.namespace }}
+
+===================================
+Configuration
+===================================
+
+To customize the deployment, update your values.yaml and upgrade:
+  helm upgrade {{ .Release.Name }} . -n {{ .Values.namespace }} -f values.yaml
+
+Key configuration options:
+  - certChecker.schedule: Adjust certificate check schedule
+  - certChecker.checkDays: Modify expiration threshold
+  - certRenewal.schedule: Adjust renewal schedule
+  - certRenewal.config: Update zone and proxy settings
+  - resources: Adjust CPU/memory limits
+
+For more information, see the chart README or visit:
+  https://github.com/your-org/etcd-manager

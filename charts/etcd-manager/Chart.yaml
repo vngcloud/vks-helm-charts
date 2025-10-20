@@ -1,0 +1,17 @@
+apiVersion: v2
+name: etcd-manager
+description: A Helm chart for managing ETCD certificate lifecycle and health monitoring in Kamaji environments
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - etcd
+  - certificate-management
+  - kamaji
+  - cronjob
+  - monitoring
+maintainers:
+  - name: VNG Cloud Platform Team
+home: https://github.com/vngcloud/etcd-manager
+sources:
+  - https://github.com/vngcloud/etcd-manager

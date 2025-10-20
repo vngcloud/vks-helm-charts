@@ -1,0 +1,143 @@
+# Default values for etcd-manager
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global settings
+namespace: datastore
+nameOverride: ""
+fullnameOverride: ""
+
+# Certificate expiry checker configuration
+certChecker:
+  enabled: true
+  name: cert-expiry-checker
+  # CronJob schedule (default: daily at 2:00 AM)
+  schedule: "0 2 * * *"
+  # Number of days before expiration to trigger renewal
+  checkDays: 40
+  # ConfigMap name to store check results
+  configMapName: etcd-renewal
+
+  image:
+    repository: _CHANGE_ME_
+    tag: latest
+    pullPolicy: Always
+
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "128Mi"
+      cpu: "200m"
+
+  # CronJob history limits
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+
+  # ServiceAccount configuration
+  serviceAccount:
+    create: true
+    name: cert-checker-sa
+    annotations: {}
+
+  # RBAC configuration
+  rbac:
+    create: true
+    # Additional rules to add to the Role
+    extraRules: []
+
+# Certificate renewal configuration
+certRenewal:
+  enabled: true
+  name: etcd-cert-renewal
+  # CronJob schedule (default: daily at 10:00 AM)
+  schedule: "0 3 * * *"
+  # ConfigMap name to read instances needing renewal
+  configMapName: etcd-renewal
+
+  image:
+    repository: _CHANGE_ME_
+    tag: v1.0.0
+    pullPolicy: Always
+
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+  # CronJob history limits and policies
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  backoffLimit: 2
+
+  # ServiceAccount configuration
+  serviceAccount:
+    create: true
+    name: cert-renewal-sa
+    annotations: {}
+
+  # RBAC configuration
+  rbac:
+    create: true
+    # Create ClusterRole for reading Kamaji TCP resources
+    createClusterRole: true
+    clusterRoleName: cert-renewal-tcp-reader
+    # Additional rules to add to the Role
+    extraRules: []
+
+  # Configuration settings
+  config:
+    zone: "DEV"
+    proxyUrl: "_CHANGE_ME_"
+
+  # Secret configuration for Telegram notifications
+  secrets:
+    # If create is false, must specify existingSecret
+    create: true
+    name: cert-renewal-secrets
+    # Telegram bot token for notifications
+    telegramBotToken: "_CHANGE_ME_"
+    # Telegram chat ID for notifications
+    telegramChatId: "_CHANGE_ME_"
+    # If using existing secret, specify the name
+    existingSecret: ""
+    # Keys in the existing secret
+    existingSecretKeys:
+      telegramBotToken: telegram-bot-token
+      telegramChatId: telegram-chat-id
+
+# Pod Security Context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# Security Context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Node selector for both CronJobs
+nodeSelector: {}
+
+# Tolerations for both CronJobs
+tolerations: []
+
+# Affinity for both CronJobs
+affinity: {}
+
+# Additional labels to add to all resources
+commonLabels: {}
+  # app.kubernetes.io/part-of: etcd-management
+  # environment: production
+
+# Additional annotations to add to all resources
+commonAnnotations: {}
+  # managed-by: helm
