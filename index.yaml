@@ -826,6 +826,29 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/coredns-1.31.0/coredns-1.31.0.tgz
     version: 1.31.0
+  etcd-manager:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-10-20T08:47:28.625879959Z"
+    description: A Helm chart for managing ETCD certificate lifecycle and health monitoring
+      in Kamaji environments
+    digest: 9c5bd6a206a81441421225128391eeb481bd8e55e64bd38b243a0a640ed479f3
+    home: https://github.com/vngcloud/etcd-manager
+    keywords:
+    - etcd
+    - certificate-management
+    - kamaji
+    - cronjob
+    - monitoring
+    maintainers:
+    - name: VNG Cloud Platform Team
+    name: etcd-manager
+    sources:
+    - https://github.com/vngcloud/etcd-manager
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/etcd-manager-1.0.0/etcd-manager-1.0.0.tgz
+    version: 1.0.0
   postgresql:
   - annotations:
       category: Database
@@ -2369,4 +2392,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-10-16T09:01:07.14576136Z"
+generated: "2025-10-20T08:47:28.626082117Z"
