@@ -15,9 +15,12 @@ metadata:
   {{- end }}
   labels:
     app: spire-server
-  {{- with .Values.authentication.mutual.spire.install.server.labels }}
+    {{- with .Values.commonLabels }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
+    {{- with .Values.authentication.mutual.spire.install.server.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
@@ -28,10 +31,14 @@ spec:
     metadata:
       labels:
         app: spire-server
+        {{- with .Values.commonLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- with .Values.authentication.mutual.spire.install.server.labels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      priorityClassName: {{ include "cilium.priorityClass" (list $ .Values.authentication.mutual.spire.install.server.priorityClassName "system-node-critical") }}
       serviceAccountName: {{ .Values.authentication.mutual.spire.install.server.serviceAccount.name }}
       shareProcessNamespace: true
       {{- with .Values.authentication.mutual.spire.install.server.podSecurityContext }}
@@ -65,6 +72,10 @@ spec:
         args:
         - -config
         - /run/spire/config/server.conf
+        {{- with .Values.authentication.mutual.spire.install.server.resources }}
+        resources:
+          {{- toYaml . | trim | nindent 10 }}
+        {{- end }}        
         ports:
         - name: grpc
           containerPort: 8081
