@@ -1084,6 +1084,22 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/redis-19.3.0/redis-19.3.0.tgz
     version: 19.3.0
+  tigera-operator:
+  - apiVersion: v2
+    appVersion: v3.29.6
+    created: "2025-11-03T14:03:14.798089139Z"
+    description: Installs the Tigera operator for Calico
+    digest: 4385a10f40396df8850cb0ca4ba2d28d6973828976f8752414f0fb5c62ccd971
+    home: https://docs.tigera.io/calico
+    icon: https://docs.tigera.io/img/calico-logo.png
+    name: tigera-operator
+    sources:
+    - https://github.com/projectcalico/calico/tree/master/charts/tigera-operator
+    - https://github.com/tigera/operator
+    - https://github.com/projectcalico/calico
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/tigera-operator-v3.29.6/tigera-operator-v3.29.6.tgz
+    version: v3.29.6
   vault:
   - annotations:
       charts.openshift.io/name: HashiCorp Vault
@@ -2497,4 +2513,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-11-03T08:04:48.125717622Z"
+generated: "2025-11-03T14:03:14.798285907Z"
