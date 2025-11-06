@@ -1,0 +1,26 @@
+{{- if .Values.etcdMetricSidecar.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.etcdMetricSidecar.serviceName | default "etcd-metric" }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vmonitor-metric-agent.labels" . | nindent 4 }}
+    app.kubernetes.io/component: etcd-metric-sidecar
+spec:
+  type: ClusterIP
+  clusterIP: None
+  sessionAffinity: None
+  internalTrafficPolicy: Cluster
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+  - IPv4
+  ports:
+  - name: metrics
+    port: 2382
+    protocol: TCP
+    targetPort: 2382
+  selector:
+    {{- include "vmonitor-metric-agent.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: etcd-metric-sidecar
+{{- end }}

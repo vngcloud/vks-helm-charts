@@ -1,0 +1,80 @@
+{{- if .Values.etcdMetricSidecar.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "vmonitor-metric-agent.fullname" . }}-etcd-metric-sidecar
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vmonitor-metric-agent.labels" . | nindent 4 }}
+    app.kubernetes.io/component: etcd-metric-sidecar
+spec:
+  {{- if .Values.etcdMetricSidecar.persistentVolumeClaimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    {{- toYaml .Values.etcdMetricSidecar.persistentVolumeClaimRetentionPolicy | nindent 4 }}
+  {{- end }}
+  podManagementPolicy: {{ .Values.etcdMetricSidecar.podManagementPolicy | default "OrderedReady" }}
+  replicas: {{ .Values.etcdMetricSidecar.replicas }}
+  revisionHistoryLimit: {{ .Values.etcdMetricSidecar.revisionHistoryLimit | default 10 }}
+  selector:
+    matchLabels:
+      {{- include "vmonitor-metric-agent.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: etcd-metric-sidecar
+  serviceName: {{ .Values.etcdMetricSidecar.serviceName }}
+  template:
+    metadata:
+      labels:
+        {{- include "vmonitor-metric-agent.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: etcd-metric-sidecar
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- if .Values.podAnnotations }}
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- if .Values.etcdMetricSidecar.affinity }}
+      affinity:
+        {{- toYaml .Values.etcdMetricSidecar.affinity | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: etcd-metric-sidecar
+        command:
+        - /bin/sh
+        - -c
+        - {{ .Values.etcdMetricSidecar.command | default "socat TCP-LISTEN:2382,fork TCP:127.0.0.1:2381" }}
+        image: "{{ .Values.etcdMetricSidecar.image.repository }}:{{ .Values.etcdMetricSidecar.image.tag }}"
+        imagePullPolicy: {{ .Values.etcdMetricSidecar.image.pullPolicy | default "Always" }}
+        {{- if .Values.etcdMetricSidecar.resources }}
+        resources:
+          {{- toYaml .Values.etcdMetricSidecar.resources | nindent 10 }}
+        {{- end }}
+      dnsPolicy: {{ .Values.etcdMetricSidecar.dnsPolicy | default "ClusterFirst" }}
+      hostNetwork: {{ .Values.etcdMetricSidecar.hostNetwork | default true }}
+      {{- if .Values.etcdMetricSidecar.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.etcdMetricSidecar.nodeSelector | nindent 8 }}
+      {{- end }}
+      restartPolicy: {{ .Values.etcdMetricSidecar.restartPolicy | default "Always" }}
+      {{- if .Values.etcdMetricSidecar.securityContext }}
+      securityContext:
+        {{- toYaml .Values.etcdMetricSidecar.securityContext | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.etcdMetricSidecar.terminationGracePeriodSeconds | default 30 }}
+      {{- if .Values.etcdMetricSidecar.tolerations }}
+      tolerations:
+        {{- toYaml .Values.etcdMetricSidecar.tolerations | nindent 6 }}
+      {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+      {{- end }}
+  updateStrategy:
+    {{- if .Values.etcdMetricSidecar.updateStrategy }}
+    {{- toYaml .Values.etcdMetricSidecar.updateStrategy | nindent 4 }}
+    {{- else }}
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+    {{- end }}
+{{- end }}

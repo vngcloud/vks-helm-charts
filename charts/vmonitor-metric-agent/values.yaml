@@ -521,3 +521,78 @@ pdb:
 # hooks:
 #   postStart: ["/bin/sh", "-c", "echo vMonitor Metric Agent started"]
 #   preStop: ["/bin/sh", "-c", "sleep 60"]
+
+## etcd Metric Sidecar Configuration
+## This sidecar exposes etcd metrics through socat proxy
+etcdMetricSidecar:
+  enabled: false
+  replicas: 5
+  serviceName: "etcd-metric"
+  revisionHistoryLimit: 10
+  podManagementPolicy: OrderedReady
+
+  image:
+    repository: "vcr.vngcloud.vn/81-vks-public/socat"
+    tag: "latest"
+    pullPolicy: Always
+
+  ## Command to run in the sidecar container
+  ## Default forwards etcd metrics port 2381 to 2382
+  command: "socat TCP-LISTEN:2382,fork TCP:127.0.0.1:2381"
+
+  ## PersistentVolumeClaim retention policy
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+
+  ## Resource limits and requests
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+
+  ## Node selector to run on control plane nodes
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+
+  ## Tolerations for control plane nodes
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+    operator: Equal
+
+  ## Affinity configuration
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: beta.kubernetes.io/os
+            operator: In
+            values:
+            - linux
+        topologyKey: kubernetes.io/hostname
+
+  ## Use host network to access etcd metrics
+  hostNetwork: true
+
+  ## DNS policy
+  dnsPolicy: ClusterFirst
+
+  ## Restart policy
+  restartPolicy: Always
+
+  ## Security context
+  securityContext: {}
+
+  ## Termination grace period in seconds
+  terminationGracePeriodSeconds: 30
+
+  ## Update strategy
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
