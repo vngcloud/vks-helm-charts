@@ -527,7 +527,7 @@ pdb:
 etcdMetricSidecar:
   enabled: false
   replicas: 5
-  serviceName: "etcd-metric"
+  serviceName: "vks-etcd-metric"
   revisionHistoryLimit: 10
   podManagementPolicy: OrderedReady
 
