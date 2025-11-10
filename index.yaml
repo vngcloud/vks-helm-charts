@@ -1145,6 +1145,29 @@ entries:
   vmonitor-metric-agent:
   - apiVersion: v2
     appVersion: 1.26.2
+    created: "2025-11-10T03:58:22.578883547Z"
+    dependencies:
+    - condition: vmonitor.kubeStateMetricsEnabled
+      name: kube-state-metrics
+      repository: file://charts/kube-state-metrics
+      version: 4.20.0
+    description: vMonitor Platform Metric Agent
+    digest: acadbe9838061f33302061e9ec4120d24fca501c2cbaa6bbb4016163ca287a5a
+    home: https://www.vngcloud.vn
+    icon: https://vngcloud.github.io/helm-charts-vmonitor/vngcloud-logo.png
+    keywords:
+    - monitoring
+    - alerting
+    - metric
+    maintainers:
+    - email: support@vngcloud.vn
+      name: VNGCloud
+    name: vmonitor-metric-agent
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vmonitor-metric-agent-2.0.0/vmonitor-metric-agent-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 1.26.2
     created: "2025-11-10T03:51:09.40926796Z"
     dependencies:
     - condition: vmonitor.kubeStateMetricsEnabled
@@ -2605,4 +2628,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-11-10T03:51:09.409490768Z"
+generated: "2025-11-10T03:58:22.579076025Z"
