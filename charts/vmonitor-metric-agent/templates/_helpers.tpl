@@ -765,11 +765,11 @@ Build kube-state-metrics endpoint
         {{ printf "http://%s-kube-state-metrics.%s:8080/metrics" .Release.Name .Release.Namespace | quote }}
       ]
       kubernetes_services = [
-        "http://etcd-metric-sidecar-0.vks-etcd-metric.kube-system:2382/metrics",
-        "http://etcd-metric-sidecar-1.vks-etcd-metric.kube-system:2382/metrics",
-        "http://etcd-metric-sidecar-2.vks-etcd-metric.kube-system:2382/metrics",
-        "http://etcd-metric-sidecar-3.vks-etcd-metric.kube-system:2382/metrics",
-        "http://etcd-metric-sidecar-4.vks-etcd-metric.kube-system:2382/metrics",
+        "http://etcd-metric-sidecar-0.vks-etcd-metric.monitoring:2382/metrics",
+        "http://etcd-metric-sidecar-1.vks-etcd-metric.monitoring:2382/metrics",
+        "http://etcd-metric-sidecar-2.vks-etcd-metric.monitoring:2382/metrics",
+        "http://etcd-metric-sidecar-3.vks-etcd-metric.monitoring:2382/metrics",
+        "http://etcd-metric-sidecar-4.vks-etcd-metric.monitoring:2382/metrics",
         "http://vks-${CLUSTER_NAME}-etcd-metric.datastore:2381/metrics"
       ]
       
