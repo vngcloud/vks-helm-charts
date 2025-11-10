@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: vks-etcd-metric-sidecar
+  name: etcd-metric-sidecar
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "vmonitor-metric-agent.labels" . | nindent 4 }}
