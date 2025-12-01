@@ -284,11 +284,6 @@ controller:
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
   tolerations:
-    # Không cho scheduler đặt pod lên node bị cordon (unschedulable)
-    - key: "node.kubernetes.io/unschedulable"
-      operator: "Exists"
-      effect: "NoSchedule"
-    # Nếu node mất kết nối, pod không giữ node lại
     - key: "node.kubernetes.io/not-ready"
       operator: "Exists"
       effect: "NoExecute"
@@ -350,12 +345,21 @@ node:
   additionalArgs: []
   affinity: {}
   nodeSelector: {}
-  daemonSetAnnotations: {}
+  daemonSetAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
   podAnnotations: {}
   podLabels: {}
   tolerateAllTaints: true
   tolerations:
-    - operator: Exists
+    - key: "node.kubernetes.io/unschedulable"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node.kubernetes.io/not-ready"
+      operator: "Exists"
+      effect: "NoExecute"
+    - key: "node.kubernetes.io/unreachable"
+      operator: "Exists"
+      effect: "NoExecute"
   resources:
     requests:
       cpu: 10m
