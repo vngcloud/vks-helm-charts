@@ -47,6 +47,7 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
       tolerations:
         {{- with .Values.controller.tolerations }}
         {{- toYaml . | nindent 8 }}
