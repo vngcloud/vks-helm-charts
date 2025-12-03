@@ -284,14 +284,7 @@ controller:
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
   tolerations:
-    - key: "node.kubernetes.io/not-ready"
-      operator: "Exists"
-      effect: "NoExecute"
-      tolerationSeconds: 300
-    - key: "node.kubernetes.io/unreachable"
-      operator: "Exists"
-      effect: "NoExecute"
-      tolerationSeconds: 300
+    - operator: Exists
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:
@@ -351,15 +344,11 @@ node:
   podLabels: {}
   tolerateAllTaints: true
   tolerations:
-    - key: "node.kubernetes.io/unschedulable"
-      operator: "Exists"
-      effect: "NoSchedule"
-    - key: "node.kubernetes.io/not-ready"
-      operator: "Exists"
-      effect: "NoExecute"
-    - key: "node.kubernetes.io/unreachable"
-      operator: "Exists"
-      effect: "NoExecute"
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+      tolerationSeconds: 300
   resources:
     requests:
       cpu: 10m

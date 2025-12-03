@@ -2,7 +2,7 @@ apiVersion: v2
 name: calico
 description: Calico CNI for VngCloud Kubernetes Clusters
 type: application
-version: 1.1.6
+version: 1.1.7
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

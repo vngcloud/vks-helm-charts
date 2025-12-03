@@ -366,7 +366,10 @@ autoscaler:
 
   # expects input structure as per specification https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#toleration-v1-core
   tolerations:
-  - operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+    - key: CriticalAddonsOnly
+      operator: Exists
 
   # resources for autoscaler pod
   resources:
