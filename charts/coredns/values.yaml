@@ -226,7 +226,10 @@ nodeSelector: {}
 #     value: master
 #     effect: NoSchedule
 tolerations:
-- operator: Exists
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+  - key: CriticalAddonsOnly
+    operator: Exists
 
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
 podDisruptionBudget: {}

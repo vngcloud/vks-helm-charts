@@ -284,7 +284,11 @@ controller:
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
   tolerations:
-    - operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+      tolerationSeconds: 300
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:

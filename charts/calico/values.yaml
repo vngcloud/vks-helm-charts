@@ -27,11 +27,12 @@ calicoTypha:
     kubernetes.io/os: linux
   affinity: {}
   tolerations:
-    - operator: Exists
-      effect: NoSchedule
-    - operator: Exists
-      effect: NoExecute
-    - operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
 
 calicoNode:
   maxUnavailable: 1
