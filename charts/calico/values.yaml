@@ -8,13 +8,7 @@ calicoKubeControllers:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/control-plane
+  tolerations: {}
 
 calicoTypha:
   maxUnavailable: 1
@@ -26,13 +20,7 @@ calicoTypha:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/control-plane
+  tolerations: {}
 
 calicoNode:
   maxUnavailable: 1
@@ -48,10 +36,4 @@ calicoNode:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
-    - key: CriticalAddonsOnly
-      operator: Exists
+  tolerations: {}

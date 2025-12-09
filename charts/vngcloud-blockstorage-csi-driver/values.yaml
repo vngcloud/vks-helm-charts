@@ -283,12 +283,7 @@ controller:
     annotations: {}
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
-      tolerationSeconds: 300
+  tolerations: {}
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:
@@ -342,17 +337,11 @@ node:
   additionalArgs: []
   affinity: {}
   nodeSelector: {}
-  daemonSetAnnotations:
-    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+  daemonSetAnnotations: {}
   podAnnotations: {}
   podLabels: {}
   tolerateAllTaints: true
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
-      tolerationSeconds: 300
+  tolerations: {}
   resources:
     requests:
       cpu: 10m

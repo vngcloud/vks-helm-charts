@@ -8,4 +8,4 @@ sources:
 - https://github.com/projectcalico/calico/tree/master/charts/tigera-operator
 - https://github.com/tigera/operator
 - https://github.com/projectcalico/calico
-version: v3.29.6
+version: v3.29.7

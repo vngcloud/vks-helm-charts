@@ -225,11 +225,7 @@ nodeSelector: {}
 #     operator: Equal
 #     value: master
 #     effect: NoSchedule
-tolerations:
-  - effect: NoSchedule
-    key: node-role.kubernetes.io/control-plane
-  - key: CriticalAddonsOnly
-    operator: Exists
+tolerations: {}
 
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
 podDisruptionBudget: {}
@@ -368,11 +364,7 @@ autoscaler:
   nodeSelector: {}
 
   # expects input structure as per specification https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#toleration-v1-core
-  tolerations:
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/control-plane
-    - key: CriticalAddonsOnly
-      operator: Exists
+  tolerations: {}
 
   # resources for autoscaler pod
   resources:

@@ -39,11 +39,7 @@ resources: {}
 additionalLabels: {}
 
 # Tolerations for the tigera/operator pod.
-tolerations:
-- effect: NoExecute
-  operator: Exists
-- effect: NoSchedule
-  operator: Exists
+tolerations: {}
 
 # NodeSelector for the tigera/operator pod.
 nodeSelector:
