@@ -36,4 +36,8 @@ calicoNode:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations: {}
+  tolerations:
+    - operator: Exists
+      effect: NoSchedule
+    - operator: Exists
+      effect: NoExecute

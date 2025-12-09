@@ -341,7 +341,11 @@ node:
   podAnnotations: {}
   podLabels: {}
   tolerateAllTaints: true
-  tolerations: {}
+  tolerations:
+    - operator: Exists
+      effect: NoSchedule
+    - operator: Exists
+      effect: NoExecute
   resources:
     requests:
       cpu: 10m
