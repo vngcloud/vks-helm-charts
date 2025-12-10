@@ -40,3 +40,69 @@ helm install \
   --version v1.17.2 \
   --set crds.enabled=true
 ```
+
+## How to Copy Helm Charts from Community to this Repository
+
+1. **Add the community helm repository**
+
+   ```bash
+   helm repo add <repo-name> <repo-url>
+   helm repo update
+   ```
+
+   Example:
+
+   ```bash
+   helm repo add bitnami https://charts.bitnami.com/bitnami
+   helm repo update
+   ```
+
+2. **Search and identify the chart version**
+
+   ```bash
+   helm search repo <repo-name>/<chart-name>
+   ```
+
+   Example:
+
+   ```bash
+   helm search repo bitnami/nginx
+   ```
+
+3. **Pull the chart to local directory**
+
+   ```bash
+   helm pull <repo-name>/<chart-name> --version <version> --untar --untardir ./charts/
+   ```
+
+   Example:
+
+   ```bash
+   helm pull bitnami/nginx --version 22.3.3 --untar --untardir ./charts/
+   ```
+
+4. **Navigate to the chart directory**
+
+   ```bash
+   cd ./charts/<chart-name>
+   ```
+
+5. **Review and modify the chart**
+
+   - Check `Chart.yaml` for metadata
+   - Review `values.yaml` for default configurations
+   - Make a copy of docker image references to point to VCR if necessary
+   - **Should not modify the original chart structure significantly to ease future updates**
+
+6. **Validate the chart**
+
+   ```bash
+   helm lint .
+   helm template . --debug
+   ```
+
+7. **Test the chart locally**
+
+   ```bash
+   helm install test-release . --dry-run --debug
+   ```
