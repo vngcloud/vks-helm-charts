@@ -15,7 +15,17 @@ installation:
   # Example: --set installation.imagePullSecrets[0].name=my-existing-secret
   imagePullSecrets: []
 
+# apiServer configures the Calico API server, needed for interacting with
+# the projectcalico.org/v3 suite of APIs.
 apiServer:
+  enabled: true
+
+# goldmane configures the Calico Goldmane flow aggregator.
+goldmane:
+  enabled: true
+
+# whisker configures the Calico Whisker observability UI.
+whisker:
   enabled: true
 
 defaultFelixConfiguration:
@@ -32,6 +42,10 @@ certs:
     commonName:
     caBundle:
 
+# Whether or not the tigera/operator should manange CustomResourceDefinitions
+# needed to run itself and Calico. If disabled, you must manage these resources out-of-band.
+manageCRDs: true
+
 # Resource requests and limits for the tigera/operator pod.
 resources: {}
 
@@ -39,7 +53,11 @@ resources: {}
 additionalLabels: {}
 
 # Tolerations for the tigera/operator pod.
-tolerations: {}
+tolerations:
+- effect: NoExecute
+  operator: Exists
+- effect: NoSchedule
+  operator: Exists
 
 # NodeSelector for the tigera/operator pod.
 nodeSelector:
@@ -62,11 +80,11 @@ dnsConfig: {}
 # Image and registry configuration for the tigera/operator pod.
 tigeraOperator:
   image: tigera/operator
-  version: v1.36.14
+  version: v1.38.9
   registry: vcr.vngcloud.vn/81-vks-public/
 calicoctl:
-  image: vcr.vngcloud.vn/81-vks-public/docker.io/calico/ctl
-  tag: v3.29.6
+  image: vcr.vngcloud.vn/81-vks-public/calico/ctl
+  tag: v3.30.5
 
 kubeletVolumePluginPath: /var/lib/kubelet
 
