@@ -1420,6 +1420,21 @@ entries:
     version: 19.3.0
   tigera-operator:
   - apiVersion: v2
+    appVersion: v3.30.5
+    created: "2025-12-11T03:16:18.54512505Z"
+    description: Installs the Tigera operator for Calico
+    digest: c3596e4301c294e233561a2cc0375ec22363bcafad790b3da1c61a291dd11238
+    home: https://docs.tigera.io/calico
+    icon: https://docs.tigera.io/img/calico-logo.png
+    name: tigera-operator
+    sources:
+    - https://github.com/projectcalico/calico/tree/master/charts/tigera-operator
+    - https://github.com/tigera/operator
+    - https://github.com/projectcalico/calico
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/tigera-operator-v3.30.5/tigera-operator-v3.30.5.tgz
+    version: v3.30.5
+  - apiVersion: v2
     appVersion: v3.29.6
     created: "2025-12-09T09:42:32.677243156Z"
     description: Installs the Tigera operator for Calico
@@ -3174,4 +3189,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2025-12-10T07:49:56.579564038Z"
+generated: "2025-12-11T03:16:18.545378462Z"
