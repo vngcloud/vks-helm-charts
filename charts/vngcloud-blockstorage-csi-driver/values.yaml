@@ -283,7 +283,10 @@ controller:
     annotations: {}
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
-  tolerations: {}
+  tolerations:
+    - effect: NoExecute
+      operator: Exists
+      tolerationSeconds: 60
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:
