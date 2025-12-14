@@ -1,5 +1,5 @@
 calicoKubeControllers:
-  maxUnavailable: 1
+  maxUnavailable:: 1
   image:
     controllers:
       repository: "vcr.vngcloud.vn/81-vks-public/calico-kube-controllers"
@@ -8,7 +8,14 @@ calicoKubeControllers:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations: {}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+    - operator: Exists
 
 calicoTypha:
   maxUnavailable: 1
@@ -20,7 +27,14 @@ calicoTypha:
   nodeSelector:
     kubernetes.io/os: linux
   affinity: {}
-  tolerations: {}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+    - operator: Exists
 
 calicoNode:
   maxUnavailable: 1
@@ -37,7 +51,10 @@ calicoNode:
     kubernetes.io/os: linux
   affinity: {}
   tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
     - operator: Exists
-      effect: NoSchedule
-    - operator: Exists
-      effect: NoExecute
