@@ -224,9 +224,6 @@ nodeSelector:
 # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 tolerations:
   - operator: Exists
-    effect: NoSchedule
-  - operator: Exists
-    effect: NoExecute
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1481,7 +1478,8 @@ hubble:
       kubernetes.io/os: linux
     # -- Node tolerations for pod assignment on nodes with taints
     # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
-    tolerations: []
+    tolerations:
+      - operator: Exists
     # -- Additional hubble-relay environment variables.
     extraEnv: []
     # -- Annotations to be added to all top-level hubble-relay objects (resources under templates/hubble-relay)
@@ -1801,7 +1799,8 @@ hubble:
       kubernetes.io/os: linux
     # -- Node tolerations for pod assignment on nodes with taints
     # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
-    tolerations: []
+    tolerations:
+      - operator: Exists
     # -- The priority class to use for hubble-ui
     priorityClassName: ""
     # -- hubble-ui update strategy.
