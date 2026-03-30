@@ -1135,7 +1135,7 @@ certgen:
     repository: "${CERTGEN_REPO}"
     tag: "${CERTGEN_VERSION}"
     digest: "${CERTGEN_DIGEST}"
-    useDigest: false
+    useDigest: true
     pullPolicy: "${PULL_POLICY}"
   # -- Seconds after which the completed job pod will be deleted
   ttlSecondsAfterFinished: 1800
@@ -1711,7 +1711,7 @@ hubble:
         repository: "${HUBBLE_UI_BACKEND_REPO}"
         tag: "${HUBBLE_UI_BACKEND_VERSION}"
         digest: "${HUBBLE_UI_BACKEND_DIGEST}"
-        useDigest: false
+        useDigest: true
         pullPolicy: "${PULL_POLICY}"
       # -- Hubble-ui backend security context.
       securityContext: {}
@@ -1745,7 +1745,7 @@ hubble:
         repository: "${HUBBLE_UI_FRONTEND_REPO}"
         tag: "${HUBBLE_UI_FRONTEND_VERSION}"
         digest: "${HUBBLE_UI_FRONTEND_DIGEST}"
-        useDigest: false
+        useDigest: true
         pullPolicy: "${PULL_POLICY}"
       # -- Hubble-ui frontend security context.
       securityContext: {}
@@ -2380,7 +2380,7 @@ envoy:
     tag: "${CILIUM_ENVOY_VERSION}"
     pullPolicy: "${PULL_POLICY}"
     digest: "${CILIUM_ENVOY_DIGEST}"
-    useDigest: false
+    useDigest: true
   # -- Additional containers added to the cilium Envoy DaemonSet.
   extraContainers: []
   # -- Additional envoy container arguments.
@@ -2938,7 +2938,7 @@ nodeinit:
     repository: "${CILIUM_NODEINIT_REPO}"
     tag: "${CILIUM_NODEINIT_VERSION}"
     digest: "${CILIUM_NODEINIT_DIGEST}"
-    useDigest: false
+    useDigest: true
     pullPolicy: "${PULL_POLICY}"
   # -- The priority class to use for the nodeinit pod.
   priorityClassName: ""
@@ -3689,7 +3689,7 @@ authentication:
           repository: "${SPIRE_INIT_REPO}"
           tag: "${SPIRE_INIT_VERSION}"
           digest: "${SPIRE_INIT_DIGEST}"
-          useDigest: false
+          useDigest: true
           pullPolicy: "${PULL_POLICY}"
         # SPIRE agent configuration
         agent:
@@ -3704,7 +3704,7 @@ authentication:
             repository: "${SPIRE_AGENT_REPO}"
             tag: "${SPIRE_AGENT_VERSION}"
             digest: "${SPIRE_AGENT_DIGEST}"
-            useDigest: false
+            useDigest: true
             pullPolicy: "${PULL_POLICY}"
           # -- SPIRE agent service account
           serviceAccount:
@@ -3759,7 +3759,7 @@ authentication:
             repository: "${SPIRE_SERVER_REPO}"
             tag: "${SPIRE_SERVER_VERSION}"
             digest: "${SPIRE_SERVER_DIGEST}"
-            useDigest: false
+            useDigest: true
             pullPolicy: "${PULL_POLICY}"
           # -- SPIRE server service account
           serviceAccount:

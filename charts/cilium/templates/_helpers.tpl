@@ -16,13 +16,13 @@ Return the namespace to use for namespaced resources.
 Render full image name from given values, e.g:
 ```
 image:
-  repository: vcr.vngcloud.vn/81-vks-public/cilium/cilium
+  repository: quay.io/cilium/cilium
   tag: v1.10.1
-  useDigest: false
+  useDigest: true
   digest: abcdefgh
 ```
 then `include "cilium.image" .Values.image`
-will return `vcr.vngcloud.vn/81-vks-public/cilium/cilium:v1.10.1@abcdefgh`.
+will return `quay.io/cilium/cilium:v1.10.1@abcdefgh`.
 Note that you can omit the tag by setting its value to `null` or `""` (in case
 your container engine doesn't support specifying both the tag and digest for
 instance).
