@@ -16,13 +16,6 @@ rules:
   - list
   - watch
 - apiGroups:
-  - multicluster.x-k8s.io
-  resources:
-  - serviceimports
-  verbs:
-  - list
-  - watch
-- apiGroups:
   - discovery.k8s.io
   resources:
   - endpointslices
@@ -39,5 +32,15 @@ rules:
   - use
   resourceNames:
   - {{ template "coredns.fullname" . }}
+{{- end }}
+{{- if .Values.rbac.multiclusterEnable }}
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceexports
+  - serviceimports
+  verbs:
+  - list
+  - watch
 {{- end }}
 {{- end }}

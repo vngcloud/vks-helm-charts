@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: vcr.vngcloud.vn/81-vks-public/coredns
+  repository: coredns/coredns
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
   pullPolicy: IfNotPresent
@@ -51,7 +51,7 @@ prometheus:
     selector: {}
 
 service:
-  clusterIP: "10.96.0.10"
+# clusterIP: ""
 # clusterIPs: []
 # loadBalancerIP: ""
 # loadBalancerClass: ""
@@ -107,6 +107,7 @@ securityContext:
 servers:
 - zones:
   - zone: .
+    use_tcp: true
   port: 53
   # -- expose the service on a different port
   # servicePort: 5353
@@ -118,11 +119,9 @@ servers:
   # Serves a /health endpoint on :8080, required for livenessProbe
   - name: health
     configBlock: |-
-      lameduck 5s
+      lameduck 10s
   # Serves a /ready endpoint on :8181, required for readinessProbe
   - name: ready
-  - name: multicluster
-    parameters: clusterset.local
   # Required to query kubernetes API for data
   - name: kubernetes
     parameters: cluster.local in-addr.arpa ip6.arpa
@@ -176,9 +175,9 @@ livenessProbe:
 readinessProbe:
   enabled: true
   initialDelaySeconds: 30
-  periodSeconds: 10
+  periodSeconds: 5
   timeoutSeconds: 5
-  failureThreshold: 5
+  failureThreshold: 1
   successThreshold: 1
 
 # expects input structure as per specification https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#affinity-v1-core
@@ -225,8 +224,7 @@ nodeSelector: {}
 #     operator: Equal
 #     value: master
 #     effect: NoSchedule
-tolerations:
-- operator: Exists
+tolerations: []
 
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
 podDisruptionBudget: {}
@@ -343,8 +341,8 @@ autoscaler:
   #   - --nodelabels=topology.kubernetes.io/zone=us-east-1a
 
   image:
-    repository: vcr.vngcloud.vn/81-vks-public/cluster-proportional-autoscaler
-    tag: "1.8.5"
+    repository: registry.k8s.io/cpa/cluster-proportional-autoscaler
+    tag: "v1.9.0"
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -365,8 +363,7 @@ autoscaler:
   nodeSelector: {}
 
   # expects input structure as per specification https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#toleration-v1-core
-  tolerations:
-  - operator: Exists
+  tolerations: []
 
   # resources for autoscaler pod
   resources:
@@ -406,3 +403,6 @@ deployment:
   annotations: {}
   ## Pod selector
   selector: {}
+
+# Configures initcontainers for the coredns deployment.
+initContainers: []

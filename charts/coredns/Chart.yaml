@@ -1,23 +1,24 @@
-apiVersion: v2
-name: coredns
-version: 1.38.5
-appVersion: 1.11.4
-home: https://coredns.io
-icon: https://coredns.io/images/CoreDNS_Colour_Horizontal.png
-description: CoreDNS is a DNS server that chains plugins and provides Kubernetes DNS Services
-keywords:
-  - coredns
-  - dns
-  - kubedns
-sources:
-  - https://github.com/coredns/coredns
-maintainers:
-  - name: mrueg
-  - name: haad
-  - name: hagaibarel
-  - name: shubham-cmyk
-type: application
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: github action missing "packages" permissions
+    - kind: changed
+      description: Bump to CoreDNS 1.13.1
+apiVersion: v2
+appVersion: 1.13.1
+description: CoreDNS is a DNS server that chains plugins and provides Kubernetes DNS
+  Services
+home: https://coredns.io
+icon: https://coredns.io/images/CoreDNS_Colour_Horizontal.png
+keywords:
+- coredns
+- dns
+- kubedns
+maintainers:
+- name: mrueg
+- name: haad
+- name: hagaibarel
+- name: shubham-cmyk
+name: coredns
+sources:
+- https://github.com/coredns/coredns
+type: application
+version: 1.45.0
