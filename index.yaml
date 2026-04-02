@@ -1144,6 +1144,34 @@ entries:
     version: 1.45.0
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Bump to CoreDNS 1.13.1
+    apiVersion: v2
+    appVersion: 1.13.1
+    created: "2026-04-02T04:34:10.416028465Z"
+    description: CoreDNS is a DNS server that chains plugins and provides Kubernetes
+      DNS Services
+    digest: 1beb165e611e8d9fcc47c5f1d51d3d95eb5084d1d5876ff45391595af7e9030c
+    home: https://coredns.io
+    icon: https://coredns.io/images/CoreDNS_Colour_Horizontal.png
+    keywords:
+    - coredns
+    - dns
+    - kubedns
+    maintainers:
+    - name: mrueg
+    - name: haad
+    - name: hagaibarel
+    - name: shubham-cmyk
+    name: coredns
+    sources:
+    - https://github.com/coredns/coredns
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/coredns-1.45.0-vks.1/coredns-1.45.0-vks.1.tgz
+    version: 1.45.0-vks.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: github action missing "packages" permissions
     apiVersion: v2
@@ -3362,4 +3390,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2026-04-02T02:51:02.01226333Z"
+generated: "2026-04-02T04:34:10.416339625Z"
