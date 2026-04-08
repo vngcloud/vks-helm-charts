@@ -1,4 +1,4 @@
-# Default values for vngcloud-blockstorage-csi-driver.
+# Default values for vks-blockstorage-csi-driver.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -6,12 +6,11 @@ image:
   repository: vcr.vngcloud.vn/81-vks-public/vngcloud-blockstorage-csi-driver
   # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
   tag: ""
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 # -- Custom labels to add into metadata
 customLabels:
   {}
-# k8s-app: vngcloud-blockstorage-csi-driver
 
 sidecars:
   provisioner:
@@ -19,17 +18,18 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-provisioner
-      tag: "v4.0.1"
+      tag: "v5.3.0"
     logLevel: 2
     # Additional parameters provided by external-provisioner.
-    additionalArgs:
-      - "--timeout=5m"
+    additionalArgs: []
     # Grant additional permissions to external-provisioner
     additionalClusterRoleRules:
     resources:
       limits:
-        memory: 100Mi
+        memory: 256Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     # Tune leader lease election for csi-provisioner.
     # Leader election is on by default.
     leaderElection:
@@ -43,12 +43,14 @@ sidecars:
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
   attacher:
     env: []
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-attacher
-      tag: "v4.5.1"
+      tag: "v4.11.0"
     # Tune leader lease election for csi-attacher.
     # Leader election is on by default.
     leaderElection:
@@ -61,16 +63,21 @@ sidecars:
       # retryPeriod: "5s"
     logLevel: 2
     # Additional parameters provided by external-attacher.
-    additionalArgs: []
+    additionalArgs:
+      --timeout=6m
     # Grant additional permissions to external-attacher
     additionalClusterRoleRules: []
     resources:
       limits:
         memory: 100Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
   snapshotter:
     # Enables the snapshotter sidecar even if the snapshot CRDs are not installed
     forceEnable: false
@@ -78,7 +85,7 @@ sidecars:
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-snapshotter
-      tag: "v7.0.2"
+      tag: "v8.5.0"
     logLevel: 2
     # Additional parameters provided by csi-snapshotter.
     additionalArgs: []
@@ -86,31 +93,39 @@ sidecars:
     additionalClusterRoleRules: []
     resources:
       limits:
-        memory: 100Mi
+        memory: 256Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
   livenessProbe:
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-livenessprobe
-      tag: "v2.9.0"
+      tag: "v2.18.0"
     # Additional parameters provided by livenessprobe.
     additionalArgs: []
     resources:
       limits:
-        memory: 100Mi
+        memory: 32Mi
+      requests:
         cpu: 10m
+        memory: 32Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
   resizer:
     env: []
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-resizer
-      tag: "v1.9.4"
+      tag: "v2.1.0"
     # Tune leader lease election for csi-resizer.
     # Leader election is on by default.
     leaderElection:
@@ -128,27 +143,37 @@ sidecars:
     additionalClusterRoleRules: []
     resources:
       limits:
-        memory: 100Mi
+        memory: 256Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
   nodeDriverRegistrar:
     env: []
     image:
       pullPolicy: IfNotPresent
       repository: vcr.vngcloud.vn/81-vks-public/csi-node-driver-registrar
-      tag: "v2.9.4"
-    logLevel: 5
+      tag: "v2.16.0"
+    logLevel: 2
+    httpEndpoint:
     # Additional parameters provided by node-driver-registrar.
-    additionalArgs: []
+    additionalArgs:
+      - --http-endpoint=0.0.0.0:9809
     resources:
       limits:
         memory: 100Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
     livenessProbe:
       exec:
         command:
@@ -158,6 +183,8 @@ sidecars:
       initialDelaySeconds: 30
       periodSeconds: 90
       timeoutSeconds: 15
+      successThreshold: 1
+      failureThreshold: 3
   volumemodifier:
     env: []
     image:
@@ -177,19 +204,23 @@ sidecars:
     additionalArgs: []
     resources:
       limits:
-        memory: 100Mi
+        memory: 256Mi
+      requests:
         cpu: 10m
+        memory: 40Mi
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
 
 proxy:
   http_proxy:
   no_proxy:
 
 imagePullSecrets: []
-nameOverride:
-fullnameOverride:
+nameOverride: ""
+fullnameOverride: "vngcloud-csi"
 
 vngcloudAccessSecret:
   name: vngcloud-csi-secret
@@ -200,24 +231,17 @@ vngcloudAccessSecret:
   vksClusterId: "cluster_id"                              # PUT YOUR ClusterID here
 
 controller:
-  batching: false
+  batching: true
   volumeModificationFeature:
     enabled: true
   # Additional parameters provided by vngcloud-blockstorage-csi-driver controller.
   additionalArgs: []
-  sdkDebugLog: false
   loggingFormat: text
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
         - weight: 100
           podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - vngcloud-csi-controller
             topologyKey: kubernetes.io/hostname
   # The default filesystem type of the volume to provision when fstype is unspecified in the StorageClass.
   # If the default is not set and fstype is unset in the StorageClass, then no fstype will be set
@@ -251,12 +275,12 @@ controller:
   # ID of the Kubernetes cluster used for tagging provisioned VngCloud volumes (optional).
   k8sTagClusterId:
   logLevel: 5
-  userAgentExtra: "helm"
+  userAgentExtra: "vks"
   nodeSelector: {}
   deploymentAnnotations: {}
   podAnnotations: {}
   podLabels: {}
-  priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
+  priorityClassName: system-cluster-critical
   region:
   replicaCount: 2
   revisionHistoryLimit: 10
@@ -265,6 +289,7 @@ controller:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
+      maxSurge: 25%
       maxUnavailable: 1
   # type: RollingUpdate
   # rollingUpdate:
@@ -279,14 +304,27 @@ controller:
   serviceAccount:
     # A service account will be created for you if set to true. Set to false if you want to use your own.
     create: true
-    name: vngcloud-csi-controller-sa
+    name: ""
     annotations: {}
     automountServiceAccountToken: true
   terminationGracePeriodSeconds: 30
   tolerations:
-    - effect: NoExecute
+    - key: CriticalAddonsOnly
       operator: Exists
-      tolerationSeconds: 60
+    - key: components.vks.greennode.ai/greennode-managed-components
+      operator: Exists
+    - effect: NoSchedule
+      key: kubernetes.io/arch
+      operator: Equal
+      value: arm64
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
   topologySpreadConstraints: []
   # securityContext on the controller pod
   securityContext:
@@ -294,13 +332,13 @@ controller:
     runAsUser: 1000
     runAsGroup: 1000
     fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
   # Add additional volume mounts on the controller with controller.volumes and controller.volumeMounts
   volumes:
     - name: add-hosts
       hostPath:
         path: /etc/hosts
-
-
   # Add additional volumes to be mounted onto the controller:
   # - name: custom-dir
   #   hostPath:
@@ -317,18 +355,9 @@ controller:
   containerSecurityContext:
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
   initContainers: []
-  # containers to be run before the controller's container starts.
-  #
-  # Example:
-  #
-  # - name: wait
-  #   image: busybox
-  #   command: [ 'sh', '-c', "sleep 20" ]
-  # Enable opentelemetry tracing for the plugin running on the daemonset
-  otelTracing: {}
-  #  otelServiceName: vngcloud-csi-controller
-  #  otelExporterEndpoint: "http://localhost:4317"
 
 node:
   env: []
@@ -336,7 +365,7 @@ node:
   kubeletPath: /var/lib/kubelet
   loggingFormat: text
   logLevel: 5
-  priorityClassName: vngcloud-blockstorage-csi-driver-priority-class
+  priorityClassName: system-node-critical
   additionalArgs: []
   affinity: {}
   nodeSelector: {}
@@ -360,7 +389,7 @@ node:
     emptyDir: {}
   serviceAccount:
     create: true
-    name: vngcloud-csi-node-sa
+    name: ""
     annotations: {}
     automountServiceAccountToken: true
   # Enable the linux daemonset creation
@@ -372,6 +401,7 @@ node:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
+      maxSurge: 0
       maxUnavailable: "10%"
   hostNetwork: false
   # securityContext on the node pod
@@ -450,46 +480,8 @@ storageClasses:
     allowVolumeExpansion: true
     parameters:
       type: "nvme-iops5000"
-#
-#  - name: vngcloud-ssd-3000-delete
-#    enabled: false
-#    labels:
-#      mininum-size: "1Gi"
-#      maximum-size: "5000Gi"
-#      throughput: "200MBps"
-#      iops: "3000"
-#      volume-type: "SSD"
-#    volumeBindingMode: Immediate
-#    reclaimPolicy: Delete
-#    allowVolumeExpansion: true
-#    parameters:
-#      type: "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
-#  - name: vngcloud-nvme-5000-delete
-#    enabled: false
-#    labels:
-#      mininum-size: "1Gi"
-#      maximum-size: "10000Gi"
-#      throughput: "400MBps"
-#      iops: "5000"
-#      volume-type: "NVME"
-#    volumeBindingMode: Immediate
-#    reclaimPolicy: Delete
-#    allowVolumeExpansion: true
-#    parameters:
-#      type: "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
 
 volumeSnapshotClasses: []
-# Add VolumeSnapshotClass resources like:
-# - name: ebs-vsc
-#   # annotation metadata
-#   annotations:
-#     snapshot.storage.kubernetes.io/is-default-class: "true"
-#   # label metadata
-#   labels:
-#     my-label-is: supercool
-#   # deletionPolicy must be specified
-#   deletionPolicy: Delete
-#   parameters:
 
 helmTester:
   enabled: true

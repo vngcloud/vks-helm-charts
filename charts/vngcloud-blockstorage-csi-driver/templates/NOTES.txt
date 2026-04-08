@@ -1,0 +1,14 @@
+VngCloud BlockStorage CSI Driver has been deployed!
+
+Controller: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-controller
+Node DaemonSet: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-node
+
+Storage Classes:
+{{- range .Values.storageClasses }}
+{{- if .enabled }}
+  - {{ .name }}
+{{- end }}
+{{- end }}
+
+To verify the installation:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "vngcloud-blockstorage-csi-driver.name" . }}

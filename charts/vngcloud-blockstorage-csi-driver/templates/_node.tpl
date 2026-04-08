@@ -43,7 +43,7 @@ spec:
         {{- with .Values.node.nodeSelector }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      serviceAccountName: {{ .Values.node.serviceAccount.name }}
+      serviceAccountName: {{ include "vngcloud-blockstorage-csi-driver.nodeServiceAccountName" . }}
       priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
       tolerations:
         {{- if .Values.node.tolerateAllTaints }}
@@ -124,7 +124,7 @@ spec:
             {{- with .Values.node.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
-          {{- with .Values.controller.envFrom }}
+          {{- with .Values.node.envFrom }}
           envFrom:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
@@ -151,6 +151,16 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+            successThreshold: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: healthz
+              scheme: HTTP
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 3
           {{- with .Values.node.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -184,7 +194,7 @@ spec:
             {{- with .Values.sidecars.nodeDriverRegistrar.env }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
-          {{- with .Values.controller.envFrom }}
+          {{- with .Values.node.envFrom }}
           envFrom:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
@@ -215,7 +225,7 @@ spec:
             {{- range .Values.sidecars.livenessProbe.additionalArgs }}
             - {{ . }}
             {{- end }}
-          {{- with .Values.controller.envFrom }}
+          {{- with .Values.node.envFrom }}
           envFrom:
             {{- . | toYaml | nindent 12 }}
           {{- end }}

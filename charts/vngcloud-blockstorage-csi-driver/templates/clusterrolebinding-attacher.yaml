@@ -2,14 +2,14 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: vngcloud-csi-attacher-binding
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-attacher-binding
   labels:
     {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.controller.serviceAccount.name }}
+    name: {{ include "vngcloud-blockstorage-csi-driver.controllerServiceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: vngcloud-external-attacher-role
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-attacher-role
   apiGroup: rbac.authorization.k8s.io

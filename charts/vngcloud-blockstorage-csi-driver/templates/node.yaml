@@ -1,10 +1,11 @@
+{{- $fullname := include "vngcloud-blockstorage-csi-driver.fullname" . -}}
 {{$defaultArgs := dict
-  "NodeName" "vngcloud-csi-node"
+  "NodeName" (printf "%s-node" $fullname)
 }}
 {{- include "node" (deepCopy $ | mustMerge $defaultArgs) -}}
 {{- range $name, $values := .Values.additionalDaemonSets }}
 {{$args := dict
-  "NodeName" (printf "vngcloud-csi-node-%s" $name)
+  "NodeName" (printf "%s-node-%s" $fullname $name)
   "Values" (dict
     "node" (deepCopy $.Values.node | mustMerge $values)
   )
@@ -13,7 +14,7 @@
 {{- end }}
 {{- if .Values.a1CompatibilityDaemonSet }}
 {{$args := dict
-  "NodeName" "vngcloud-csi-node"
+  "NodeName" (printf "%s-node" $fullname)
   "Values" (dict
     "image" (dict
       "tag" (printf "%s" (default (printf "v%s" .Chart.AppVersion) (.Values.image.tag | toString)))

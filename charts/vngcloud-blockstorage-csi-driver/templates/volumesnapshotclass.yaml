@@ -1,0 +1,15 @@
+{{- range .Values.volumeSnapshotClasses }}
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: {{ .name }}
+  {{- with .annotations }}
+  annotations: {{- . | toYaml | trim | nindent 4 }}
+  {{- end }}
+  {{- with .labels }}
+  labels: {{- . | toYaml | trim | nindent 4 }}
+  {{- end }}
+driver: bs.csi.vngcloud.vn
+{{ omit . "name" "annotations" "labels" | toYaml | indent 0 }}
+{{- end }}

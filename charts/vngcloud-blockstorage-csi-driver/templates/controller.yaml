@@ -1,8 +1,9 @@
+{{- $fullname := include "vngcloud-blockstorage-csi-driver.fullname" . -}}
 # Controller Service
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: vngcloud-csi-controller
+  name: {{ $fullname }}-controller
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
@@ -21,12 +22,12 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: vngcloud-csi-controller
+      app: {{ $fullname }}-controller
       {{- include "vngcloud-blockstorage-csi-driver.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: vngcloud-csi-controller
+        app: {{ $fullname }}-controller
         {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 8 }}
         {{- if .Values.controller.podLabels }}
         {{- toYaml .Values.controller.podLabels | nindent 8 }}
@@ -41,11 +42,22 @@ spec:
         {{- with .Values.controller.nodeSelector }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      serviceAccountName: {{ .Values.controller.serviceAccount.name }}
+      serviceAccountName: {{ include "vngcloud-blockstorage-csi-driver.controllerServiceAccountName" . }}
       priorityClassName: {{ .Values.controller.priorityClassName }}
-      {{- with default .Values.controller.affinity }}
+      {{- if .Values.controller.affinity }}
+      {{- $affinityLabelSelector := dict "labelSelector" ( dict "matchExpressions" ( list ( dict "key" "app" "operator" "In" "values" ( list (printf "%s-controller" $fullname) ) ) ) ) }}
+      {{- $affinity := deepCopy .Values.controller.affinity }}
+      {{- if $affinity.podAntiAffinity }}
+      {{- if $affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution }}
+      {{- $preferred := list }}
+      {{- range $affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution }}
+        {{- $preferred = mustAppend $preferred (dict "weight" .weight "podAffinityTerm" (mergeOverwrite (default (dict) .podAffinityTerm) $affinityLabelSelector)) }}
+      {{- end }}
+      {{- $_ := set $affinity.podAntiAffinity "preferredDuringSchedulingIgnoredDuringExecution" $preferred }}
+      {{- end }}
+      {{- end }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml $affinity | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
       tolerations:
@@ -53,7 +65,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- if .Values.controller.topologySpreadConstraints }}
-      {{- $tscLabelSelector := dict "labelSelector" ( dict "matchLabels" ( dict "app" "vngcloud-csi-controller" ) ) }}
+      {{- $tscLabelSelector := dict "labelSelector" ( dict "matchLabels" ( dict "app" (printf "%s-controller" $fullname) ) ) }}
       {{- $constraints := list }}
       {{- range .Values.controller.topologySpreadConstraints }}
         {{- $constraints = mustAppend $constraints (mergeOverwrite . $tscLabelSelector) }}
@@ -76,17 +88,10 @@ spec:
           command:
             - /bin/vngcloud-blockstorage-csi-driver
           args:
-            {{- if ne .Release.Name "kustomize" }}
             - controller
-            {{- else }}
-            # - {all,controller,node} # specify the driver mode
-            {{- end }}
             - --endpoint=$(CSI_ENDPOINT)
             {{- if .Values.controller.extraVolumeTags }}
               {{- include "vngcloud-blockstorage-csi-driver.extra-volume-tags" . | nindent 12 }}
-            {{- end }}
-            {{- with (tpl (default "" .Values.controller.k8sTagClusterId) . ) }}
-            - --k8s-tag-cluster-id={{ . }}
             {{- end }}
             {{- if and (.Values.controller.enableMetrics) (not .Values.controller.httpEndpoint) }}
             - --http-endpoint=0.0.0.0:3301
@@ -182,18 +187,10 @@ spec:
             httpGet:
               path: /healthz
               port: healthz
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
+            initialDelaySeconds: 20
             periodSeconds: 10
-            failureThreshold: 6
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: healthz
-            initialDelaySeconds: 10
-            timeoutSeconds: 10
-            periodSeconds: 10
-            failureThreshold: 5
+            failureThreshold: 10
+            successThreshold: 1
           {{- with .Values.controller.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -216,23 +213,11 @@ spec:
             - --extra-create-metadata
             {{- end}}
             - --leader-election={{ .Values.sidecars.provisioner.leaderElection.enabled | required "leader election state for csi-provisioner is required, must be set to true || false." }}
-            {{- if .Values.sidecars.provisioner.leaderElection.enabled }}
-            {{- if .Values.sidecars.provisioner.leaderElection.leaseDuration }}
-            - --leader-election-lease-duration={{ .Values.sidecars.provisioner.leaderElection.leaseDuration }}
-            {{- end }}
-            {{- if .Values.sidecars.provisioner.leaderElection.renewDeadline}}
-            - --leader-election-renew-deadline={{ .Values.sidecars.provisioner.leaderElection.renewDeadline }}
-            {{- end }}
-            {{- if .Values.sidecars.provisioner.leaderElection.retryPeriod }}
-            - --leader-election-retry-period={{ .Values.sidecars.provisioner.leaderElection.retryPeriod }}
-            {{- end }}
-            {{- end }}
             - --default-fstype={{ .Values.controller.defaultFsType }}
-            {{- if not (regexMatch "(-kube-api-qps)|(-kube-api-burst)|(-worker-threads)" (join " " .Values.sidecars.provisioner.additionalArgs)) }}
             - --kube-api-qps=20
             - --kube-api-burst=100
             - --worker-threads=100
-            {{- end }}
+            - --retry-interval-max=30m
             {{- range .Values.sidecars.provisioner.additionalArgs }}
             - {{ . }}
             {{- end }}
@@ -270,21 +255,11 @@ spec:
             - --csi-address=$(ADDRESS)
             - --v={{ .Values.sidecars.attacher.logLevel }}
             - --leader-election={{ .Values.sidecars.attacher.leaderElection.enabled | required "leader election state for csi-attacher is required, must be set to true || false." }}
-            {{- if .Values.sidecars.attacher.leaderElection.enabled }}
-            {{- if .Values.sidecars.attacher.leaderElection.leaseDuration }}
-            - --leader-election-lease-duration={{ .Values.sidecars.attacher.leaderElection.leaseDuration }}
-            {{- end }}
-            {{- if .Values.sidecars.attacher.leaderElection.renewDeadline}}
-            - --leader-election-renew-deadline={{ .Values.sidecars.attacher.leaderElection.renewDeadline }}
-            {{- end }}
-            {{- if .Values.sidecars.attacher.leaderElection.retryPeriod }}
-            - --leader-election-retry-period={{ .Values.sidecars.attacher.leaderElection.retryPeriod }}
-            {{- end }}
-            {{- end }}
             {{- if not (regexMatch "(-kube-api-qps)|(-kube-api-burst)|(-worker-threads)" (join " " .Values.sidecars.attacher.additionalArgs)) }}
             - --kube-api-qps=20
             - --kube-api-burst=100
             - --worker-threads=100
+            - --retry-interval-max=5m
             {{- end }}
             {{- range .Values.sidecars.attacher.additionalArgs }}
             - {{ . }}
@@ -320,6 +295,7 @@ spec:
           args:
             - --csi-address=$(ADDRESS)
             - --leader-election=true
+            - --v={{ .Values.sidecars.snapshotter.logLevel }}
             {{- if .Values.controller.extraCreateMetadata }}
             - --extra-create-metadata
             {{- end}}
@@ -327,6 +303,7 @@ spec:
             - --kube-api-qps=20
             - --kube-api-burst=100
             - --worker-threads=100
+            - --retry-interval-max=30m
             {{- end }}
             {{- range .Values.sidecars.snapshotter.additionalArgs }}
             - {{ . }}
@@ -367,17 +344,6 @@ spec:
             - --csi-address=$(ADDRESS)
             - --v={{ .Values.sidecars.volumemodifier.logLevel }}
             - --leader-election={{ .Values.sidecars.volumemodifier.leaderElection.enabled | required "leader election state for csi-volumemodifier is required, must be set to true || false." }}
-            {{- if .Values.sidecars.volumemodifier.leaderElection.enabled }}
-            {{- if .Values.sidecars.volumemodifier.leaderElection.leaseDuration }}
-            - --leader-election-lease-duration={{ .Values.sidecars.volumemodifier.leaderElection.leaseDuration }}
-            {{- end }}
-            {{- if .Values.sidecars.volumemodifier.leaderElection.renewDeadline}}
-            - --leader-election-renew-deadline={{ .Values.sidecars.volumemodifier.leaderElection.renewDeadline }}
-            {{- end }}
-            {{- if .Values.sidecars.volumemodifier.leaderElection.retryPeriod }}
-            - --leader-election-retry-period={{ .Values.sidecars.volumemodifier.leaderElection.retryPeriod }}
-            {{- end }}
-            {{- end }}
             {{- range .Values.sidecars.volumemodifier.additionalArgs }}
             - {{ . }}
             {{- end }}
@@ -426,20 +392,12 @@ spec:
             - --handle-volume-inuse-error=false
             {{- with .Values.sidecars.resizer.leaderElection }}
             - --leader-election={{ .enabled | default true }}
-            {{- if .leaseDuration }}
-            - --leader-election-lease-duration={{ .leaseDuration }}
-            {{- end }}
-            {{- if .renewDeadline }}
-            - --leader-election-renew-deadline={{ .renewDeadline }}
-            {{- end }}
-            {{- if .retryPeriod }}
-            - --leader-election-retry-period={{ .retryPeriod }}
-            {{- end }}
             {{- end }}
             {{- if not (regexMatch "(-kube-api-qps)|(-kube-api-burst)|(-workers)" (join " " .Values.sidecars.resizer.additionalArgs)) }}
             - --kube-api-qps=20
             - --kube-api-burst=100
             - --workers=100
+            - --retry-interval-max=30m
             {{- end }}
             {{- range .Values.sidecars.resizer.additionalArgs }}
             - {{ . }}
@@ -473,6 +431,7 @@ spec:
           imagePullPolicy: {{ default .Values.image.pullPolicy .Values.sidecars.livenessProbe.image.pullPolicy }}
           args:
             - --csi-address=/csi/csi.sock
+            - --probe-timeout=60s
             {{- range .Values.sidecars.livenessProbe.additionalArgs }}
             - {{ . }}
             {{- end }}

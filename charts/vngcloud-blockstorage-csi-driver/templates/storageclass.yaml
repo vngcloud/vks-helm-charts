@@ -1,4 +1,5 @@
 {{- range .Values.storageClasses }}
+{{- if .enabled }}
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -11,5 +12,6 @@ metadata:
   labels: {{- . | toYaml | trim | nindent 4 }}
   {{- end }}
 provisioner: bs.csi.vngcloud.vn
-{{ omit . "name" "annotations" "labels" | toYaml | indent 0 }}
+{{ omit . "name" "annotations" "labels" "enabled" | toYaml | indent 0 }}
+{{- end }}
 {{- end }}

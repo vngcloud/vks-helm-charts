@@ -1,15 +1,17 @@
+{{- $fullname := include "vngcloud-blockstorage-csi-driver.fullname" . -}}
 {{- if .Values.controller.enableMetrics -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vngcloud-csi-controller
+  name: {{ $fullname }}-controller
   namespace: {{ .Release.Namespace }}
   labels:
-    app: vngcloud-csi-controller
+    app: {{ $fullname }}-controller
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
 spec:
   selector:
-    app: vngcloud-csi-controller
+    app: {{ $fullname }}-controller
   ports:
     - name: metrics
       port: 3301
@@ -20,17 +22,18 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: vngcloud-csi-controller
+  name: {{ $fullname }}-controller
   namespace: {{ .Release.Namespace }}
   labels:
-    app: vngcloud-csi-controller
+    app: {{ $fullname }}-controller
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
     {{- if .Values.controller.serviceMonitor.labels }}
     {{- toYaml .Values.controller.serviceMonitor.labels | nindent 4 }}
     {{- end }}
 spec:
   selector:
     matchLabels:
-      app: vngcloud-csi-controller
+      app: {{ $fullname }}-controller
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
