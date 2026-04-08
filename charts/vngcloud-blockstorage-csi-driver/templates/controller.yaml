@@ -99,9 +99,6 @@ spec:
             {{- with .Values.controller.httpEndpoint }}
             - --http-endpoint={{ . }}
             {{- end }}
-            {{- if .Values.controller.batching }}
-            - --batching=true
-            {{- end}}
             {{- with .Values.controller.loggingFormat }}
             - --logging-format={{ . }}
             {{- end }}

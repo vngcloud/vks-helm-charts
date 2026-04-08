@@ -231,7 +231,6 @@ vngcloudAccessSecret:
   vksClusterId: "cluster_id"                              # PUT YOUR ClusterID here
 
 controller:
-  batching: true
   volumeModificationFeature:
     enabled: true
   # Additional parameters provided by vngcloud-blockstorage-csi-driver controller.
