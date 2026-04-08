@@ -64,7 +64,7 @@ sidecars:
     logLevel: 2
     # Additional parameters provided by external-attacher.
     additionalArgs:
-      --timeout=6m
+      - --timeout=6m
     # Grant additional permissions to external-attacher
     additionalClusterRoleRules: []
     resources:
