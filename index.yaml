@@ -1947,6 +1947,26 @@ entries:
   vngcloud-blockstorage-csi-driver:
   - apiVersion: v2
     appVersion: 1.4.0
+    created: "2026-04-16T06:59:03.594005515Z"
+    description: A Helm chart for VngCloud BlockStorage CSI Driver
+    digest: 9a8cf95a739a27f744099c2eb488b0b0ab7fb7eb650c9f96b0b15b06d08ec8c1
+    home: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    keywords:
+    - vngcloud
+    - blockstorage
+    - csi
+    kubeVersion: '>=1.26.12'
+    maintainers:
+    - name: VngCloud
+      url: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    name: vngcloud-blockstorage-csi-driver
+    sources:
+    - https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-blockstorage-csi-driver-1.1.4/vngcloud-blockstorage-csi-driver-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v2
+    appVersion: 1.4.0
     created: "2026-04-15T07:51:47.643647192Z"
     description: A Helm chart for VngCloud BlockStorage CSI Driver
     digest: 3b56f6e8afd87e5a15a2395c518027682770173a0de3358141104c2346db421e
@@ -3483,4 +3503,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2026-04-15T07:51:47.644097361Z"
+generated: "2026-04-16T06:59:03.594466371Z"
