@@ -1,0 +1,73 @@
+---
+# Pre-upgrade hook to delete ClusterRoleBindings that have immutable roleRef changes.
+# This is required when upgrading from chart versions < 1.1.0 where roleRef names changed.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-sa
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-role
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+rules:
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterrolebindings"]
+    verbs: ["get", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-binding
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-crb
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      serviceAccountName: {{ include "vngcloud-blockstorage-csi-driver.fullname" . }}-pre-upgrade-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: delete-crb
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              for crb in \
+                vngcloud-csi-attacher-binding \
+                vngcloud-csi-provisioner-binding \
+                vngcloud-csi-resizer-binding \
+                vngcloud-csi-snapshotter-binding; do
+                kubectl delete clusterrolebinding "$crb" --ignore-not-found=true
+                echo "Deleted ClusterRoleBinding: $crb"
+              done
