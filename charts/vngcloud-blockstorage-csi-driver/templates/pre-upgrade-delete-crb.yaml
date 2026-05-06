@@ -58,7 +58,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: delete-crb
-          image: bitnami/kubectl:latest
+          image: vcr.vngcloud.vn/81-vks-public/kubectl:1.30_1
           command:
             - /bin/sh
             - -c
