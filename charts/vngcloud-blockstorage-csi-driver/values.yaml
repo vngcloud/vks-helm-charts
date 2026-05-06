@@ -310,7 +310,7 @@ controller:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-    - key: components.vks.greennode.ai/greennode-managed-components
+    - key: components.vks.greennode.ai/vks-managed-components
       operator: Exists
     - effect: NoSchedule
       key: kubernetes.io/arch
