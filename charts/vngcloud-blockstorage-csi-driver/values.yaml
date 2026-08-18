@@ -174,15 +174,18 @@ sidecars:
       allowPrivilegeEscalation: false
       seccompProfile:
         type: RuntimeDefault
+    # /healthz kiem tra registration socket (<kubeletPath>/plugins_registry/<driver>-reg.sock)
+    # con ton tai va con phuc vu gRPC; tra 404 khi socket bi xoa -> kubelet restart sidecar
+    # -> registrar dang ky lai -> CSINode co lai driver.
+    # KHONG dung --mode=kubelet-registration-probe: tu v2.16.0 no la no-op (exit 0),
+    # xem kubernetes-csi/node-driver-registrar#309. Yeu cau --http-endpoint o additionalArgs.
     livenessProbe:
-      exec:
-        command:
-          - /csi-node-driver-registrar
-          - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
-          - --mode=kubelet-registration-probe
+      httpGet:
+        path: /healthz
+        port: 9809
       initialDelaySeconds: 30
-      periodSeconds: 90
-      timeoutSeconds: 15
+      periodSeconds: 30
+      timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 3
   volumemodifier:
