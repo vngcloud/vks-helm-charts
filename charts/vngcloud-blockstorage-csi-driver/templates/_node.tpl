@@ -45,6 +45,7 @@ spec:
         {{- end }}
       serviceAccountName: {{ include "vngcloud-blockstorage-csi-driver.nodeServiceAccountName" . }}
       priorityClassName: {{ .Values.node.priorityClassName | default "system-node-critical" }}
+      terminationGracePeriodSeconds: {{ .Values.node.terminationGracePeriodSeconds }}
       tolerations:
         {{- if .Values.node.tolerateAllTaints }}
         - operator: Exists

@@ -362,6 +362,18 @@ controller:
   initContainers: []
 
 node:
+  # Bound on the preStop hook, which drains this node's VolumeAttachments before the
+  # node plugin dies so NodeUnstage still has a plugin to run against. kubelet
+  # force-kills the pod here, so this IS the hook's only timeout.
+  #
+  # 90 rather than Kubernetes' default of 30: draining a node with 8 volumes was
+  # measured at 43.8s for all attachments to clear (TS-C3, dev cluster 09/09/2026),
+  # and the hard cap is 10 volumes per node (VOLUME_PER_SERVER quota), which
+  # extrapolates to roughly 55s. 60 would leave almost no headroom.
+  #
+  # The cost is paid only on a real drain: the hook returns immediately when the node
+  # carries no drain taint, so rolling restarts and driver upgrades are unaffected.
+  terminationGracePeriodSeconds: 90
   env: []
   envFrom: []
   kubeletPath: /var/lib/kubelet
