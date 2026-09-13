@@ -265,6 +265,15 @@ controller:
   # The default is empty string, which means metrics endpoint is disabled.
   # ---
   enableMetrics: false
+  # When metrics are enabled, put prometheus.io/scrape and prometheus.io/port on
+  # the metrics Service.
+  #
+  # This is the only discovery path that works WITHOUT the prometheus-operator
+  # CRDs. Until now the chart shipped a ServiceMonitor and nothing else, so a
+  # tenant running plain Prometheus - or any agent that discovers by annotation -
+  # could enable metrics and still scrape nothing, with no error to tell them
+  # why. aws-ebs-csi-driver ships both and defaults this to true; so do we.
+  enablePrometheusAnnotations: true
   serviceMonitor:
     # Enables the ServiceMonitor resource even if the prometheus-operator CRDs are not installed
     forceEnable: false

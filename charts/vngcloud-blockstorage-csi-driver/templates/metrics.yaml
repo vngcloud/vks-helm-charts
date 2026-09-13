@@ -9,6 +9,11 @@ metadata:
   labels:
     app: {{ $fullname }}-controller
     {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
+  {{- if .Values.controller.enablePrometheusAnnotations }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3301"
+  {{- end }}
 spec:
   selector:
     app: {{ $fullname }}-controller
