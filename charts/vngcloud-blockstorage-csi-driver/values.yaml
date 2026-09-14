@@ -417,10 +417,34 @@ node:
     automountServiceAccountToken: true
   # Enable the linux daemonset creation
   enableLinux: true
-  reservedVolumeAttachments:
-  # The "maximum number of attachable volumes" per node
-  # Cannot be specified at the same time as `node.reservedVolumeAttachments`
+  # The "maximum number of attachable volumes" per node.
+  #
+  # Left empty, the driver asks vServer for the VOLUME_PER_SERVER quota in
+  # NodeGetInfo and reports that. Set this only to override a wrong quota.
+  #
+  # node.reservedVolumeAttachments was removed: it rendered
+  # --reserved-volume-attachments, a flag this driver does not have. The flag
+  # set is built with ExitOnError, so setting that value made the node plugin
+  # exit on startup and the whole DaemonSet CrashLoop. It came from
+  # aws-ebs-csi-driver, where the flag exists.
   volumeAttachLimit:
+  # Serve the driver's Prometheus metrics from the node plugin as well.
+  #
+  # The node plugin talks to vServer too - NodeGetInfo calls GetPortalInfo and
+  # GetQuotaByName - and until now none of that was observable: on a 15-node
+  # cluster that is 15 processes calling the IaaS with no metrics at all. The
+  # driver has always supported this; only the chart never passed the flag.
+  enableMetrics: false
+  # See controller.enablePrometheusAnnotations. Same reasoning, and the node
+  # Service needs it more: a DaemonSet has no single Service a human would
+  # think to point a scrape config at.
+  enablePrometheusAnnotations: true
+  serviceMonitor:
+    # Enables the ServiceMonitor resource even if the prometheus-operator CRDs are not installed
+    forceEnable: false
+    # Additional labels for ServiceMonitor object
+    labels:
+      release: prometheus
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:

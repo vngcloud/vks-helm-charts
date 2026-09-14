@@ -48,3 +48,55 @@ spec:
       interval: 15s
 {{- end }}
 {{- end }}
+{{- if .Values.node.enableMetrics }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullname }}-node
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ $fullname }}-node
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
+  {{- if .Values.node.enablePrometheusAnnotations }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3302"
+  {{- end }}
+spec:
+  selector:
+    app: {{ $fullname }}-node
+  ports:
+    - name: metrics
+      port: 3302
+      targetPort: 3302
+  # A DaemonSet has one endpoint per node and every one of them must be
+  # scraped, so this Service exists only to be discovered - it must never load
+  # balance. clusterIP: None keeps each pod a separate target.
+  clusterIP: None
+---
+{{- if or .Values.node.serviceMonitor.forceEnable (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1") }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ $fullname }}-node
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ $fullname }}-node
+    {{- include "vngcloud-blockstorage-csi-driver.labels" . | nindent 4 }}
+    {{- if .Values.node.serviceMonitor.labels }}
+    {{- toYaml .Values.node.serviceMonitor.labels | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ $fullname }}-node
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - targetPort: 3302
+      path: /metrics
+      interval: 15s
+{{- end }}
+{{- end }}
