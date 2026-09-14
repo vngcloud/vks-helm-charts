@@ -68,9 +68,6 @@ spec:
           args:
             - node
             - --endpoint=$(CSI_ENDPOINT)
-            {{- with .Values.node.reservedVolumeAttachments }}
-            - --reserved-volume-attachments={{ . }}
-            {{- end }}
             {{- with .Values.node.volumeAttachLimit }}
             - --max-volumes-per-node={{ . }}
             {{- end }}
@@ -78,6 +75,9 @@ spec:
             - --logging-format={{ . }}
             {{- end }}
             - --v={{ .Values.node.logLevel }}
+            {{- if .Values.node.enableMetrics }}
+            - --http-endpoint=0.0.0.0:3302
+            {{- end }}
             {{- if .Values.node.otelTracing }}
             - --enable-otel-tracing=true
             {{- end}}
@@ -144,6 +144,11 @@ spec:
             - name: healthz
               containerPort: 9808
               protocol: TCP
+            {{- if .Values.node.enableMetrics }}
+            - name: metrics
+              containerPort: 3302
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /healthz
