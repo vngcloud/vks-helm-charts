@@ -1,32 +1,39 @@
 {{/*
-The snapshot CRDs, shipped here so that csi-snapshotter has something to watch
-on EVERY cluster.
+Render the CRDs only when nobody else owns them.
 
-Why this lives in the CSI chart and not only in vngcloud-snapshot-controller:
-the snapshotter sidecar is force-enabled fleet-wide (sidecars.snapshotter.forceEnable),
-because the addon controller only upgrades an HelmReleaseProxy when the chart
-version, the values or the release status change - never because the cluster
-grew a new API group. A sidecar gated on .Capabilities would therefore stay
-absent forever after a user installed the snapshot controller themselves, so
-the gate was turned off and the sidecar always runs. On a cluster without the
-CRDs it then fails its list/watch about 2.6 times a minute, forever - roughly
-3,800 error lines a day drowning out real ones.
+Both this chart and the blockstorage CSI addon ship these three CRDs, because
+the addon force-enables its csi-snapshotter sidecar on every cluster and that
+sidecar needs something to watch. Whichever gets there first must keep owning
+them: rendering them from a second release fails with an ownership error, and
+dropping them from the release that HAS them makes Helm delete them - and every
+VolumeSnapshot in the cluster with them.
 
-Creating the CRDs here makes that watch succeed (and return nothing), which is
-all the sidecar needs. Snapshots still do nothing until the user installs
-vngcloud-snapshot-controller, which brings the controller that actually turns a
-VolumeSnapshot into a VolumeSnapshotContent.
+So the gate asks the cluster who the owner is, rather than merely whether the
+API group exists. A .Capabilities gate would go false the moment THIS release
+created the CRDs, and the next upgrade would then delete them.
 
-The gate: whoever gets there first owns them. On a cluster where the user
-already installed vngcloud-snapshot-controller, the CRDs belong to that release
-and rendering them here would fail the whole upgrade with an ownership error.
-The same gate now guards the copy in that chart, so neither can collide with
-the other.
+lookup returns nothing under `helm template` and client-side dry runs, so those
+render the CRDs. That is the safe direction: it over-renders in a mode that
+writes nothing.
 
-KEEP IN SYNC with charts/vngcloud-snapshot-controller/templates/crd-snapshot.yaml.
-Both copies are external-snapshotter's, verbatim apart from the labels helper.
+KEEP IN SYNC with the copy in the other chart. The two files are identical
+apart from the labels helper.
 */}}
-{{- if not (.Capabilities.APIVersions.Has "snapshot.storage.k8s.io/v1") }}
+{{- $crdNames := list
+      "volumesnapshotclasses.snapshot.storage.k8s.io"
+      "volumesnapshotcontents.snapshot.storage.k8s.io"
+      "volumesnapshots.snapshot.storage.k8s.io" }}
+{{- $ours := true }}
+{{- range $crdName := $crdNames }}
+  {{- $live := lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" $crdName }}
+  {{- if $live }}
+    {{- $owner := index (default (dict) $live.metadata.annotations) "meta.helm.sh/release-name" | default "" }}
+    {{- if ne $owner $.Release.Name }}
+      {{- $ours = false }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- if $ours }}
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition

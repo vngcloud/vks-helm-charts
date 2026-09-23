@@ -1,20 +1,39 @@
 {{/*
-Only create the CRDs if nothing else already has.
+Render the CRDs only when nobody else owns them.
 
-The blockstorage CSI addon now ships the same CRDs on every cluster, so that
-its force-enabled csi-snapshotter sidecar has something to watch instead of
-failing its list/watch forever. Rendering them here unconditionally would fail
-this release with an ownership error on any cluster where the addon got there
-first.
+Both this chart and the blockstorage CSI addon ship these three CRDs, because
+the addon force-enables its csi-snapshotter sidecar on every cluster and that
+sidecar needs something to watch. Whichever gets there first must keep owning
+them: rendering them from a second release fails with an ownership error, and
+dropping them from the release that HAS them makes Helm delete them - and every
+VolumeSnapshot in the cluster with them.
 
-On clusters where THIS chart was installed before that change, the CRDs stay
-owned by this release and keep being managed here - the addon carries the
-mirror-image gate.
+So the gate asks the cluster who the owner is, rather than merely whether the
+API group exists. A .Capabilities gate would go false the moment THIS release
+created the CRDs, and the next upgrade would then delete them.
 
-KEEP IN SYNC with
-charts/vngcloud-blockstorage-csi-driver/templates/crd-snapshot.yaml.
+lookup returns nothing under `helm template` and client-side dry runs, so those
+render the CRDs. That is the safe direction: it over-renders in a mode that
+writes nothing.
+
+KEEP IN SYNC with the copy in the other chart. The two files are identical
+apart from the labels helper.
 */}}
-{{- if not (.Capabilities.APIVersions.Has "snapshot.storage.k8s.io/v1") }}
+{{- $crdNames := list
+      "volumesnapshotclasses.snapshot.storage.k8s.io"
+      "volumesnapshotcontents.snapshot.storage.k8s.io"
+      "volumesnapshots.snapshot.storage.k8s.io" }}
+{{- $ours := true }}
+{{- range $crdName := $crdNames }}
+  {{- $live := lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" $crdName }}
+  {{- if $live }}
+    {{- $owner := index (default (dict) $live.metadata.annotations) "meta.helm.sh/release-name" | default "" }}
+    {{- if ne $owner $.Release.Name }}
+      {{- $ours = false }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- if $ours }}
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition

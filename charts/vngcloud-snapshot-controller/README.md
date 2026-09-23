@@ -24,7 +24,7 @@
 
 # 2. About the snapshot CRDs
 From chart version `1.1.0`, the three `snapshot.storage.k8s.io` CRDs are only
-created by this chart when the cluster does not already serve them.
+created by this chart when no other Helm release already owns them.
 
 On a vKS cluster they normally arrive with the blockstorage CSI addon, which
 ships them so that its `csi-snapshotter` sidecar has something to watch. This
