@@ -21,3 +21,16 @@
     helm install vngcloud-snapshot-controller vks-helm-charts/vngcloud-snapshot-controller \
       --replace --namespace kube-system
     ```
+
+# 2. About the snapshot CRDs
+From chart version `1.1.0`, the three `snapshot.storage.k8s.io` CRDs are only
+created by this chart when the cluster does not already serve them.
+
+On a vKS cluster they normally arrive with the blockstorage CSI addon, which
+ships them so that its `csi-snapshotter` sidecar has something to watch. This
+chart then installs only the snapshot controller itself - the component that
+turns a `VolumeSnapshot` into a `VolumeSnapshotContent`, and without which
+snapshots do nothing.
+
+The CRDs carry `helm.sh/resource-policy: keep`, so `helm uninstall` leaves them
+in place along with every `VolumeSnapshot` object they hold.
