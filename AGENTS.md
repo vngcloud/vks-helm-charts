@@ -34,7 +34,7 @@ and pushed as OCI to vCR in two regions (HCM and HAN). No release-please, no CHA
   - `calico` — VKS-authored chart around Calico manifests (own version line 1.1.x; appVersion = Calico v3.28.2).
 - Vendored upstream (copied with `helm pull --untar`, see README; keep diffs minimal, mostly image -> vCR and
   tolerations): `cilium`, `coredns` (local patches use suffix `-vks.N`, e.g. `1.45.0-vks.1`), `tigera-operator`,
-  `cert-manager` (wrapper around upstream release-1.17), `vault`, Bitnami `postgresql`, `postgresql-ha`, `redis`
+  `cert-manager` (vendored upstream v1.17.2), `vault`, Bitnami `postgresql`, `postgresql-ha`, `redis`
   (their `charts/common` subcharts are committed; `postgresql`/`postgresql-ha` have a `Chart.lock` pointing at Docker Hub
   OCI, `redis` uses `file://charts/common`).
 - `external-secrets/` — vendored upstream chart at repo ROOT, not under `charts/`: never released by CI and not
