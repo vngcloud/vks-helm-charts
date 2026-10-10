@@ -35,7 +35,8 @@ and pushed as OCI to vCR in two regions (HCM and HAN). No release-please, no CHA
 - Vendored upstream (copied with `helm pull --untar`, see README; keep diffs minimal, mostly image -> vCR and
   tolerations): `cilium`, `coredns` (local patches use suffix `-vks.N`, e.g. `1.45.0-vks.1`), `tigera-operator`,
   `cert-manager` (wrapper around upstream release-1.17), `vault`, Bitnami `postgresql`, `postgresql-ha`, `redis`
-  (their `charts/common` subcharts are committed; `Chart.lock` points at Docker Hub OCI).
+  (their `charts/common` subcharts are committed; `postgresql`/`postgresql-ha` have a `Chart.lock` pointing at Docker Hub
+  OCI, `redis` uses `file://charts/common`).
 - `external-secrets/` — vendored upstream chart at repo ROOT, not under `charts/`: never released by CI and not
   linted by the harness. Run `helm lint external-secrets` by hand if you touch it.
 - `push_tgz.sh <oci-url> <comma-separated chart dirs>` — CI helper: `helm package` + `helm push` per changed chart.
@@ -68,7 +69,7 @@ and pushed as OCI to vCR in two regions (HCM and HAN). No release-please, no CHA
 - Never render a CLI flag the binary may not have at that `appVersion`; check the driver's flags for the pinned
   image tag before adding a values key that becomes an arg.
 - ClusterRoleBinding `roleRef` is immutable: renaming a ClusterRole breaks `helm upgrade` ("cannot change roleRef").
-  A pre-upgrade hook that deleted CRBs was added (1.1.3) and later dropped (1.2.0); hooks run with their own image,
+  A pre-upgrade hook that deleted CRBs was added in 1.1.4 and dropped in 1.1.8; hooks run with their own image,
   tolerations and RBAC and add their own failure modes. Avoid renaming RBAC objects instead.
 - Commit subjects are not reliable: `920eb6e` says "chart 1.2.1" but bumps 1.2.1 -> 1.2.2 / appVersion 1.5.2.
   Read `Chart.yaml` and `git tag`, not the log.
