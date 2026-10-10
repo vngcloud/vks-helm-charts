@@ -64,7 +64,7 @@ and pushed as OCI to vCR in two regions (HCM and HAN). No release-please, no CHA
   "reverted" to older version numbers (Dec 2025) that already had tags, so main's `calico` 1.1.7 differs from the
   published `calico-1.1.7`. To roll back, re-release old content under a NEW, higher version.
 - Removing or renaming a values key is a breaking change: bump minor (or major), not patch. The CSI chart went
-  1.1.7 -> 1.2.0 (not 1.1.8) because `node.reservedVolumeAttachments` was removed (it rendered a flag the driver
+  1.1.8 -> 1.2.0 (not 1.1.9) because `node.reservedVolumeAttachments` was removed (it rendered a flag the driver
   rejects -> CrashLooping DaemonSet).
 - Never render a CLI flag the binary may not have at that `appVersion`; check the driver's flags for the pinned
   image tag before adding a values key that becomes an arg.
