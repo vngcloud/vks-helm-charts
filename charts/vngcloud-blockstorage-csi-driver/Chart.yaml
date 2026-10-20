@@ -2,8 +2,9 @@ apiVersion: v2
 appVersion: 1.5.2
 name: vngcloud-blockstorage-csi-driver
 description: A Helm chart for VngCloud BlockStorage CSI Driver
-version: 1.2.2
-kubeVersion: ">=1.26.12"
+version: 2.0.0
+# 2.x is the line for Kubernetes >= 1.34 (csi-provisioner v6 requires it); clusters below that stay on 1.2.x.
+kubeVersion: ">=1.34.0-0"
 home: https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
 sources:
   - https://github.com/vngcloud/vngcloud-blockstorage-csi-driver
