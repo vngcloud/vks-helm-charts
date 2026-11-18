@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "vngcloud-snapshot-controller.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.snapshotController.replicas }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: snapshot-controller
@@ -24,20 +24,43 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: snapshot-controller
+        {{- toYaml (merge (dict "app.kubernetes.io/name" "snapshot-controller") (deepCopy (.Values.podLabels | default dict))) | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: snapshot-controller
+      {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: snapshot-controller
-          image: {{ printf "%s:%s" .Values.snapshotController.image.repository (default (printf "v%s" .Chart.AppVersion) (.Values.snapshotController.image.tag | toString)) }}
+          image: {{ printf "%s:%s" .Values.image.repository (default (printf "v%s" .Chart.AppVersion) (.Values.image.tag | toString)) }}
           args:
-            - --v={{ .Values.snapshotController.logLevel }}
+            - --v={{ .Values.logLevel }}
             - --leader-election=true
             # Add a marker to the snapshot-controller manifests. This is needed to enable feature gates in CSI prow jobs.
             # For example, in https://github.com/kubernetes-csi/csi-release-tools/pull/209, the snapshot-controller YAML is updated to add --prevent-volume-mode-conversion=true so that the feature can be enabled for certain e2e tests.
             # end snapshot controller args
-          imagePullPolicy: {{ .Values.snapshotController.image.pullPolicy }}
-          {{- with default .Values.snapshotController.resources }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}

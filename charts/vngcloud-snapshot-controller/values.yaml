@@ -1,13 +1,28 @@
-snapshotController:
-  image:
-    pullPolicy: IfNotPresent
-    repository: vcr.vngcloud.vn/81-vks-public/csi-snapshot-controller
-    tag: ""
-  logLevel: 2
-  replicas: 2
-  resources:
-    requests:
-      cpu: 10m
-      memory: 40Mi
-    limits:
-      memory: 256Mi
+replicaCount: 2
+
+image:
+  repository: vcr.vngcloud.vn/81-vks-public/csi-snapshot-controller
+  tag: ""  # empty = v<appVersion>
+  pullPolicy: IfNotPresent
+
+logLevel: 2
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 40Mi
+  limits:
+    memory: 256Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+topologySpreadConstraints: []
+priorityClassName: ""
+podAnnotations: {}
+podLabels: {}
+
+podDisruptionBudget:
+  enabled: false
+  # maxUnavailable: 1  # int or "N%"; default 1
+  # minAvailable: 1    # int or "N%"; not together with maxUnavailable

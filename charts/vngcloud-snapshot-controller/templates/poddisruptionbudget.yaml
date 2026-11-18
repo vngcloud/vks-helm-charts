@@ -1,0 +1,24 @@
+{{- $pdb := .Values.podDisruptionBudget | default dict }}
+{{- if $pdb.enabled }}
+{{- if and (hasKey $pdb "maxUnavailable") (hasKey $pdb "minAvailable") (not (kindIs "invalid" $pdb.maxUnavailable)) (not (kindIs "invalid" $pdb.minAvailable)) }}
+{{- fail "podDisruptionBudget: set maxUnavailable or minAvailable, not both" }}
+{{- end }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: snapshot-controller
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vngcloud-snapshot-controller.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: snapshot-controller
+  {{- if and (hasKey $pdb "minAvailable") (not (kindIs "invalid" $pdb.minAvailable)) }}
+  minAvailable: {{ $pdb.minAvailable | toJson }}
+  {{- else if and (hasKey $pdb "maxUnavailable") (not (kindIs "invalid" $pdb.maxUnavailable)) }}
+  maxUnavailable: {{ $pdb.maxUnavailable | toJson }}
+  {{- else }}
+  maxUnavailable: 1
+  {{- end }}
+{{- end }}
