@@ -205,7 +205,6 @@ spec:
             {{- end }}
             - --csi-address=$(ADDRESS)
             - --v={{ .Values.sidecars.provisioner.logLevel }}
-            - --feature-gates=Topology=true
             {{- if .Values.controller.extraCreateMetadata }}
             - --extra-create-metadata
             {{- end}}
