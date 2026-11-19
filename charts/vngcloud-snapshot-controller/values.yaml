@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: vcr.vngcloud.vn/81-vks-public/csi-snapshot-controller
+  repository: vcr.vngcloud.vn/81-vks-public/snapshot-controller
   tag: ""  # empty = v<appVersion>
   pullPolicy: IfNotPresent
 
@@ -26,3 +26,6 @@ podDisruptionBudget:
   enabled: false
   # maxUnavailable: 1  # int or "N%"; default 1
   # minAvailable: 1    # int or "N%"; not together with maxUnavailable
+
+# Keep the snapshot when the addon is uninstalled
+keepSnapshotsOnUninstall: true

@@ -24,12 +24,12 @@
 
 # 2. Configuration
 Every value is top-level. Defaults render the same Deployment as chart 1.0.0 (no scheduling constraints, no
-PodDisruptionBudget).
+PodDisruptionBudget), except the image: snapshot-controller v8.7.0 with the v8.7.0 upstream CRDs and RBAC.
 
 | Key | Default | Description |
 |---|---|---|
 | `replicaCount` | `2` | Replicas of the Deployment. Leader election is always on: one replica is active, the others are standbys. |
-| `image.repository` | `vcr.vngcloud.vn/81-vks-public/csi-snapshot-controller` | Image repository. |
+| `image.repository` | `vcr.vngcloud.vn/81-vks-public/snapshot-controller` | Image repository. |
 | `image.tag` | `""` | Image tag; empty = `v<appVersion>`. |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy. |
 | `logLevel` | `2` | klog verbosity (`--v`). |
@@ -44,8 +44,17 @@ PodDisruptionBudget).
 | `podDisruptionBudget.enabled` | `false` | Create a PodDisruptionBudget for the pods. |
 | `podDisruptionBudget.maxUnavailable` | unset (`1` when enabled and `minAvailable` is unset) | Integer or percent string. |
 | `podDisruptionBudget.minAvailable` | unset | Integer or percent string. Never together with `maxUnavailable` (the chart fails). |
+| `keepSnapshotsOnUninstall` | `true` | Keep the snapshot CRDs and every VolumeSnapshot, VolumeSnapshotContent and VolumeSnapshotClass when the release is uninstalled (`helm.sh/resource-policy: keep`). Set `false` and upgrade before uninstalling to delete them. A later install with the same release name adopts the kept CRDs. |
 
-## 2.1. Upgrading from 1.0.0
+## 2.1. Upgrading from 1.1.0
+
+1.2.0 ships snapshot-controller v8.7.0 (was v7.0.1) from `vcr.vngcloud.vn/81-vks-public/snapshot-controller`
+(a mirror of `registry.k8s.io/sig-storage/snapshot-controller`), with the v8.7.0 upstream CRDs and RBAC
+(`volumesnapshotcontents/status`: `patch` only; `volumesnapshots`: adds `create`). The values keys are unchanged
+apart from the new `keepSnapshotsOnUninstall`, which keeps the CRDs on uninstall by default: chart 1.1.0 deleted
+them, and every snapshot object with them. Only the `v1` snapshot API is served, as in 1.1.0.
+
+## 2.2. Upgrading from 1.0.0
 1.1.0 removed the `snapshotController` object; the chart fails if it is still set. Move the keys:
 
 | 1.0.0 | 1.1.0 |
