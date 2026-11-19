@@ -3638,6 +3638,19 @@ entries:
     version: 0.1.0
   vngcloud-snapshot-controller:
   - apiVersion: v2
+    appVersion: 8.7.0
+    created: "2026-11-19T03:47:45.227130236Z"
+    description: Snapshot controller for vKS clusters
+    digest: 5bc9f8da96b68a60fd9054b74378139b43ef79d4534fad437809d759cdd46e01
+    maintainers:
+    - email: support@vng.com.vn
+      name: VngCloud
+    name: vngcloud-snapshot-controller
+    type: application
+    urls:
+    - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-1.2.0/vngcloud-snapshot-controller-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     appVersion: 7.0.1
     created: "2026-11-18T08:30:18.725024802Z"
     description: Snapshot controller for vKS clusters
@@ -3676,4 +3689,4 @@ entries:
     urls:
     - https://github.com/vngcloud/vks-helm-charts/releases/download/vngcloud-snapshot-controller-0.0.1/vngcloud-snapshot-controller-0.0.1.tgz
     version: 0.0.1
-generated: "2026-11-18T15:07:14.617058728Z"
+generated: "2026-11-19T03:47:45.227478235Z"
